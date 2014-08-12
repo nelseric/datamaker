@@ -4,8 +4,6 @@ import os.path
 import pandas as pd
 import numpy as np
 
-import datamaker.util as util
-
 def import_data():
   if not len(sys.argv) > 1:
     print "Please provide input datafile"
@@ -43,7 +41,7 @@ def import_data():
     ask_vol = ticks['Ask volume'].resample('1Min', how='sum')
     bid_vol = ticks['Bid volume'].resample('1Min', how='sum')
 
-    calculated  = pd.concat([ask, bid, ask_vol, bid_vol], axis=1, keys=['Ask', 'Bid', 'Bid Volume', 'Ask Volume'])
+    calculated  = pd.concat([ask, bid, ask_vol, bid_vol], axis=1, keys=['Ask', 'Bid', 'Ask Volume', 'Bid Volume'])
 
     if(bid_ask.__class__ != None.__class__):
       bid_ask = merge_chunks(bid_ask, calculated)
