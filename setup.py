@@ -16,6 +16,7 @@ setup(
     entry_points = {
       'console_scripts': [
         'dm-import = datamaker.import:import_data',
+        'dm-shell = datamaker.process:shell',
         'dm-gen-output = datamaker.process:generate_outputs',
         'idle = idlelib.PyShell:main'
       ]

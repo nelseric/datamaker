@@ -4,6 +4,8 @@ import os.path
 import pandas as pd
 import numpy as np
 
+import IPython
+
 def import_data():
   if not len(sys.argv) > 1:
     print "Please provide input datafile"
@@ -33,15 +35,14 @@ def import_data():
   cur = 0
 
   bid_ask = None
-  exit_for_real = False
 
   for ticks in data_file:
     ask = ticks['Ask price'].resample('1Min', how='ohlc')
     bid = ticks['Bid price'].resample('1Min', how='ohlc')
-    ask_vol = ticks['Ask volume'].resample('1Min', how='sum')
-    bid_vol = ticks['Bid volume'].resample('1Min', how='sum')
+    ask['volume'] = ticks['Ask volume'].resample('1Min', how='sum')
+    bid['volume'] = ticks['Bid volume'].resample('1Min', how='sum')
 
-    calculated  = pd.concat([ask, bid, ask_vol, bid_vol], axis=1, keys=['Ask', 'Bid', 'Ask Volume', 'Bid Volume'])
+    calculated  = pd.concat([ask, bid], axis=1, keys=['Ask', 'Bid'])
 
     if(bid_ask.__class__ != None.__class__):
       bid_ask = merge_chunks(bid_ask, calculated)
@@ -72,6 +73,6 @@ def merge_ohlcv(old, new):
   if old['Bid']['low'] > new['Bid']['low']:
     old['Bid']['low'] = new['Bid']['low']
 
-  old['Ask Volume'] = old['Ask Volume'] + new['Ask Volume']
-  old['Bid Volume'] = old['Bid Volume'] + new['Bid Volume']
+  old['Ask']['volume'] = old['Ask']['volume'] + new['Ask']['volume']
+  old['Bid']['volume'] = old['Bid']['volume'] + new['Bid']['volume']
   return old
