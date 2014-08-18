@@ -12,7 +12,7 @@ setup(
     author='Eric Nelson',
     author_email='gauntletguy2@gmail.com',
     description='',
-    ext_modules = cythonize("datamaker/c_process.pyx"),
+    ext_modules = cythonize(["datamaker/**/*.pyx"]),
     entry_points = {
       'console_scripts': [
         'dm-import = datamaker.import:import_data',

@@ -14,7 +14,7 @@ import numpy as np
 # 8 Bid Volume  Ask volume     70.700001
 # 9 Ask Volume  Bid volume    124.599999
 
-cpdef npc.ndarray c_apply_should_buy(npc.ndarray[double, ndim=2] data, double margin_upper, double margin_lower, int limit):
+cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, double margin_lower, int limit):
 
   cdef Py_ssize_t i, cmp_limit, n = len(data)
   cdef npc.ndarray res = np.empty(n)

@@ -5,7 +5,7 @@ import pandas as pd
 
 import pyximport; pyximport.install()
 
-import datamaker.c_process as op
+import datamaker.result.should_buy as should_buy
 
 import IPython
 
@@ -27,12 +27,12 @@ def generate_outputs():
   data = store.get('ticks_ohlcv')
 
   print "Applying should_buy"
-  data["should_buy"] = op.apply_should_buy(data, 0.00055, 0.00015, 1440)
+  data["should_buy"] = should_buy.apply(data.values, 0.00055, 0.00015, 1440)
 
   store.put('ticks_ohlcv', data)
 
   store.close()
-  
+
 
 
 def shell():
