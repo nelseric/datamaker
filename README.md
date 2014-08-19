@@ -33,3 +33,5 @@ Now we can build and run the application
 ###Importing data ###
     $ dm-import path_to_tick_data.csv.gz
 
+## Getting data for datamaker ##
+TODO: Put instructions here for getting tick data from tickstory lite
