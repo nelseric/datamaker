@@ -34,4 +34,11 @@ Now we can build and run the application
     $ dm-import path_to_tick_data.csv.gz
 
 ## Getting data for datamaker ##
-TODO: Put instructions here for getting tick data from tickstory lite
+1. Download the raw bi5 files via the download button in tickstory lite
+2. Click the "Export to File" button
+3. choose "Custom" in the Output Format
+4. Under Header type:
+Timestamp,Bid price,Ask price,Bid volume,Ask volume
+5. Under Data Format: 
+{Timestamp:yyyy-MM-ddTHH:mm:sszz},{BidPrice},{AskPrice},{BidVolume},{AskVolume}
+6. Select other parameters to your liking
