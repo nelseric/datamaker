@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
+from setuptools.extension import Extension
 from Cython.Build import cythonize
+import numpy as np
 
 setup(
     name='datamaker',
@@ -12,7 +14,7 @@ setup(
     author='Eric Nelson',
     author_email='gauntletguy2@gmail.com',
     description='',
-    ext_modules = cythonize(["datamaker/**/*.pyx"]),
+    ext_modules = cythonize("**/*.pyx", include_path = [numpy.get_include()]),
     entry_points = {
       'console_scripts': [
         'dm-import = datamaker.import:import_data',

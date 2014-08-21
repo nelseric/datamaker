@@ -21,18 +21,18 @@ ADD docker-data/id_rsa.pub /tmp/id_rsa.pub
 RUN cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys && rm -f /tmp/id_rsa.pub
 EXPOSE 22
 
-# RUN pip install virtualenvwrapper
-# RUN ln -s /usr/local/bin/virtualenvwrapper.sh /etc/profile.d/virtualenvwrapper.sh
-
-# RUN /bin/bash -lc "mkvirtualenv -a /root/datamaker datamaker"
 RUN pip install pip -U
+RUN pip install virtualenvwrapper
+RUN ln -s /usr/local/bin/virtualenvwrapper.sh /etc/profile.d/virtualenvwrapper.sh
 
-RUN pip install numpy==1.8.2 Cython==0.20.2 numexpr==2.4
-ADD requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt
-
-# Now the meat
 RUN mkdir /root/datamaker
+RUN /bin/bash -lc "mkvirtualenv -a /root/datamaker datamaker"
+
+RUN bash -l -c "workon datamaker; pip install numpy==1.8.2 Cython==0.20.2 numexpr==2.4"
+ADD requirements.txt /tmp/requirements.txt
+RUN bash -l -c "workon datamaker; pip install -r /tmp/requirements.txt"
+#
+# # Now the meat
 ADD . /root/datamaker
 
 # Everybody do your share
