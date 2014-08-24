@@ -58,6 +58,8 @@ def generate_indicators():
   #data = data.join(EWMA_ind.apply(data), how='outer')
   data = pd.concat([data["Ask"],data["Bid"],EWMA_ind.apply(data)],axis=1,keys=["Ask","Bid","Indicators"])
   
+  
+  
   store.put('ticks_ohlcv', data)
 
   store.close()
