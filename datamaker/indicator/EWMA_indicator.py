@@ -19,11 +19,11 @@ import pandas as pd
 # 8 Bid Volume  Ask volume     70.700001
 # 9 Ask Volume  Bid volume    124.599999
 
-def apply(data,spanArg = 20):
+def apply(data, spanArg = 20):
     
     #outData = np.zeros((len(data),1))
     
-    outData = pd.ewma(data["Ask"]["open"],span=spanArg)
-    outData = pd.DataFrame(outData,columns= ['EWMA_span_'+str(spanArg)])
+    outData = pd.ewma(data["Ask"]["open"], span=spanArg)
+    outData = pd.DataFrame(outData, columns= ['EWMA_span_'+str(spanArg)])
 
     return outData

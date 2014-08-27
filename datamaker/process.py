@@ -55,7 +55,7 @@ def generate_indicators():
 
   print "Apply dummy indicator calculation"
 
-  data = pd.concat([data["Ask"],data["Bid"],EWMA_ind.apply(data)],axis=1,keys=["Ask","Bid","Indicators"])
+  data = pd.concat([data["Ask"], data["Bid"], EWMA_ind.apply(data)], axis=1, keys=["Ask", "Bid", "Indicators"])
   
   store.put('ticks_ohlcv', data)
 
