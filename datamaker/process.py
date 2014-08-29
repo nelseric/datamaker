@@ -9,6 +9,8 @@ import datamaker.result.should_buy as should_buy
 
 import datamaker.indicator.EWMA_indicator as EWMA_ind
 
+import datamaker.indicator.time_shift_indicator as ts_ind
+
 import IPython
 
 
@@ -31,8 +33,6 @@ def generate_outputs():
   print "Applying should_buy"
   data["should_buy"] = should_buy.apply(data.values, 0.00055, 0.00015, 1440)
   
-  
-  
   store.put('ticks_ohlcv', data)
 
   store.close()
@@ -53,11 +53,15 @@ def generate_indicators():
   print "Loading 'ticks_ohlcv'"
   data = store.get('ticks_ohlcv')
 
-  print "Apply dummy indicator calculation"
-
-  data = pd.concat([data["Ask"], data["Bid"], EWMA_ind.apply(data)], axis=1, keys=["Ask", "Bid", "Indicators"])
+  print "Applying ewma indicator calculation"
+  indicatorData = EWMA_ind.calculate(data, 5)
   
-  store.put('ticks_ohlcv', data)
+  print "Applying timeshift indicator calculator"
+  tsList = [["EWMA_span_5", 5], ["EWMA_span_5", 10]]
+  indicatorData = indicatorData.join(ts_ind.calculate(indicatorData, tsList))
+  
+  store.put('indicator_data', indicatorData)
+  #store.put('ticks_ohlcv', data)
 
   store.close()
 
@@ -77,7 +81,7 @@ def shell():
 
   print "Loading 'ticks_ohlcv'"
   data = store.get('ticks_ohlcv')
-
+  
   IPython.embed()
 
   store.close()

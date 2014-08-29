@@ -19,10 +19,16 @@ import pandas as pd
 # 8 Bid Volume  Ask volume     70.700001
 # 9 Ask Volume  Bid volume    124.599999
 
-def calculate(data, spanArg = 20):
+def calculate(data, shiftList = []):
+    outLabel = []
+    outData = []
+    if (len(shiftList) == 0):
+        return outData
     
+    for n in shiftList:
+        outData.append(data[n[0]].shift(n[1]))
+        outLabel.append('TS_' + n[0] + '_'  + str(n[1]))
     
-    outData = pd.ewma(data["Ask"]["open"], span=spanArg)
-    outData = pd.DataFrame(outData, columns= ['EWMA_span_'+str(spanArg)])
+    outData = pd.concat(outData, axis=1, keys= outLabel )
 
     return outData
