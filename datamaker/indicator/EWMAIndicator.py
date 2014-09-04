@@ -7,7 +7,7 @@ class EWMAIndicator(object):
     #takes a list of k spans and calculates EWMA
     def __init__(self, data, k):
         super(EWMAIndicator, self).__init__()
-        self.data = data['Ask']['open']
+        self.data = data['Ask_Open']
         self.span_list = k
         self.outData = pd.DataFrame()
     def calcEWMA(self):
