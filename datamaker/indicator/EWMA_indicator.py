@@ -23,7 +23,7 @@ def apply(data, spanArg = 20):
     
     #outData = np.zeros((len(data),1))
     
-    outData = pd.ewma(data["Ask"]["open"], span=spanArg)
+    outData = pd.ewma(data["Ask_open"], span=spanArg)
     outData = pd.DataFrame(outData, columns= ['EWMA_span_'+str(spanArg)])
 
     return outData
