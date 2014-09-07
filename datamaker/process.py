@@ -11,6 +11,8 @@ import datamaker.indicator.EWMA_indicator as EWMA_ind
 
 import datamaker.indicator.time_shift_indicator as ts_ind
 
+import broker.Broker_Predict as BP
+
 import IPython
 
 
@@ -52,7 +54,10 @@ def generate_indicators():
 
   print "Loading 'ticks_ohlcv'"
   data = store.get('ticks_ohlcv')
-
+  
+  print "Flattening Multilevel to Single Level"  
+  data.columns = ['_'.join(col).strip() for col in data.columns.values] 
+  
   print "Applying ewma indicator calculation"
   indicatorData = EWMA_ind.calculate(data, 5)
   
@@ -86,5 +91,3 @@ def shell():
 
   store.close()
 
-if __name__=='__main__':
-    generate_indicators()
