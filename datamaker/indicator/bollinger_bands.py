@@ -9,11 +9,13 @@ import pandas as pd
 
 class BollingerBands(object):
     
-    #BollingerBands calculates 3 bands:
-    #middle band = simple moving average of closing prices over period span
-    #upper band = k standard deviations above middle band
-    #lower band = k standard deviations below middle band
-    #bandwidth = (upperband - lowerband)/middleband
+    """BollingerBands calculates 3 bands:
+       middle band -- simple moving average of closing prices over period span
+       upper band -- k standard deviations above middle band
+       lower band -- k standard deviations below middle band
+       bandwidth -- (upperband - lowerband)/middleband
+       """
+       
     def __init__(self, data, span, k):
         super(BollingerBands, self).__init__()
         self.data = data['Ask_Close']
