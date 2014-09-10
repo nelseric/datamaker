@@ -9,7 +9,8 @@ import pandas as pd
 
 class BollingerBands(object):
     
-    """BollingerBands calculates 3 bands:
+       """
+       BollingerBands calculates 3 bands:
        middle band -- simple moving average of closing prices over period span
        upper band -- k standard deviations above middle band
        lower band -- k standard deviations below middle band
@@ -27,10 +28,16 @@ class BollingerBands(object):
     def calculate(self):
         span_sma = pd.rolling_mean(self.data, self.min_span, min_periods=1)        
         span_std = self.k * pd.rolling_std(self.data, self.min_span, min_periods=1)
+        
         self.bb_data[str(self.day_span) + 'Day MidBB'] = span_sma
+        
         upperbb = span_sma + span_std
         self.bb_data[str(self.day_span) + 'Day UpperBB'] =  upperbb
+        
         lowerbb = span_sma - span_std
         self.bb_data[str(self.day_span) + 'Day LowerBB'] = lowerbb
+        
         self.bb_data[str(self.day_span) + 'Day Bandwidth'] = (upperbb - lowerbb)/span_sma
         return self.bb_data
+
+                
