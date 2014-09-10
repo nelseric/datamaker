@@ -1,6 +1,4 @@
 import pandas as pd
-import numpy as np
-import random
 
 class EWMAIndicator(object):
 
@@ -15,6 +13,4 @@ class EWMAIndicator(object):
         for span in self.span_list:
             self.outData[str(span) + 'Day EWMA'] = pd.ewma(self.data, span=span)
         return self.outData
-
-
-
+   
