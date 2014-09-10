@@ -20,9 +20,8 @@ class StochasticOscillator(object):
         
     def calculate(self):
         for span in self.day_list:
-            #minute_span converts days to minutes 1440min/day
             minute_span = span * 1440
-            min_price = pd.rolling_min(self.data, minute_span, min_periods=1)              #min_price is the minimum price over the last minute_span periods
+            min_price = pd.rolling_min(self.data, minute_span, min_periods=1)              #min_price is the minimum price over the last minute_span(days in minutes) periods
             max_price = pd.rolling_max(self.data, minute_span, min_periods=1)		   #max_price is the maximum price over the last minute_span periods
             fastk = 100 * ((self.data - min_price)/(max_price - min_price))                
             self.stoch_data[str(span) + 'Day %K'] = fastk
