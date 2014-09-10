@@ -2,8 +2,9 @@ import pandas as pd
 
 
 class StochasticOscillator(object):
-    
-    """stochastic_oscillator compares where a securities price closed relative to it's price range over a given time period
+        
+       """
+       stochastic_oscillator compares where a securities price closed relative to it's price range over a given time period
        calculates Stochastic Oscillator indicators fastk(%K) and fastd(%D) for each span in a given span_list
        
        fastk(%K) -- closing price was above %K percent of all prior closings occuring in the past N periods. %K ranges (0%-100%)
@@ -21,8 +22,8 @@ class StochasticOscillator(object):
     def calculate(self):
         for span in self.day_list:
             minute_span = span * 1440
-            min_price = pd.rolling_min(self.data, minute_span, min_periods=1)              #min_price is the minimum price over the last minute_span(days in minutes) periods
-            max_price = pd.rolling_max(self.data, minute_span, min_periods=1)		   #max_price is the maximum price over the last minute_span periods
+            min_price = pd.rolling_min(self.data, minute_span, min_periods=1)    
+            max_price = pd.rolling_max(self.data, minute_span, min_periods=1)
             fastk = 100 * ((self.data - min_price)/(max_price - min_price))                
             self.stoch_data[str(span) + 'Day %K'] = fastk
             fastd = pd.rolling_mean(fastk, 3*1440, min_periods=1)    # (3*1440) = number of minutes in 3 day period
