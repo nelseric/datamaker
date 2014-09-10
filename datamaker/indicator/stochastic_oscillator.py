@@ -26,7 +26,7 @@ class StochasticOscillator(object):
             max_price = pd.rolling_max(self.data, minute_span, min_periods=1)		   #max_price is the maximum price over the last minute_span periods
             fastk = 100 * ((self.data - min_price)/(max_price - min_price))                
             self.stoch_data[str(span) + 'Day %K'] = fastk
-            fastd = pd.rolling_mean(percent_K, 3*1440, min_periods=1)    # (3*1440) = number of minutes in 3 day period
+            fastd = pd.rolling_mean(fastk, 3*1440, min_periods=1)    # (3*1440) = number of minutes in 3 day period
             self.stoch_data[str(span) + 'Day %D'] = fastd
         return self.stoch_data
 
