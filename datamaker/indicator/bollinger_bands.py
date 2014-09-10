@@ -39,3 +39,4 @@ class BollingerBands(object):
         
            self.bb_data[str(self.day_span) + 'Day Bandwidth'] = (upperbb - lowerbb)/span_sma
            return self.bb_data
+   
