@@ -1,7 +1,6 @@
 import pandas as pd
 
 class EWMAIndicator(object):
-
     """takes a list of k spans and calculates EWMA"""
     def __init__(self, data, k):
         super(EWMAIndicator, self).__init__()
