@@ -15,7 +15,7 @@ class StochasticOscillator(object):
     
     def __init__(self, data, span_list):
         super(StochasticOscillator, self).__init__()
-        self.data = data['Ask_close']
+        self.data = data
         self.day_list = span_list
         self.stoch_data = pd.DataFrame()
         
