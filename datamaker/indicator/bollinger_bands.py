@@ -19,7 +19,7 @@ class BollingerBands(object):
        
        def __init__(self, data, span, k):
            super(BollingerBands, self).__init__()
-           self.data = data['Ask_Close']
+           self.data = data
            self.day_span = span
            self.min_span = span * (1440)         #converts days to min: 1440min/day
            self.k = k
