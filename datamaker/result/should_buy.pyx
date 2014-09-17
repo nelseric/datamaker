@@ -32,19 +32,19 @@ class ShouldBuy(Feature):
     self._result = apply(self.data.values, self.limit_upper, self.limit_lower, self.search_limit)
 
 cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, double margin_lower, int limit):
-"""
-  This does the actual computation for ShouldBuy. It expects the data at the following indexes:
-    0 Ask         open            1.084150
-    1             high            1.084150
-    2             low             1.083600
-    3             close           1.083900
-    4 Bid         open            1.084000
-    5             high            1.084000
-    6             low             1.083250
-    7             close           1.083350
-    8 Bid Volume  Ask volume     70.700001
-    9 Ask Volume  Bid volume    124.599999
-"""
+  """
+    This does the actual computation for ShouldBuy. It expects the data at the following indexes:
+      0 Ask         open            1.084150
+      1             high            1.084150
+      2             low             1.083600
+      3             close           1.083900
+      4 Bid         open            1.084000
+      5             high            1.084000
+      6             low             1.083250
+      7             close           1.083350
+      8 Bid Volume  Ask volume     70.700001
+      9 Ask Volume  Bid volume    124.599999
+  """
   cdef Py_ssize_t i, cmp_limit, n = len(data)
   cdef npc.ndarray res = np.empty(n)
 
