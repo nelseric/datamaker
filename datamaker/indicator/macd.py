@@ -20,7 +20,7 @@ class MACDIndicator(Feature):
     super(MACDIndicator, self).__init__(data)
     self.fast_span = fast_span
     self.slow_span = slow_span
-    self signal_span = signal_span
+    self.signal_span = signal_span
 
   def calculate(self):
     self.macd = pd.ewma(self.data, span = self.fast_span) - pd.ewma(self.data, span = self.slow_span)
