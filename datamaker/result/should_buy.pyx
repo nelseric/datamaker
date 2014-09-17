@@ -3,6 +3,8 @@ cimport numpy as npc
 
 import numpy as np
 
+from datamaker.feature import Feature
+
 # 0 Ask         open            1.084150
 # 1             high            1.084150
 # 2             low             1.083600
@@ -13,6 +15,18 @@ import numpy as np
 # 7             close           1.083350
 # 8 Bid Volume  Ask volume     70.700001
 # 9 Ask Volume  Bid volume    124.599999
+
+class ShouldBuy(Feature):
+
+  """should_buy result value"""
+  def __init__(self, data, margin_upper = 0.00055, margin_lower = 0.00015, search_limit = 1440):
+    super(ShouldBuy, self).__init__(data)
+    self.margin_upper = margin_upper
+    self.margin_lower = margin_lower
+    self.search_limit = search_limit
+
+  def calculate(self):
+    self._result = apply(self.data.values, self.margin_upper, self.margin_lower, self.search_limit)
 
 cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, double margin_lower, int limit):
 

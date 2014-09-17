@@ -11,7 +11,7 @@ import datamaker.indicator.EWMA_indicator as EWMA_ind
 
 import datamaker.indicator.time_shift_indicator as ts_ind
 
-import broker.Broker_Predict as BP
+# import broker.Broker_Predict as BP
 
 import IPython
 
@@ -34,11 +34,11 @@ def generate_outputs():
 
   print "Applying should_buy"
   data["should_buy"] = should_buy.apply(data.values, 0.00055, 0.00015, 1440)
-  
+
   store.put('ticks_ohlcv', data)
 
   store.close()
-  
+
 def generate_indicators():
   if not len(sys.argv) > 1:
     print "Please provide input database"
@@ -54,17 +54,17 @@ def generate_indicators():
 
   print "Loading 'ticks_ohlcv'"
   data = store.get('ticks_ohlcv')
-  
-  print "Flattening Multilevel to Single Level"  
-  data.columns = ['_'.join(col).strip() for col in data.columns.values] 
-  
+
+  print "Flattening Multilevel to Single Level"
+  data.columns = ['_'.join(col).strip() for col in data.columns.values]
+
   print "Applying ewma indicator calculation"
   indicatorData = EWMA_ind.calculate(data, 5)
-  
+
   print "Applying timeshift indicator calculator"
   tsList = [["EWMA_span_5", 5], ["EWMA_span_5", 10]]
   indicatorData = indicatorData.join(ts_ind.calculate(indicatorData, tsList))
-  
+
   store.put('indicator_data', indicatorData)
   #store.put('ticks_ohlcv', data)
 
@@ -86,8 +86,7 @@ def shell():
 
   print "Loading 'ticks_ohlcv'"
   data = store.get('ticks_ohlcv')
-  
+
   IPython.embed()
 
   store.close()
-

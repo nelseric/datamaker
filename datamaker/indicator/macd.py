@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
-from datamaker.indicator import indicator as ai
+from datamaker.feature import Feature
 
-class MACDIndicator(ai.Indicator):
+class MACDIndicator(Feature):
 
   '''
     Calculates MACD values using most common spans
@@ -15,5 +15,4 @@ class MACDIndicator(ai.Indicator):
     self.signal = pd.ewma(self.data, span=9)
     self.divergance = self.macd - self.signal
 
-  def result(self):
-    return pd.concat([self.macd, self.signal, self.divergance], axis=1, keys=["MACD", "Signal", "Divergance"])
+    self._result = pd.concat([self.macd, self.signal, self.divergance], axis=1, keys=["MACD", "Signal", "Divergance"])
