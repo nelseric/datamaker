@@ -1,0 +1,17 @@
+{
+  "features":[
+    {
+      "class": "MACDIndicator"
+    }
+  ],
+  "classes":[
+    {
+      "class": "ShouldBuy",
+      "options": {
+        "limit_upper": 0.00055,
+        "limit_lower": 0.00015,
+        "search_limit": 1440
+      }
+    }
+  ]
+}
