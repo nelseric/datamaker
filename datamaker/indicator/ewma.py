@@ -9,8 +9,8 @@ class EWMA(Feature):
 
       :param span: Span of EWMA in minutes
     """
-    def __init__(self, data, span):
-        super(EWMAIndicator, self).__init__()
+    def __init__(self, span, *args, **kwargs):
+        super(EWMA, self).__init__(*args, **kwargs)
         self.span = span
 
     def calculate(self):
@@ -22,9 +22,9 @@ class NormalizedEWMA(Feature):
 
       :param span: Span of EWMA in minutes
     """
-    def __init__(self, data, span):
-        super(EWMAIndicator, self).__init__()
+    def __init__(self, span, *args, **kwargs):
+        super(NormalizedEWMA, self).__init__(*args, **kwargs)
         self.span = span
 
     def calculate(self):
-        self._result = pd.ewma(self.data, span=self.span) - data
+        self._result = pd.ewma(self.data, span=self.span) - self.data

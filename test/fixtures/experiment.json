@@ -2,7 +2,6 @@
   "name": "macd_ewma-1d-2d_eurusd",
   "description": "1 day, 2 day MACD only on EUR_USD",
   "tick_input": "tick_data/EURUSD.csv.bz2",
-  "time_quanta": 60,
   "instrument": "EUR_USD",
 
   "features":[
@@ -18,7 +17,8 @@
     {
       "class": "ewma.NormalizedEWMA",
       "parameters": {
-        "span": 2880
+        "span": 2880,
+        "shift": 1440
       }
     }
   ],

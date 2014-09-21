@@ -16,8 +16,8 @@ class MACD(Feature):
     :param slow_span: The long range EWMA span for use in MACD calculation
     :param signal_span: The medium range EWMA span that is compared to the MACD to show divergance
   '''
-  def __init__(self, data, fast_span = 12 * 1440, slow_span = 26 * 1440, signal_span = 9 * 1440):
-    super(MACDIndicator, self).__init__(data)
+  def __init__(self, fast_span = 12 * 1440, slow_span = 26 * 1440, signal_span = 9 * 1440, *args, **kwargs):
+    super(MACD, self).__init__(*args, **kwargs)
     self.fast_span = fast_span
     self.slow_span = slow_span
     self.signal_span = signal_span
