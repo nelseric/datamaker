@@ -1,13 +1,31 @@
 {
+  "name": "macd_ewma-1d-2d_eurusd",
+  "description": "1 day, 2 day MACD only on EUR_USD",
+  "tick_input": "tick_data/EURUSD.csv.bz2",
+  "time_quanta": 60,
+  "instrument": "EUR_USD",
+
   "features":[
     {
-      "class": "MACDIndicator"
+      "class": "macd.MACD"
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 1440
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 2880
+      }
     }
   ],
   "classes":[
     {
       "class": "ShouldBuy",
-      "options": {
+      "parameters": {
         "limit_upper": 0.00055,
         "limit_lower": 0.00015,
         "search_limit": 1440

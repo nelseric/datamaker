@@ -1,5 +1,5 @@
 import pytest
-from datamaker.indicator.macd import MACDIndicator
+from datamaker.indicator.macd import MACD
 
 def test_macd():
-  assert MACDIndicator
+  assert MACD

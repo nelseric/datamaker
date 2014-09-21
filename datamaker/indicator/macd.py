@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from datamaker.feature import Feature
 
-class MACDIndicator(Feature):
+class MACD(Feature):
 
   '''
     Calculates MACD values using several different EWMAs
