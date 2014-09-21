@@ -1,7 +1,8 @@
 {
   "name": "macd_ewma-1d-2d_eurusd",
   "description": "1 day, 2 day MACD only on EUR_USD",
-  "tick_file": "tick_data/EURUSD.csv.bz2",
+  "database_file": "tick_data/EURUSD.csv.bz2.h5",
+  "database_table": "ticks_ohlcv",
   "instrument": "EUR_USD",
 
   "features":[

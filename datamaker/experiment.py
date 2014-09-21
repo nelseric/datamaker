@@ -18,8 +18,13 @@ class Experiment(object):
     super(Experiment, self).__init__()
     self.name = kwargs.get('name')
     self.description = kwargs.get('description')
-    self.tick_file = kwargs.get('tick_file')
+
+    self.database_file = kwargs.get('database_file')
+    self.database_table = kwargs.get('database_table')
+    self.database = pd.HDFStore(self.database_file)
+
     self.instrument = kwargs.get('instrument')
+
     self.features = map(self.parse_feature, kwargs.get("features", []))
     self.classes = map(self.parse_feature, kwargs.get("classes", []))
 
@@ -35,4 +40,9 @@ class Experiment(object):
     return cur(**params)
 
   def get_input_data(self):
-    return pd.DataFrame([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])
+    return self.database.get(self.database_table)
+
+  def calculate(self):
+    features = map(lambda x: x.result(), self.features)
+    features_concat = pd.concat(features, axis=1)
+    self.database.put(self.name, features_concat)
