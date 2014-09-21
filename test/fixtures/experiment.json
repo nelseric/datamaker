@@ -1,7 +1,7 @@
 {
   "name": "macd_ewma-1d-2d_eurusd",
   "description": "1 day, 2 day MACD only on EUR_USD",
-  "tick_input": "tick_data/EURUSD.csv.bz2",
+  "tick_file": "tick_data/EURUSD.csv.bz2",
   "instrument": "EUR_USD",
 
   "features":[
@@ -24,7 +24,7 @@
   ],
   "classes":[
     {
-      "class": "ShouldBuy",
+      "class": "should_buy.ShouldBuy",
       "parameters": {
         "limit_upper": 0.00055,
         "limit_lower": 0.00015,
