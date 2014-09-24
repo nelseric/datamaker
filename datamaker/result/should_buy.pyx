@@ -5,8 +5,6 @@ import numpy as np
 
 from datamaker.feature import Feature
 
-
-
 class ShouldBuy(Feature):
 
   """
@@ -22,8 +20,8 @@ class ShouldBuy(Feature):
 
     Without the search limit, this calculation is O(n^2) worst case, when it is used, this is calculated in O(n)
   """
-  def __init__(self, data, limit_upper = 0.00055, limit_lower = 0.00015, search_limit = 1440):
-    super(ShouldBuy, self).__init__(data)
+  def __init__(self, limit_upper = 0.00055, limit_lower = 0.00015, search_limit = 1440, *args, **kwargs):
+    super(ShouldBuy, self).__init__(*args, **kwargs)
     self.limit_upper = limit_upper
     self.limit_lower = limit_lower
     self.search_limit = search_limit

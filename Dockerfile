@@ -8,7 +8,7 @@ RUN apt-get update
 
 # # Install H2O, Borrowed from mikecomstock/h2o-docker
 RUN apt-get install -y unzip openjdk-7-jre
-RUN curl 'http://s3.amazonaws.com/h2o-release/h2o/rel-kolmogorov/3/h2o-2.4.4.3.zip' > /tmp/h2o.zip
+RUN curl 'http://h2o-release.s3.amazonaws.com/h2o/rel-lambert/5/h2o-2.6.1.5.zip' > /tmp/h2o.zip
 RUN unzip /tmp/h2o.zip -d /root
 RUN mkdir /etc/service/h2o
 ADD docker-data/h2o.sh /etc/service/h2o/run

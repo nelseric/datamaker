@@ -1,0 +1,36 @@
+{
+  "name": "macd_ewma-1d-2d_eurusd",
+  "description": "1 day, 2 day MACD only on EUR_USD",
+  "database_file": "tick_data/EURUSD.csv.bz2.h5",
+  "database_table": "ticks_ohlcv",
+  "instrument": "EUR_USD",
+
+  "features":[
+    {
+      "class": "macd.MACD"
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 1440
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 2880,
+        "shift": 1440
+      }
+    }
+  ],
+  "classes":[
+    {
+      "class": "should_buy.ShouldBuy",
+      "parameters": {
+        "limit_upper": 0.00055,
+        "limit_lower": 0.00015,
+        "search_limit": 1440
+      }
+    }
+  ]
+}

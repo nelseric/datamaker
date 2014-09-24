@@ -19,9 +19,17 @@ def import_data():
 
   store = pd.HDFStore(input_file_name + '.h5')
 
+  comp_ext = {
+    "bz2": "bz2",
+    "gz": "gzip",
+    "csv": None
+  }
+  comp = comp_ext[input_file_name.split('.')[-1]]
+
+
   data_file = pd.read_csv(
     input_file_name,
-    compression="gzip",
+    compression=comp,
     engine='c',
     chunksize=200000,
     # iterator=True,
@@ -34,7 +42,7 @@ def import_data():
   total = 65138838
   cur = 0
 
-  bid_ask = None
+  data = None
 
   for ticks in data_file:
     ask = ticks['Ask price'].resample('1Min', how='ohlc')
@@ -44,14 +52,16 @@ def import_data():
 
     calculated  = pd.concat([ask, bid], axis=1, keys=['Ask', 'Bid'])
 
-    if(bid_ask.__class__ != None.__class__):
-      bid_ask = merge_chunks(bid_ask, calculated)
+    if(data.__class__ != None.__class__):
+      data = merge_chunks(data, calculated)
     else:
-      bid_ask = calculated
+      data = calculated
 
-    print bid_ask.ix[-1].name
+    print data.ix[-1].name
 
-  store.put("ticks_ohlcv", bid_ask)
+  data.columns = ['_'.join(col).strip() for col in data.columns.values]
+
+  store.put("ticks_ohlcv", data)
 
 
 def merge_chunks(old, new):
