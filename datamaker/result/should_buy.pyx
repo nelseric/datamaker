@@ -53,7 +53,8 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, d
   cdef npc.ndarray res = np.empty(n)
 
   cdef double target_high, target_low
-
+  
+  for i in range(n):
     if i + limit > n:
       cmp_limit = n - i
     else:
