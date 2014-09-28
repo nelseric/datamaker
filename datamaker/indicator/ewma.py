@@ -15,6 +15,11 @@ class EWMA(Feature):
 
     def calculate(self):
         self._result = pd.ewma(self.data, span=self.span)
+        self._result.columns = map(
+          lambda col: "EWMA{}_{}".format(self.span, col),
+          self._result.columns
+        )
+
 
 class NormalizedEWMA(Feature):
     """
@@ -28,3 +33,7 @@ class NormalizedEWMA(Feature):
 
     def calculate(self):
         self._result = pd.ewma(self.data, span=self.span) - self.data
+        self._result.columns = map(
+          lambda col: "NormalizedEWMA{}_{}".format(self.span, col),
+          self._result.columns
+        )

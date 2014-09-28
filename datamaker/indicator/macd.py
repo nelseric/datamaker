@@ -28,3 +28,4 @@ class MACD(Feature):
     self.divergance = self.macd - self.signal
 
     self._result = pd.concat([self.macd, self.signal, self.divergance], axis=1, keys=["MACD", "Signal", "Divergance"])
+    self._result.columns = ['_'.join(col).strip() for col in self._result.columns.values]
