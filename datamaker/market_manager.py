@@ -17,7 +17,7 @@ def run():
 
 class MarketManager(object):
   """
-    Gets prices, Sends them to
+    Gets prices, Sends them to H2O, and then buys stuff depending on the result H2O Gives
   """
   def __init__(self, experiment):
     super(MarketManager, self).__init__()

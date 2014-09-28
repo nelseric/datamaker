@@ -27,6 +27,7 @@ class Experiment(object):
 
     self.features = map(self.parse_feature, kwargs.get("features", []))
     self.classes = map(self.parse_feature, kwargs.get("classes", []))
+    self._result = None
 
   def parse_feature(self, feature_data):
     klass = feature_data["class"].split('.')
@@ -43,6 +44,13 @@ class Experiment(object):
     return self.database.get(self.database_table)
 
   def calculate(self):
-    features = map(lambda x: x.result(), self.features)
-    features_concat = pd.concat(features, axis=1)
-    return features_concat
+    features = map(lambda x: x.result(), self.features + self.classes)
+    self._result = pd.concat(features, axis=1)
+
+  def result(self):
+    if self._result is None:
+      self.calculate()
+      if self._result is None:
+        raise NotImplementedError("The method calculate method must set self._result")
+
+    return self._result

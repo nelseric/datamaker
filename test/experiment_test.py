@@ -8,4 +8,4 @@ def test_module_import():
 
 def test_experiment_parse():
   experiment = Experiment.load(open("test/fixtures/experiment.json"))
-  assert experiment.calculate().__class__ == pd.DataFrame
+  assert experiment.result().__class__ == pd.DataFrame
