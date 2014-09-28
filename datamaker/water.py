@@ -8,13 +8,14 @@ class Water(object):
   of these methods to work H2O must be instantiated and contain requisite 
   data objects such as pre-trained neural networks
   """
-  def __init__(self,data_path):
+  def __init__(self, data_path, *args, **kwargs)
     super(Water, self).__init__()
-    self.h2o_url = 'http://localhost:54321/'
+    self.h2o_url = kwargs.get('h2o_url', 'http://localhost:54321/')
     self.data_path = data_path
-    self.rt_file_name = 'rt_file_name'
-    self.model_name = 'test1'
-    self.pred_name = 'rt_pred'
+    self.rt_file_name = kwargs.get('rt_file_name', 'rt_file_name')
+    self.model_name = kwargs.get('model_name', 'test1')
+    self.pred_name = kwargs.get('pred_name', 'rt_pred')
+    
     
 
   def upload_training_data(self, training_dataframe):
