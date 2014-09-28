@@ -13,7 +13,7 @@ class Water(object):
     self.h2o_url = 'http://localhost:54321/'
     self.data_path = data_path
     self.rt_file_name = 'rt_file_name'
-    self.model_name = 'nn2'
+    self.model_name = 'test1'
     self.pred_name = 'rt_pred'
     
 
@@ -33,7 +33,7 @@ class Water(object):
     self._upload_realtime_data(realtime_dataframe)
     self._generate_prediction()
     prediction_data = self._download_prediction()
-    self._cleanup_prediction(prediction_data)
+    self._cleanup_prediction()
 
     return prediction_data
     
@@ -47,8 +47,9 @@ class Water(object):
     import_url = '2/ImportFiles2.json?'
     params = { 'path' : self.data_path + self.rt_file_name + '.csv'}
     tot_url = self.h2o_url + import_url + urllib.urlencode(params)
-    print tot_url
-    urllib.urlopen(tot_url)
+
+    self._send_url(tot_url)
+
     self._parse_data()
     
     return True
@@ -68,9 +69,9 @@ class Water(object):
               'preview' : '0'
               }
     tot_url = self.h2o_url + parse_url + urllib.urlencode(params)
-    print tot_url
-    urllib.urlopen(tot_url)
     
+    self._send_url(tot_url)
+  
     return True
               
     
@@ -86,7 +87,8 @@ class Water(object):
               'prediction' : self.pred_name + '.hex'
               }
     tot_url = self.h2o_url + predict_url + urllib.urlencode(params)
-    urllib.urlopen(tot_url)
+    
+    self._send_url(tot_url)
     
     return True
 
@@ -100,22 +102,44 @@ class Water(object):
               'force' : '1'
               }
     tot_url = self.h2o_url + pred_export_url + urllib.urlencode(params)
-    urllib.urlopen(tot_url)
-    print tot_url
+    
+    self._send_url(tot_url)
+    
     pred_df = pd.read_csv(self.data_path + self.pred_name + '.csv')   
-    confidence = pred_df['1'][-1]
+    confidence = pred_df['setosa'][0]
     
     return confidence 
     
   
 
-  def _cleanup_prediction(prediction_id):
+  def _cleanup_prediction(self):
     """
     Removes input data from h2o
     """
-    clean_url = '/Remove.json?'
+    clean_url = 'Remove.json?'
     params = {'key' : self.rt_file_name + '.hex' }
     tot_url = self.h2o_url + clean_url + urllib.urlencode(params)
-    urllib.urlopen(tot_url)
+    
+    self._send_url(tot_url)
+    
+    params = {'key' : self.pred_name + '.hex' }
+    tot_url = self.h2o_url + clean_url + urllib.urlencode(params)
+    
+    self._send_url(tot_url)
     
     return True
+    
+  def _send_url(self,tot_url):
+    """
+    Repeatedly sends commands to h2o until command 
+    is processed properly
+    """
+    while(1):
+      try:
+        url_out = urllib.urlopen(tot_url).read()
+        print url_out
+        if (url_out.split('"')[1] != 'error'):
+          raise('request completed succesfully')
+      except:
+        break
+      
