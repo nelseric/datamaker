@@ -44,6 +44,7 @@ setup(
         'dm-import = datamaker.import:import_data',
         'dm-shell = datamaker.process:shell',
         'dm-gen-output = datamaker.process:generate_outputs',
+        'dm-market-runner = datamaker.market_manager:run',
         'idle = idlelib.PyShell:main'
       ]
     }

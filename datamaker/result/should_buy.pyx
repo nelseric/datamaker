@@ -4,6 +4,7 @@ cimport numpy as npc
 import numpy as np
 
 from datamaker.feature import Feature
+import pandas as pd
 
 class ShouldBuy(Feature):
 
@@ -27,7 +28,7 @@ class ShouldBuy(Feature):
     self.search_limit = search_limit
 
   def calculate(self):
-    self._result = apply(self.data.values, self.limit_upper, self.limit_lower, self.search_limit)
+    self._result = pd.DataFrame(apply(self.data.values, self.limit_upper, self.limit_lower, self.search_limit))
 
 cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, double margin_lower, int limit):
   """

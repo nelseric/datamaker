@@ -7,7 +7,7 @@ import types
 import pandas as pd
 
 class Experiment(object):
-  """Experiment class, will parse experiment data, and generate stuff"""
+  """Experiment class, will parse experiment data, and generate configured features and classes"""
 
   @staticmethod
   def load(experiment_json):
@@ -45,4 +45,4 @@ class Experiment(object):
   def calculate(self):
     features = map(lambda x: x.result(), self.features)
     features_concat = pd.concat(features, axis=1)
-    self.database.put(self.name, features_concat)
+    return features_concat
