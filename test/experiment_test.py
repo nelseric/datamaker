@@ -1,4 +1,6 @@
 import pytest
+import pandas as pd
+
 from datamaker.experiment import Experiment
 
 def test_module_import():
@@ -6,3 +8,4 @@ def test_module_import():
 
 def test_experiment_parse():
   experiment = Experiment.load(open("test/fixtures/experiment.json"))
+  assert experiment.result().__class__ == pd.DataFrame

@@ -56,3 +56,4 @@ docs/_build/
 
 tick_data/
 .vagrant
+.env

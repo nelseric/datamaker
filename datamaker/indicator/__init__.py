@@ -1,1 +1,1 @@
-__all__ = ["macd", "ewma"]
+__all__ = ["macd", "ewma", "noop"]

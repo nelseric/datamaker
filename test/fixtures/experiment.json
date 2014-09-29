@@ -1,11 +1,14 @@
 {
   "name": "macd_ewma-1d-2d_eurusd",
   "description": "1 day, 2 day MACD only on EUR_USD",
-  "database_file": "tick_data/EURUSD.csv.bz2.h5",
+  "database_file": "test/fixtures/GBPUSD.h5",
   "database_table": "ticks_ohlcv",
   "instrument": "EUR_USD",
 
   "features":[
+    {
+      "class": "noop.Feature"
+    },
     {
       "class": "macd.MACD"
     },

@@ -17,7 +17,7 @@ def import_data():
     print "Please provide input datafile"
     exit(1)
 
-  store = pd.HDFStore(input_file_name + '.h5')
+  store = pd.HDFStore(os.path.join('data/', os.path.basename(input_file_name).split('.')[0] + '.h5'))
 
   comp_ext = {
     "bz2": "bz2",
