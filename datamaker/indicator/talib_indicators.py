@@ -20,11 +20,11 @@ class TALibIndicator(Feature):
 
     def __init__(self, *args, **kwargs):
         super(TALibIndicator, self).__init__(*args, **kwargs)
-        self.data = {'open':   self.data['Open'],
-                     'high':   self.data['High'],
-                     'low':    self.data['Low'],
-                     'close':  self.data['Close'],
-                     'volume': self.data['Volume']}
+        self.data = {'open':   self.data['Ask_open'],
+                     'high':   self.data['Ask_high'],
+                     'low':    self.data['Ask_low'],
+                     'close':  self.data['Ask_close'],
+                     'volume': self.data['Ask_volume']}
         self.timeperiod = kwargs.pop('timeperiod')
         
 
