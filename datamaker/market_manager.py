@@ -7,7 +7,7 @@ import os
 
 from datamaker.experiment import Experiment
 
-import datamaker.brokers.oandapy.oandapy as oandapy
+import datamaker.brokers.oanda_broker import OandaBroker
 
 import IPython
 
@@ -39,9 +39,11 @@ class MarketManager(object):
 
     self.experiment = experiment
 
-    oanda_env = kwargs.get("oanda_env", os.environ.get("OANDA_ENV", ""))
+    oanda_acct = kwargs.get("oanda_acct", os.environ.get("OANDA_ACCT", ""))
     oanda_token = kwargs.get("oanda_token", os.environ.get("OANDA_TOKEN", ""))
-    self.oanda = oandapy.API(environment=oanda_env, access_token=oanda_token)
+    oanda_env = kwargs.get("oanda_env", os.environ.get("OANDA_ENV", ""))
+
+    self.oanda = OandaBroker(oanda_acct, oanda_token, oanda_env)
 
 
 

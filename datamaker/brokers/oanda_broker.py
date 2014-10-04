@@ -1,25 +1,21 @@
-#import ext.oandapy as oab
-import sys
-import ConfigParser
-
 import ext.oandapy as oandapy
+from datamaker.broker import Broker
 
-class OandaBroker(object):
+class OandaBroker(Broker):
   """
     OANDA Broker implementing our own broker interface
-    This needs to be provided with config csv that holds 
-    the environment and the 
+    This needs to be provided with config csv that holds
+    the environment and the
   """
-  def __init__(self):
+  def __init__(self, account_id, access_token, trading_env):
     super(OandaBroker, self).__init__()
-    #################### change this section later ############################
-    self.env_name = 'practice'
-    self.token_name = 'xxx'
-    self.account_id = 9999999
-    ###########################################################################
-    self.oanda = oandapy.API(environment=self.env_name, access_token=self.token_name)
-    
-    
+    self.account_id = account_id
+    self.access_token = access_token
+    self.trading_env = trading_env
+
+    self.oanda = oandapy.API(environment=self.trading_env, access_token=self.access_token)
+
+
   def get_cur_allocation(self):
     """
     Returns the total amount currently invested in all currency pairs
@@ -27,9 +23,9 @@ class OandaBroker(object):
     response = self.oanda.get_positions(self.account_id)
     all_positions = response.get('positions')
     allocations = [all_positions[x]['units'] for x in range(0, len(all_positions))]
-    
+
     return sum(allocations)
-  
+
   def place_order(self, *args, **kwargs):
     """
     Requests an order to be placed on a currency pair
@@ -40,18 +36,18 @@ class OandaBroker(object):
     type_arg = kwargs.get('type', 'limit')
     take_profit = kwargs.get('takeProfit', 2)
     stop_loss = kwargs.get('stopLoss', 1)
-    
+
     response = self.oanda.create_order(self.account_id, instrument=instrument_arg,
-                                     units=units_arg, side=side_arg, 
+                                     units=units_arg, side=side_arg,
                                      type=type_arg, takeProfit = take_profit,
                                      stopLoss = stop_loss)
     return True
-    
+
   def close_orders(self):
     """
     Closes all open orders on the broker
     """
-    
+
   def gather_data(self, *args, **kwargs):
     """
     Downloads all data from start_time until current moment
@@ -74,15 +70,14 @@ class OandaBroker(object):
         out_data = out_data + raw_data
       elif (len(out_data) >1):
         #raw_data[0] is already in out_data as raw_data[-1] from last iteration
-        out_data = out_data + raw_data[1:] 
+        out_data = out_data + raw_data[1:]
       start_time = raw_data[-1]['time']
       if (len(raw_data) < 5000):
         data_complete = True
-    
+
     return out_data
-    
+
   def update_data(self, data):
     """
     Updates self.data with current ohlcv data from broker
     """
-  
