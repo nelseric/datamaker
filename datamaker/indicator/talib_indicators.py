@@ -7,10 +7,11 @@ Created on Thu Sep 11 13:36:52 2014
 """
 
 from talib.abstract import *
+# import talib.abstract as talib
 import pandas as pd
 from datamaker.feature import Feature
 
-class Indicators(Feature):
+class TALibIndicator(Feature):
 
     """
     Super Class for Indicator implementation that sets the data to the proper "ohlcv" dictionary format
@@ -18,7 +19,7 @@ class Indicators(Feature):
     """
 
     def __init__(self, *args, **kwargs):
-        super(Indicators, self).__init__(*args, **kwargs)
+        super(TALibIndicator, self).__init__(*args, **kwargs)
         self.data = {'open':   self.data['Open'],
                      'high':   self.data['High'],
                      'low':    self.data['Low'],
@@ -27,7 +28,7 @@ class Indicators(Feature):
         self.timeperiod = kwargs.pop('timeperiod')
         
 
-class Adx(Indicators):
+class Adx(TALibIndicator):
 
     """
     Average Directional Movement Index (ADX) is an indicator of trend strength
@@ -48,7 +49,7 @@ class Adx(Indicators):
         return self.adx_data
       
       
-class Adxr(Indicators):
+class Adxr(TALibIndicator):
 
     """
     The Average Directional Movement Index Rating (ADXR) measures the strength of the ADX
@@ -69,7 +70,7 @@ class Adxr(Indicators):
         return self.adxr_data
         
         
-class Aroon(Indicators):
+class Aroon(TALibIndicator):
 
     """
     The Aroon indicator is used to identify trends and likelihood that trends will reverse
@@ -91,7 +92,7 @@ class Aroon(Indicators):
         return self.aroon_data
         
         
-class Aroonosc(Indicators):
+class Aroonosc(TALibIndicator):
 
     """
     The Aroon Oscillator(AROONOSC uses Aroonup and Aroondown to gauge the strength of a current trend
@@ -111,7 +112,7 @@ class Aroonosc(Indicators):
         return self.aroonosc_data
         
         
-class Bop(Indicators):
+class Bop(TALibIndicator):
 
     """
     The Balance of Power (BOP) measures the strength of the bulls vs. the bears by assessing
@@ -131,7 +132,7 @@ class Bop(Indicators):
         return self.bop_data
        
 
-class Cci(Indicators):
+class Cci(TALibIndicator):
 
     """
     The Commodity Channel Inex (CCI) quantifies the relationship between the assets price,
@@ -153,7 +154,7 @@ class Cci(Indicators):
         return self.cci_data
         
         
-class Cmo(Indicators):
+class Cmo(TALibIndicator):
 
     """
     The Chande Momentum Oscillator (CMO)
@@ -175,7 +176,7 @@ class Cmo(Indicators):
         return self.cmo_data
         
         
-class Macd(Indicators):
+class Macd(TALibIndicator):
 
     """
     Calculates MACD indicator using common timeperiod intervals.
@@ -193,7 +194,7 @@ class Macd(Indicators):
         return self.macd_data
         
         
-class Mfi(Indicators):
+class Mfi(TALibIndicator):
 
     """
     Money Flow Index (MFI) uses stocks price and volume to predict the reliability of current trend.
@@ -217,7 +218,7 @@ class Mfi(Indicators):
         return self.mfi_data
         
         
-class Minus_DI(Indicators):
+class Minus_DI(TALibIndicator):
 
     """
     The Negative Directional Indicator is used to measure the presence of a downtrend
@@ -234,7 +235,7 @@ class Minus_DI(Indicators):
         return self.minusdi_data
 
 
-class Mom(Indicators):
+class Mom(TALibIndicator):
 
     """
     The Momentum Indicator is used to measure the velocity of price change
@@ -252,7 +253,7 @@ class Mom(Indicators):
         return self.mom_data
         
 
-class Ppo(Indicators):
+class Ppo(TALibIndicator):
 
     """
     Percentage Price Oscillator (PPO) shows relationship among two moving averages
@@ -270,7 +271,7 @@ class Ppo(Indicators):
         return self.ppo_data
 
 
-class Roc(Indicators):
+class Roc(TALibIndicator):
 
     """
     Rate of Change:
@@ -293,7 +294,7 @@ class Roc(Indicators):
         return self.roc_data
 
 
-class Rocr(Indicators):
+class Rocr(TALibIndicator):
 
     """
     Rate of Change Ratio indicates the rate of change as a ratio over N-periods
@@ -309,7 +310,7 @@ class Rocr(Indicators):
         return self.rocr_data
 
 
-class Rsi(Indicators):
+class Rsi(TALibIndicator):
 
     """
     Relative Strength Index (RSI) compares the magnitude of recent gains to recent losses
@@ -331,7 +332,7 @@ class Rsi(Indicators):
         return self.rsi_data
 
 
-class Stoch(Indicators):
+class Stoch(TALibIndicator):
 
     """
     Stochastic Oscillator compares closing price to a price range over an N-period of time
@@ -351,7 +352,7 @@ class Stoch(Indicators):
         return self.stoch_data
         
         
-class StochF(Indicators):
+class StochF(TALibIndicator):
 
     """
     Stochastic Oscillator Fast is similar to Stochastic Oscillator but is more
@@ -370,7 +371,7 @@ class StochF(Indicators):
         return self.stochf_data
         
 
-class StochRSI(Indicators):
+class StochRSI(TALibIndicator):
 
     """
     Stochastic Relative Strength Index takes the Stochastic Oscillator of RSI values
@@ -390,7 +391,7 @@ class StochRSI(Indicators):
         return self.stochrsi_data
         
         
-class UltOSC(Indicators):
+class UltOSC(TALibIndicator):
 
     """
     UltOSC: THE ULTIMATE OSCILLATOR!
@@ -412,7 +413,7 @@ class UltOSC(Indicators):
         return self.ultosc_data
         
 
-class Willr(Indicators):
+class Willr(TALibIndicator):
 
     """
     Willr: Williams percent R momentum indicator
@@ -434,7 +435,7 @@ class Willr(Indicators):
         return self.willr_data
 
 
-class Atr(Indicators):
+class Atr(TALibIndicator):
 
     """
     ATR: Average True Range
@@ -454,7 +455,7 @@ class Atr(Indicators):
         return self.atr_data
         
 
-class Trange(Indicators):
+class Trange(TALibIndicator):
 
     """
     Trange: True Range
@@ -472,7 +473,7 @@ class Trange(Indicators):
         return self.trange_data
         
 
-class Tsf(Indicators):
+class Tsf(TALibIndicator):
 
     """
     TSF: Time Series Forecast
@@ -495,7 +496,7 @@ class Tsf(Indicators):
         return self.tsf_data
         
 
-class Ad(Indicators):
+class Ad(TALibIndicator):
 
     """
     The Accumulation/Distribution Line is interpreted by looking for a divergence in the direction of the
@@ -515,7 +516,7 @@ class Ad(Indicators):
         return self.ad_data
         
 
-class Adosc(Indicators):
+class Adosc(TALibIndicator):
 
     """
     ADOSC: Accumulation Distribution Oscillator
