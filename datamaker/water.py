@@ -8,7 +8,7 @@ class Water(object):
   of these methods to work H2O must be instantiated and contain requisite 
   data objects such as pre-trained neural networks
   """
-  def __init__(self, data_path, *args, **kwargs)
+  def __init__(self, data_path, *args, **kwargs):
     super(Water, self).__init__()
     self.h2o_url = kwargs.get('h2o_url', 'http://localhost:54321/')
     self.data_path = data_path

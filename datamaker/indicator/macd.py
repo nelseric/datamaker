@@ -1,5 +1,8 @@
+"""
+ @author: Eric Nelson
+"""
+
 import pandas as pd
-import numpy as np
 from datamaker.feature import Feature
 
 class MACD(Feature):
@@ -9,23 +12,38 @@ class MACD(Feature):
     See http://en.wikipedia.org/wiki/MACD
 
     The default parameters represent the most common MACD, MACD(12,26,9)
-    "As the working week used to be 6-days, the period settings of (12, 26, 9) represent 2 weeks, 1 month, and one and a half week."
+    "As the working week used to be 6-days, the period settings of (12, 26, 9)
+    represent 2 weeks, 1 month, and one and a half week."
 
-    :param data: A dataframe, for which all columns will have the MACD calculated
+    :param data: A dataframe, for which all columns will have the MACD
+                 calculated
     :param fast_span: The short range EWMA span for use in MACD calculation
     :param slow_span: The long range EWMA span for use in MACD calculation
-    :param signal_span: The medium range EWMA span that is compared to the MACD to show divergance
+    :param signal_span: The medium range EWMA span that is compared to the
+                        MACD to show divergance
   '''
-  def __init__(self, fast_span = 12 * 1440, slow_span = 26 * 1440, signal_span = 9 * 1440, *args, **kwargs):
+  def __init__(self, *args, **kwargs):
     super(MACD, self).__init__(*args, **kwargs)
-    self.fast_span = fast_span
-    self.slow_span = slow_span
-    self.signal_span = signal_span
+    self.fast_span = kwargs.get("fast_span", 12 * 1440)
+    self.slow_span = kwargs.get("slow_span", 26 * 1440)
+    self.signal_span = kwargs.get("signal_span", 9 * 1440)
 
-  def calculate(self):
-    self.macd = pd.ewma(self.data, span = self.fast_span) - pd.ewma(self.data, span = self.slow_span)
-    self.signal = pd.ewma(self.macd, span = self.signal_span)
-    self.divergance = self.macd - self.signal
+  def calculate(self, data):
+    """
+      Calculates MACD using the configured parameters
+    """
+    fast_ewma = pd.ewma(data, span=self.fast_span)
+    slow_ewma = pd.ewma(data, span=self.slow_span)
 
-    self._result = pd.concat([self.macd, self.signal, self.divergance], axis=1, keys=["MACD", "Signal", "Divergance"])
-    self._result.columns = ['_'.join(col).strip() for col in self._result.columns.values]
+    macd = fast_ewma - slow_ewma
+    signal = pd.ewma(macd, span=self.signal_span)
+    divergance = macd - signal
+
+    data = [macd, signal, divergance]
+    keys = ["MACD", "Signal", "Divergance"]
+
+    result = pd.concat(data, axis=1, keys=keys)
+
+    result.columns = ['_'.join(col).strip() for col in result.columns.values]
+
+    return result

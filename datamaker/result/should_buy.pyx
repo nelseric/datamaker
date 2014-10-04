@@ -27,12 +27,13 @@ class ShouldBuy(Feature):
     self.limit_lower = limit_lower
     self.search_limit = search_limit
 
-  def calculate(self):
-    self._result = pd.DataFrame(
-      apply(self.data.values, self.limit_upper, self.limit_lower, self.search_limit),
-      index=self.data.index
+  def calculate(self, data):
+    result = pd.DataFrame(
+      apply(data.values, self.limit_upper, self.limit_lower, self.search_limit),
+      index=data.index
     )
-    self._result.columns = ["ShouldBuy"]
+    result.columns = ["ShouldBuy"]
+    return result
 
 
 cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, double margin_lower, int limit):
