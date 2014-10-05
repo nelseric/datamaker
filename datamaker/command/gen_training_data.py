@@ -20,10 +20,6 @@ def gen_training_data():
   parser = argparse.ArgumentParser(description='Run an experiment')
   parser.add_argument('experiment', type=argparse.FileType('r'),
                       help='Experiment parameter JSON file')
-  parser.add_argument('training_set_file', type=argparse.FileType('w'),
-                      help='Output training set CSV for NN')
-  parser.add_argument('validation_set_file', type=argparse.FileType('w'),
-                      help='Output validation set CSV for NN')
   args = parser.parse_args()
 
   #Create our experiment, and training data
@@ -42,5 +38,5 @@ def gen_training_data():
   validation_set = data.ix[validation_idx]
   training_set = data.ix[training_idx]
 
-  training_set.to_csv(args.training_set_file, index=False)
-  validation_set.to_csv(args.validation_set_file, index=False)
+  training_set.to_csv(experiment.training_set_file, index=False)
+  validation_set.to_csv(experiment.validation_set_file, index=False)

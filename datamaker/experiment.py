@@ -25,6 +25,9 @@ class Experiment(object):
     self.database_table = kwargs.get('database_table')
     self.database = pd.HDFStore(kwargs.get('database_file'))
 
+    self.training_set_file = pd.HDFStore(kwargs.get('training_set_file'))
+    self.validation_set_file = pd.HDFStore(kwargs.get('validation_set_file'))
+
     self.instrument = kwargs.get('instrument')
 
     self.features = [parse_feature(f) for f in kwargs.get("features", [])]
@@ -43,8 +46,7 @@ class Experiment(object):
     feature_data = []
     for feature in self.features + self.classes:
       print("Calculating {}".format(feature))
-
-    feature_data.append(feature.calculate(data))
+      feature_data.append(feature.calculate(data))
 
     return pd.concat(feature_data, axis=1)
 

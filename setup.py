@@ -40,12 +40,11 @@ setup(
 
   entry_points={
     'console_scripts': [
-      'dm-import = datamaker.import:import_data',
       'dm-shell = datamaker.process:shell',
       'dm-gen-output = datamaker.process:generate_outputs',
- 
       'dm-market-runner = datamaker.market_manager:run',
 
+      'dm-import = datamaker.command.gen_ohlcv:gen_ohlcv',
       'dm-gen-training-data = datamaker.command.gen_training_data:gen_training_data',
       'idle = idlelib.PyShell:main'
       ]

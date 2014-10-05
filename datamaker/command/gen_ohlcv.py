@@ -1,34 +1,39 @@
-import sys
-import os.path
+"""
+@author: Eric Nelson
+"""
 
 import pandas as pd
-import numpy as np
+import argparse
+import dotenv
 
-import IPython
 
-def import_data():
-  if not len(sys.argv) > 1:
-    print "Please provide input datafile"
-    exit(1)
+def gen_ohlcv():
+  """
+  Take Dukascopy tick data and generate OHLCV data for the pair
+  """
+  dotenv.load_dotenv('.env')
+  parser = argparse.ArgumentParser(description='Run an experiment')
+  parser.add_argument('input_file', type=argparse.FileType('r'),
+                      help='Tick data file')
 
-  input_file_name = sys.argv[1]
+  parser.add_argument('output_file', type=argparse.FileType('w'),
+                      help='Output OHLCV HDF5 Store')
 
-  if not os.path.isfile(input_file_name):
-    print "Please provide input datafile"
-    exit(1)
-
-  store = pd.HDFStore(os.path.join('data/', os.path.basename(input_file_name).split('.')[0] + '.h5'))
+  args = parser.parse_args()
+  # import IPython
+  # IPython.embed()
+  store = pd.HDFStore(args.output_file.name)
 
   comp_ext = {
     "bz2": "bz2",
     "gz": "gzip",
     "csv": None
   }
-  comp = comp_ext[input_file_name.split('.')[-1]]
+  comp = comp_ext[args.input_file.name.split('.')[-1]]
 
 
   data_file = pd.read_csv(
-    input_file_name,
+    args.input_file.name,
     compression=comp,
     engine='c',
     chunksize=200000,
@@ -39,9 +44,6 @@ def import_data():
     index_col=0
   )
 
-  total = 65138838
-  cur = 0
-
   data = None
 
   for ticks in data_file:
@@ -50,26 +52,35 @@ def import_data():
     ask['volume'] = ticks['Ask volume'].resample('1Min', how='sum')
     bid['volume'] = ticks['Bid volume'].resample('1Min', how='sum')
 
-    calculated  = pd.concat([ask, bid], axis=1, keys=['Ask', 'Bid'])
+    calculated = pd.concat([ask, bid], axis=1, keys=['Ask', 'Bid'])
 
-    if(data.__class__ != None.__class__):
+    if data.__class__ != None.__class__:
       data = merge_chunks(data, calculated)
     else:
       data = calculated
 
     print data.ix[-1].name
 
-  data.columns = ['_'.join(col).strip() for col in data.columns.values]
+  data.columns = ['_'.join(col).strip() for col in data.columns]
 
   store.put("ticks_ohlcv", data)
 
 
 def merge_chunks(old, new):
+  """
+  Merge two OHLCV dataframes
+  """
+
   new_fixed = new.ix[1:]
   old.ix[-1] = merge_ohlcv(old.ix[-1], new.ix[0])
   return old.append(new_fixed, verify_integrity=True)
 
 def merge_ohlcv(old, new):
+  """
+
+  Merge two OHLCV candlesticks that have overlapping keys
+
+  """
   old['Ask']['close'] = new['Ask']['close']
   old['Bid']['close'] = new['Bid']['close']
 
