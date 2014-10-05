@@ -1,5 +1,7 @@
 import ext.oandapy as oandapy
 from datamaker.broker import Broker
+import numpy as np
+import pandas as pd
 
 class OandaBroker(Broker):
   """
@@ -74,10 +76,32 @@ class OandaBroker(Broker):
       start_time = raw_data[-1]['time']
       if (len(raw_data) < 5000):
         data_complete = True
-
+    
+    out_data = self._list_to_df(out_data)
     return out_data
 
   def update_data(self, data):
     """
     Updates self.data with current ohlcv data from broker
     """
+    start_time = data.index[-1].strftime("%Y-%m-%dT%H:%M:%S.000000Z")
+    temp_data = self.gather_data(start = start_time)
+    temp_data = self._list_to_df(temp_data)
+    if (len(temp_data) > 1):
+      #temp_data[0] is the same as data[-1]
+      out_data = data.append(temp_data[1:])
+    return out_data
+    
+  def _list_to_df(self, data):
+    """
+    Converts list of dictionaries to dataframe
+    """
+    indices = pd.tseries.index.DatetimeIndex([data[x]['time'] for x in range(0,len(data))])
+    outData = pd.DataFrame(data,index = indices)
+    outData.columns = ['Ask_close', 'Bid_close', 'complete',
+                       'Ask_high', 'Bid_high', 'Ask_low', 
+                       'Bid_low', 'Ask_open', 'Bid_open',
+                       'time', 'volume']
+    return outData
+
+    
