@@ -1,0 +1,48 @@
+{
+  "name": "usdcad",
+  "description": "1 day, 2 day MACD only on USD_CAD",
+  "database_file": "data/USDCAD.h5",
+  "database_table": "ticks_ohlcv",
+  "training_set_file": "training/usd_cad/train.csv",
+  "validation_set_file": "training/usd_cad/validation.csv",
+  "prediction_file": "training/usd_cad/prediction.csv",
+  "model_name": "usdcad_nn",
+  "prediction_name": "usdcad_pred.hex",
+
+  "instrument": "USD_CAD",
+  "required_data_range": 375440,
+  "limit_upper": 0.00055,
+  "limit_lower": 0.00015,
+
+  "features":[
+    {
+      "class": "noop.Feature"
+    },
+    {
+      "class": "macd.MACD"
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 1440
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 2880,
+        "shift": 1440
+      }
+    }
+  ],
+  "classes":[
+    {
+      "class": "should_buy.ShouldBuy",
+      "parameters": {
+        "limit_upper": 0.00055,
+        "limit_lower": 0.00015,
+        "search_limit": 1440
+      }
+    }
+  ]
+}
