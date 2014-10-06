@@ -28,22 +28,15 @@ class OandaBroker(Broker):
 
     return sum(allocations)
 
-  def place_order(self, *args, **kwargs):
+  def place_order(self, instrument, lower, upper, units=1):
     """
     Requests an order to be placed on a currency pair
     """
-    instrument_arg = kwargs.get('instrument', 'EUR_USD')
-    units_arg = kwargs.get('units', '1')
-    side_arg = kwargs.get('side', 'buy')
-    type_arg = kwargs.get('type', 'limit')
-    take_profit = kwargs.get('takeProfit', 2)
-    stop_loss = kwargs.get('stopLoss', 1)
 
-    response = self.oanda.create_order(self.account_id, instrument=instrument_arg,
-                                     units=units_arg, side=side_arg,
-                                     type=type_arg, takeProfit = take_profit,
-                                     stopLoss = stop_loss)
-    return True
+    return  self.oanda.create_order(self.account_id, instrument=instrument,
+                                    units=units_arg, side='buy',
+                                    lowerBound=lower, upperBound=upper,
+                                    type='limit', expiry=expiry)
 
   def close_orders(self):
     """

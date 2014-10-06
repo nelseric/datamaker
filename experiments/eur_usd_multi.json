@@ -1,10 +1,18 @@
 {
-  "name": "macd_ewma-1d-2d_eurusd",
+  "name": "eurusd",
   "description": "1 day, 2 day MACD only on EUR_USD",
-  "database_file": "data/EURUSD.h5",
+  "database_file": "data/USDJPY.h5",
   "database_table": "ticks_ohlcv",
-  "training_file": "training/eur_usd_macd.csv",
+  "training_set_file": "training/usd_jpy/train.csv",
+  "validation_set_file": "training/usd_jpy/validation.csv",
+  "prediction_file": "training/usd_jpy/prediction.csv",
+  "model_name": "eurusd_nn",
+  "prediction_name": "eurusd_pred.hex",
+
   "instrument": "EUR_USD",
+  "required_data_range": 375440,
+  "limit_upper": 0.00055,
+  "limit_lower": 0.00015,
 
   "features":[
     {

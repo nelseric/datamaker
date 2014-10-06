@@ -1,11 +1,18 @@
 {
-  "name": "macd_ewma-1d-2d_usdjpy",
+  "name": "usdjpy",
   "description": "1 day, 2 day MACD only on USD_JPY",
   "database_file": "data/USDJPY.h5",
   "database_table": "ticks_ohlcv",
-  "training_set_file": "training/usd_jpy_macd_train.csv",
-  "validation_set_file": "training/usd_jpy_macd_validation.csv",
+  "training_set_file": "training/usd_jpy/train.csv",
+  "validation_set_file": "training/usd_jpy/validation.csv",
+  "prediction_file": "training/usd_jpy/prediction.csv",
+  "model_name": "usdjpy_nn",
+  "prediction_name": "usdjpy_pred.hex",
+
   "instrument": "USD_JPY",
+  "required_data_range": 375440,
+  "limit_upper": 0.055,
+  "limit_lower": 0.015,
 
   "features":[
     {
@@ -32,8 +39,8 @@
     {
       "class": "should_buy.ShouldBuy",
       "parameters": {
-        "limit_upper": 0.00055,
-        "limit_lower": 0.00015,
+        "limit_upper": 0.055,
+        "limit_lower": 0.015,
         "search_limit": 1440
       }
     }
