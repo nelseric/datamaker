@@ -1,3 +1,6 @@
+"""
+@author: Nathan Ward, Eric Nelson
+"""
 import ext.oandapy as oandapy
 from datamaker.broker import Broker
 import numpy as np
@@ -34,9 +37,9 @@ class OandaBroker(Broker):
     """
 
     return  self.oanda.create_order(self.account_id, instrument=instrument,
-                                    units=units_arg, side='buy',
-                                    lowerBound=lower, upperBound=upper,
-                                    type='limit', expiry=expiry)
+                                    units=units, side='buy',
+                                    stopLoss=lower, takeProfit=upper,
+                                    type='market')
 
   def close_orders(self):
     """

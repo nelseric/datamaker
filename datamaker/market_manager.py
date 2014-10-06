@@ -46,7 +46,7 @@ class MarketManager(object):
 
     self.experiment = experiment
 
-    oanda_acct = kwargs.get("oanda_acct", os.environ.get("OANDA_ACCT", ""))
+    oanda_acct = kwargs.get("oanda_acct", os.environ.get("OANDA_ACCOUNT", ""))
     oanda_token = kwargs.get("oanda_token", os.environ.get("OANDA_TOKEN", ""))
     oanda_env = kwargs.get("oanda_env", os.environ.get("OANDA_ENV", ""))
 
@@ -57,7 +57,7 @@ class MarketManager(object):
     time_dif = datetime.timedelta(seconds=experiment.required_data_range)
     self.start_time = datetime.datetime.now(tz=pytz.utc) - time_dif
 
-  def run(self, interval=10.0):
+  def run(self, interval=30.0):
     """
       Run the manager, checking for new data or orders every [interval]
     """
@@ -78,11 +78,21 @@ class MarketManager(object):
     current = data.ix[len(data)-1:len(data)-0]
     prediction = self.water.get_prediction(current)
 
-    # print(current[""])
+    print(current.index[-1])
     if prediction > 0.6:
       print("Buy")
+      self._place_order(current, prediction)
     print(prediction)
-    import IPython
-    IPython.embed()
-
     return True
+
+  def _place_order(self, current, confidence):
+    """
+      Place an order whee we are confident
+    """
+    price = current["Bid_close"][0]
+    upper = price + self.experiment.limit_upper
+    lower = price - self.experiment.limit_lower
+    self.oanda.place_order(self.experiment.instrument,
+                           lower, upper, int(confidence * 10000))
+
+
