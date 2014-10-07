@@ -62,6 +62,8 @@ def gen_ohlcv():
     print data.ix[-1].name
 
   data.columns = ['_'.join(col).strip() for col in data.columns]
+  data["volume"] = data["Bid_volume"] + data["Ask_volume"]
+  data.drop(["Bid_volume", "Ask_volume"], axis=1, inplace=True)
 
   store.put("ticks_ohlcv", data)
 

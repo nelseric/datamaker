@@ -27,6 +27,9 @@ class MACD(Feature):
     self.fast_span = kwargs.get("fast_span", 12 * 1440)
     self.slow_span = kwargs.get("slow_span", 26 * 1440)
     self.signal_span = kwargs.get("signal_span", 9 * 1440)
+    self.label = kwargs.get("label", "{}-{}-{}".format(self.fast_span,
+                                                       self.slow_span,
+                                                       self.signal_span))
 
   def calculate(self, data):
     """
@@ -41,9 +44,11 @@ class MACD(Feature):
 
     data = [macd, signal, divergance]
     keys = ["MACD", "Signal", "Divergance"]
+    keys = ["MACD_" + self.label + '_' + key for key in keys]
 
     result = pd.concat(data, axis=1, keys=keys)
 
     result.columns = ['_'.join(col).strip() for col in result.columns.values]
 
     return result
+
