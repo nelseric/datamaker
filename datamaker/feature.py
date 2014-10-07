@@ -1,14 +1,42 @@
+"""
+@author: Eric Nelson
+"""
+
 class Feature(object):
   """
-    Abstract interface for NN feature implementation
+  Abstract interface for NN feature implementation
+  :param shift: The number of records to shift the 
+                input foreward, cannot be negative.
   """
 
   def __init__(self, **kwargs):
     self.shift = kwargs.pop('shift', 0)
+    self._shift_label = "shift{}_".format(self.shift)
 
   def calculate(self, data):
     """
-      The method calculate method must be overwritten and should return 
-        a dataframe with 
+    Calculate the feature given input data,
+    then apply wrapped operations on that data
+    """
+    if self.shift > 0:
+      shifted = self._calculate(data).shift(self.shift)
+      shifted.columns = [self._shift_label + col for col in shifted.columns]
+      return shifted
+    else:
+      return self._calculate(data)
+
+  def calculate_unshifted(self, data):
+    """
+    Get the unshifted calculation
+    """
+    return self._calculate(data)
+
+
+  def _calculate(self, data):
+    """
+      The method calculate method must be overwritten 
+      and should return a dataframe, that does not
+      include the base data
+
     """  
-    raise NotImplementedError()
+    raise NotImplementedError("Your indicator must define this")

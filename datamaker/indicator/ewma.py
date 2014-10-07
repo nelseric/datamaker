@@ -1,3 +1,4 @@
+
 """
 @author: Eric Nelson
 """
@@ -17,7 +18,7 @@ class EWMA(Feature):
     super(EWMA, self).__init__(*args, **kwargs)
     self.span = span
 
-  def calculate(self, data):
+  def _calculate(self, data):
     result = pd.ewma(data, span=self.span)
     result.columns = [self.colname(col) for col in result.columns]
 
@@ -40,7 +41,7 @@ class NormalizedEWMA(Feature):
     super(NormalizedEWMA, self).__init__(*args, **kwargs)
     self.span = span
 
-  def calculate(self, data):
+  def _calculate(self, data):
     result = pd.ewma(data, span=self.span) - data
     result.columns = [self.colname(col) for col in result.columns]
 

@@ -31,7 +31,7 @@ class MACD(Feature):
                                                        self.slow_span,
                                                        self.signal_span))
 
-  def calculate(self, data):
+  def _calculate(self, data):
     """
       Calculates MACD using the configured parameters
     """
