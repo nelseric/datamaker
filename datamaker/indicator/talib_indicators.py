@@ -43,7 +43,7 @@ class Adx(TALibIndicator):
         super(Adx, self).__init__(*arg, **kwargs)
         self.adx_data = pd.DataFrame()
 
-    def calculate(self):
+    def _calculate(self):
         adx = ADX(self.data, self.timeperiod)
         self.adx_data[str(self.timeperiod) + 'Min ADX'] = adx
         return self.adx_data
@@ -64,7 +64,7 @@ class Adxr(TALibIndicator):
         super(Adxr, self).__init__(*arg, **kwargs)
         self.adxr_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         adxr = ADXR(self.data, self.timeperiod)
         self.adxr_data[str(self.timeperiod) + 'Min ADXR'] = adxr
         return self.adxr_data
@@ -85,7 +85,7 @@ class Aroon(TALibIndicator):
         super(Aroon, self).__init__(*args, **kwargs)
         self.aroon_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         aroondown, aroonup = AROON(self.data, self.timeperiod)
         self.aroon_data[str(self.timeperiod) + 'Min Aroondown'] = aroondown
         self.aroon_data[str(self.timeperiod) + 'Min Aroonup'] = aroonup
@@ -106,7 +106,7 @@ class Aroonosc(TALibIndicator):
         super(Aroonosc, self).__init__(*args, **kwargs)
         self.aroonosc_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         aroonosc = AROONOSC(self.data, self.timeperiod)
         self.aroonosc_data[str(self.timeperiod) + 'Min AROONOSC'] = aroonosc
         return self.aroonosc_data
@@ -127,7 +127,7 @@ class Bop(TALibIndicator):
         super(Bop, self).__init__(*args, **kwargs)
         self.bop_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         self.bop_data['BOP'] = BOP(self.data)
         return self.bop_data
        
@@ -148,7 +148,7 @@ class Cci(TALibIndicator):
         super(Cci, self).__init__(*args, **kwargs)
         self.cci_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         cci = CCI(self.data, self.timeperiod)
         self.cci_data[str(self.timeperiod) + 'Min CCI'] = cci
         return self.cci_data
@@ -170,7 +170,7 @@ class Cmo(TALibIndicator):
         super(Cmo, self).__init__(*args, **kwargs)
         self.cmo_data = pd.DataFrame()
 
-    def calculate(self):
+    def _calculate(self):
         cmo = CMO(self.data, self.timeperiod)
         self.cmo_data[str(self.timeperiod) + 'Min CMO'] = cmo
         return self.cmo_data
@@ -186,7 +186,7 @@ class Macd(TALibIndicator):
         super(Macd, self).__init__(*args, **kwargs)
         self.macd_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         macd, macdsignal, macdhist = MACD(self.data, 12*self.timeperiod, 26*self.timeperiod, 9*self.timeperiod)
         self.macd_data[str(self.timeperiod) + 'Min MACD'] = macd
         self.macd_data[str(self.timeperiod) + 'Min MACD Signal'] = macdsignal
@@ -212,7 +212,7 @@ class Mfi(TALibIndicator):
         super(Mfi, self).__init__(*args, **kwargs)
         self.mfi_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         mfi = MFI(self.data, self.timeperiod)
         self.mfi_data[str(self.timeperiod) + 'Min MFI'] = mfi
         return self.mfi_data
@@ -229,7 +229,7 @@ class Minus_DI(TALibIndicator):
         super(Minus_DI, self).__init__(*args, **kwargs)
         self.minusdi_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         minusdi = MINUS_DI(self.data, self.timeperiod)
         self.minusdi_data[str(self.timeperiod) + 'Min MINUS_DI'] = minusdi
         return self.minusdi_data
@@ -247,7 +247,7 @@ class Mom(TALibIndicator):
         super(Mom, self).__init__(*args, **kwargs)
         self.mom_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         mom = MOM(self.data, self.timeperiod)
         self.mom_data[str(self.timeperiod) + 'Min MOM'] = mom
         return self.mom_data
@@ -265,7 +265,7 @@ class Ppo(TALibIndicator):
         super(Ppo, self).__init__(*args, **kwargs)
         self.ppo_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         ppo = PPO(self.data, 9*self.timeperiod, 26*self.timeperiod, 1)
         self.ppo_data[str(self.timeperiod) + 'Min PPO'] = ppo
         return self.ppo_data
@@ -288,7 +288,7 @@ class Roc(TALibIndicator):
         super(Roc, self).__init__(*args, **kwargs)
         self.roc_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         roc = ROC(self.data, self.timeperiod)
         self.roc_data[str(self.timeperiod) + 'Min ROC'] = roc
         return self.roc_data
@@ -304,7 +304,7 @@ class Rocr(TALibIndicator):
         super(Rocr, self).__init__(*args, **kwargs)
         self.rocr_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         rocr = ROCR(self.data, self.timeperiod)
         self.rocr_data[str(self.timeperiod) + 'Min ROCR'] = rocr
         return self.rocr_data
@@ -326,7 +326,7 @@ class Rsi(TALibIndicator):
         super(Rsi, self).__init__(*args, **kwargs)
         self.rsi_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         rsi = RSI(self.data, self.timeperiod)
         self.rsi_data[str(self.timeperiod) + 'Min RSI'] = rsi
         return self.rsi_data
@@ -345,7 +345,7 @@ class Stoch(TALibIndicator):
         super(Stoch, self).__init__(*args, **kwargs)
         self.stoch_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         slowk, slowd = STOCH(self.data, self.timeperiod, 3, 0, 3, 0)
         self.stoch_data[str(self.timeperiod) + 'Min SLOWK'] = slowk
         self.stoch_data[str(self.timeperiod) + 'Min SLOWD'] = slowd
@@ -364,7 +364,7 @@ class StochF(TALibIndicator):
         super(StochF, self).__init__(*args, **kwargs)
         self.stochf_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         fastk, fastd = STOCHF(self.data, self.timeperiod, 3, 0)
         self.stochf_data[str(self.timeperiod) + 'Min FASTK'] = fastk
         self.stochf_data[str(self.timeperiod) + 'Min FASTD'] = fastd
@@ -384,7 +384,7 @@ class StochRSI(TALibIndicator):
         super(StochRSI, self).__init__(*args, **kwargs)
         self.stochrsi_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         fastk, fastd = STOCHRSI(self.data, self.timeperiod, 5, 3, 0)
         self.stochrsi_data[str(self.timeperiod) + 'Min FASTK'] = fastk
         self.stochrsi_data[str(self.timeperiod) + 'Min FASTD'] = fastd
@@ -405,7 +405,7 @@ class UltOSC(TALibIndicator):
         super(UltOSC, self).__init__(*args, **kwargs)
         self.ultosc_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         timeperiod2 = self.timeperiod * 2
         timeperiod3 = timeperiod2 * 2
         ultosc = ULTOSC(self.data, self.timeperiod, timeperiod2, timeperiod3)
@@ -429,7 +429,7 @@ class Willr(TALibIndicator):
         super(Willr, self).__init__(*args, **kwargs)
         self.willr_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         willr = WILLR(self.data, self.timeperiod)
         self.willr_data[str(self.timeperiod) + 'Min WILLR'] = willr
         return self.willr_data
@@ -449,7 +449,7 @@ class Atr(TALibIndicator):
         super(Atr, self).__init__(*args, **kwargs)
         self.atr_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         atr = ATR(self.data, self.timeperiod)
         self.atr_data[str(self.timeperiod) + 'Min ATR'] = atr
         return self.atr_data
@@ -468,7 +468,7 @@ class Trange(TALibIndicator):
         super(Trange, self).__init__(*args, **kwargs)
         self.trange_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         self.trange_data['TRANGE'] = TRANGE(self.data)
         return self.trange_data
         
@@ -490,7 +490,7 @@ class Tsf(TALibIndicator):
         super(Tsf, self).__init__(*args, **kwargs)
         self.tsf_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         tsf = TSF(self.data, self.timeperiod)
         self.tsf_data[str(self.timeperiod) + 'Min TSF'] = tsf
         return self.tsf_data
@@ -511,7 +511,7 @@ class Ad(TALibIndicator):
         super(Ad, self).__init__(*args, **kwargs)
         self.ad_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         self.ad_data['Chaikin A/D Line'] = AD(self.data)
         return self.ad_data
         
@@ -530,7 +530,7 @@ class Adosc(TALibIndicator):
         super(Adosc, self).__init__(*args, **kwargs)
         self.adosc_data = pd.DataFrame()
         
-    def calculate(self):
+    def _calculate(self):
         fastperiod = self.timeperiod
         slowperiod = fastperiod * 3
         adosc = ADOSC(self.data, fastperiod, slowperiod)
