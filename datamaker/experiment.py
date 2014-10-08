@@ -52,7 +52,7 @@ class Experiment(object):
     """
     feature_data = []
     for feature in self.features + self.classes:
-      print("Calculating {}".format(feature.__name__))
+      print("Calculating {}".format(feature.__class__.__name__))
       feature_data.append(feature.calculate(data))
 
     return pd.concat(feature_data, axis=1)
