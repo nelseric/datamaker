@@ -89,7 +89,7 @@ class MarketManager(object):
     """
       Place an order whee we are confident
     """
-    price = current["Bid_close"][0]
+    price = self.oanda.get_cur_bid(self.experiment.instrument)
     upper = price + self.experiment.limit_upper
     lower = price - self.experiment.limit_lower
     self.oanda.place_order(self.experiment.instrument,

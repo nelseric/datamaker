@@ -100,4 +100,10 @@ class OandaBroker(Broker):
                        'time', 'volume']
     return outData
 
-    
+  def get_cur_bid(self, instrument):
+    """
+    Gets current price
+    """
+    price_out = self.oanda.get_prices(instruments=instrument)
+    price_out = price_out.get('prices')[0].get('bid')
+    return price_out  
