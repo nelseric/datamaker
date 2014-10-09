@@ -4,7 +4,8 @@ from datamaker.indicator.ewma import NormalizedEWMA
 import pandas as pd
 
 def test_normalized_ewma():
-  d = pd.DataFrame([1,2,3,4])
-  ewma =  NormalizedEWMA(data = d, span = 4)
-  tm.assert_frame_equal(ewma.data, d)
+  d = pd.HDFStore("test/fixtures/GBPUSD.h5").get("ticks_ohlcv")
+
+  ewma =  NormalizedEWMA(span = 4)
   assert ewma.span == 4
+  assert ewma.calculate(d).__class__ == pd.DataFrame

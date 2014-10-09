@@ -27,7 +27,7 @@ class ShouldBuy(Feature):
     self.limit_lower = limit_lower
     self.search_limit = search_limit
 
-  def calculate(self, data):
+  def _calculate(self, data):
     result = pd.DataFrame(
       apply(data.values, self.limit_upper, self.limit_lower, self.search_limit),
       index=data.index

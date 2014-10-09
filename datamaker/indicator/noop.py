@@ -8,5 +8,5 @@ class Feature(s.Feature):
   def __init__(self, *args, **kwargs):
     super(Feature, self).__init__(*args, **kwargs)
 
-  def calculate(self, data):
+  def _calculate(self, data):
     return data

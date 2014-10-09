@@ -1,0 +1,92 @@
+{
+  "name": "eurusd_simple",
+  "description": "1 day, 2 day MACD only on EUR_USD",
+  "database_file": "data/EURUSD_cv.h5",
+  "database_table": "ticks_ohlcv",
+  "training_set_file": "training/eur_usd_simple/train.csv",
+  "validation_set_file": "training/eur_usd_simple/validation.csv",
+  "prediction_file": "training/eur_usd_simple/prediction.csv",
+  "model_name": "eurusd_nn",
+  "prediction_name": "eurusd_simple_pred.hex",
+
+  "instrument": "EUR_USD",
+  "required_data_range": 1440,
+  "limit_upper": 0.00050,
+  "limit_lower": 0.00050,
+
+  "features":[
+    {
+      "class": "noop.Feature"
+    },
+    {
+      "class": "macd.MACD",
+      "parameters": {
+        "fast_span": 5,
+        "show_span": 60,
+        "signal_span": 15,
+        "label": "fast"
+      }
+    },
+    {
+      "class": "macd.MACD",
+      "parameters": {
+        "fast_span": 30,
+        "show_span": 360,
+        "signal_span": 180,
+        "label": "slow"
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 1440
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 120
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 60
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 45
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 30
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 10
+      }
+    },
+    {
+      "class": "ewma.NormalizedEWMA",
+      "parameters": {
+        "span": 5
+      }
+    }
+  ],
+  "classes":[
+    {
+      "class": "should_buy.ShouldBuy",
+      "parameters": {
+        "limit_upper": 0.00050,
+        "limit_lower": 0.00050,
+        "search_limit": 60
+      }
+    }
+  ]
+}

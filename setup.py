@@ -33,8 +33,8 @@ setup(
   author='Eric Nelson',
   author_email='gauntletguy2@gmail.com',
   description='',
-  ext_modules=cythonize("**/*.pyx", include_path=[numpy.get_include()]),
-
+  ext_modules=cythonize("**/*.pyx"),
+  include_dirs=[numpy.get_include()],
   tests_require=['pytest', 'pytest-cov'],
   cmdclass={'test': PyTest},
 
