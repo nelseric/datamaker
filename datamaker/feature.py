@@ -11,6 +11,9 @@ class Feature(object):
 
   def __init__(self, **kwargs):
     self.shift = kwargs.pop('shift', 0)
+
+    self.input_columns = kwargs.pop('columns', None)
+
     self._shift_label = "shift{}_".format(self.shift)
 
   def calculate(self, data):
@@ -18,6 +21,21 @@ class Feature(object):
     Calculate the feature given input data,
     then apply wrapped operations on that data
     """
+
+    #TODO: Delete this once we don't have Bid_volume/Ask_volume datasets anymore
+    if not hasattr(data, "volume"):
+      data["volume"] = data["Bid_volume"] + data["Ask_volume"]
+      data = data.drop(["Bid_volume", "Ask_volume"], axis=1)
+
+    
+    if self.input_columns is not None:
+      if hasattr(self.input_columns, "__iter__"):
+        delcols = data.columns - self.input_columns
+        data = data.drop(delcols, axis=1)
+      else:
+        data = data[self.input_columns]
+
+
     if self.shift > 0:
       shifted = self._calculate(data).shift(self.shift)
       shifted.columns = [self._shift_label + col for col in shifted.columns]
