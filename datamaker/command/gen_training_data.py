@@ -1,6 +1,7 @@
 """
 @author: Eric Nelson
 """
+from __future__ import print_function
 
 import re
 import argparse
@@ -38,5 +39,6 @@ def gen_training_data():
   validation_set = data.ix[validation_idx]
   training_set = data.ix[training_idx]
 
+  print("To CSV")
   training_set.to_csv(experiment.training_set_file, index=False)
   validation_set.to_csv(experiment.validation_set_file, index=False)
