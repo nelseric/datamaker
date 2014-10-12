@@ -46,6 +46,7 @@ setup(
 
       'dm-import = datamaker.command.gen_ohlcv:gen_ohlcv',
       'dm-gen-training-data = datamaker.command.gen_training_data:gen_training_data',
+      'dm-get-history = datamaker.command.get_historical:get_historical_data',
       'idle = idlelib.PyShell:main'
       ]
     }
