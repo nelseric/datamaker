@@ -49,9 +49,12 @@ def get_historical_data():
                           granularity=args.granularity,
                           count=5000,
                           start=cur_date)
+  cur = _decode_dict(cur)
 
   index = pd.tseries.index.DatetimeIndex([x['time'] for x in cur["candles"]])
   data = pd.DataFrame(cur["candles"], index=index)
+  store.put("ohlcv", data, append=True, format="table")
+
   cur_date = data["time"][-1]
   print(len(data))
 
@@ -61,21 +64,43 @@ def get_historical_data():
                             granularity=args.granularity,
                             count=5000,
                             start=cur_date)
+    cur = _decode_dict(cur)
     cur["candles"] = cur["candles"][1:]
+    
     index = pd.tseries.index.DatetimeIndex([x['time'] for x in cur["candles"]])
     cur_data = pd.DataFrame(cur["candles"], index=index)
 
-    data = data.append(cur_data, verify_integrity=True)
-    cur_date = data["time"][-1]
-
-    print(len(data))
+    store.put("ohlcv", cur_data, append=True, format="table")
+    cur_date = cur_data["time"][-1]
 
 
-  store.put("ohlcv", data)
   import IPython
   IPython.embed()
   
 
   store.close()
 
-
+def _decode_list(data):
+  rv = []
+  for item in data:
+    if isinstance(item, unicode):
+      item = item.encode('utf-8')
+    elif isinstance(item, list):
+      item = _decode_list(item)
+    elif isinstance(item, dict):
+      item = _decode_dict(item)
+    rv.append(item)
+  return rv
+def _decode_dict(data):
+  rv = {}
+  for key, value in data.iteritems():
+    if isinstance(key, unicode):
+      key = key.encode('utf-8')
+    if isinstance(value, unicode):
+      value = value.encode('utf-8')
+    elif isinstance(value, list):
+      value = _decode_list(value)
+    elif isinstance(value, dict):
+      value = _decode_dict(value)
+    rv[key] = value
+  return rv
