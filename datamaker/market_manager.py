@@ -79,9 +79,12 @@ class MarketManager(object):
     prediction = self.water.get_prediction(current)
 
     print(current.index[-1])
-    if prediction > 0.6:
-      print("Buy")
-      self._place_order(current, prediction)
+    if prediction > (1E-3):
+      if (self.oanda.get_num_trades() < 4):
+        print("Buy")
+        self._place_order(current, prediction)
+      else:
+        print("Can't buy, too many orders")
     print(prediction)
     return True
 
@@ -93,6 +96,6 @@ class MarketManager(object):
     upper = price + self.experiment.limit_upper
     lower = price - self.experiment.limit_lower
     self.oanda.place_order(self.experiment.instrument,
-                           lower, upper, int(confidence * 10000))
+                           lower, upper, int(10000))
 
 

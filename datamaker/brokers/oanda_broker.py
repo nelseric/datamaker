@@ -107,3 +107,13 @@ class OandaBroker(Broker):
     price_out = self.oanda.get_prices(instruments=instrument)
     price_out = price_out.get('prices')[0].get('bid')
     return price_out  
+    
+  def get_num_trades(self):
+    """
+    Gets the number of open trades
+    """
+    num_trades = self.oanda.get_trades(self.account_id)
+    num_trades = len(num_trades['trades'])
+    return num_trades
+
+    
