@@ -1,6 +1,7 @@
 """
 @author: Eric Nelson
 """
+
 from __future__ import print_function
 import pandas as pd
 import argparse as ap
@@ -10,6 +11,8 @@ import ext.oandapy as oandapy
 import os
 
 import datetime
+
+
 
 # pylint: disable=W0612
 
@@ -72,11 +75,15 @@ def get_historical_data():
 
     store.put("ohlcv", cur_data, append=True, format="table")
     cur_date = cur_data["time"][-1]
-
-
-  import IPython
-  IPython.embed()
   
+  data_temp = store.get('ohlcv')
+  data_temp.drop(['complete', 'time'], axis=1, inplace=True)
+  data_temp.columns = ['Ask_close', 'Bid_close',                       
+                   'Ask_high', 'Bid_high', 'Ask_low', 
+                   'Bid_low', 'Ask_open', 'Bid_open',
+                   'volume']
+  store.put('ohlcv', data_temp, format='table')
+
 
   store.close()
 
