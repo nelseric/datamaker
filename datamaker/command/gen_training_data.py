@@ -33,7 +33,7 @@ def gen_training_data():
 
   validation_size = int(0.10 * len(data))
 
-  validation_idx = np.random.choice(data.index, validation_size, replace=False)
+  validation_idx = np.array(data.index[-validation_size:])
   training_idx = np.setdiff1d(data.index.values, validation_idx)
 
   validation_set = data.ix[validation_idx]

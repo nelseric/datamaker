@@ -3,38 +3,13 @@
 """
 from __future__ import print_function
 
-import argparse
-
 import time
-
-import dotenv
 import os
-import json
-
-from datamaker.experiment import Experiment
 
 from datamaker.brokers.oanda_broker import OandaBroker
 from datamaker.water import Water
 
 import datetime, pytz
-
-def run():
-  """
-  Run the market manager and check every second
-  """
-
-  dotenv.load_dotenv('.env')
-
-  parser = argparse.ArgumentParser(description='Run an experiment')
-  parser.add_argument('experiment', type=argparse.FileType('r'),
-                      help='Experiment parameter JSON file')
-
-  args = parser.parse_args()
-
-  experiment = Experiment(**json.load(args.experiment))
-  manager = MarketManager(experiment)
-  manager.run()
-
 
 class MarketManager(object):
   """
