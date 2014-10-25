@@ -24,7 +24,7 @@ class BollingerBand(Feature):
     super(BollingerBand, self).__init__(*args, **kwargs)
     self.period = period
     self.k = k
-    self._label = "BBp{}k{}_".format(self.period, self.k)
+    self._label = "BBp_{}_k{}_".format(self.period, self.k)
 
   def _calculate(self, data):
     """
@@ -45,7 +45,7 @@ class BollingerBand(Feature):
 
     result = pd.concat(indicators, axis=1, keys=keys)
 
-    result.columns = ['_'.join(col).strip() for col in result.columns.values]
+    result.columns = [''.join(col).strip() for col in result.columns.values]
 
     return result
    
