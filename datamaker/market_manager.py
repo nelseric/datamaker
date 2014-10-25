@@ -70,7 +70,12 @@ class MarketManager(object):
     price = self.oanda.get_cur_bid(self.experiment.instrument)
     upper = price + self.experiment.limit_upper
     lower = price - self.experiment.limit_lower
-    self.oanda.place_order(self.experiment.instrument,
-                           lower, upper, int(10000))
+    
+    if (self.experiment.stop_mode == 'ts'):
+      self.oanda.place_order_ts(self.experiment.instrument,
+                             lower, upper, int(10000))
+    else:
+      self.oanda.place_order(self.experiment.instrument,
+                             lower, upper, int(10000))
 
 

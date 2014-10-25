@@ -36,6 +36,7 @@ class Experiment(object):
     self.required_data_range = kwargs.get('required_data_range')
     self.limit_upper = kwargs.get('limit_upper')
     self.limit_lower = kwargs.get('limit_lower')
+    self.stop_mode = kwargs.get('stop_mode')
 
     self.features = [parse_feature(f) for f in kwargs.get("features", [])]
     self.classes = [parse_feature(c) for c in kwargs.get("classes", [])]

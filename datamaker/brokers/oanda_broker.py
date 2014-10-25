@@ -41,6 +41,16 @@ class OandaBroker(Broker):
                                     stopLoss=lower, takeProfit=upper,
                                     type='market')
 
+  def place_order_ts(self, instrument, lower, upper, units=1):
+    """
+    Requests a trailing stop order to be placed on a currency pair
+    """
+    return  self.oanda.create_order(self.account_id, instrument=instrument,
+                                    units=units, side='buy',
+                                    trailingStop=lower, takeProfit=upper,
+                                    type='market')                  
+
+
   def close_orders(self):
     """
     Closes all open orders on the broker
