@@ -70,9 +70,9 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, d
 
     res[i] = False
     for j in range(cmp_limit):
-      if data[j][bid_high] >= target_high:
+      if data[i+j][bid_high] >= target_high:
         res[i] = True
         break
-      elif data[j][bid_low] <= target_low:
+      elif data[i+j][bid_low] <= target_low:
         break
   return res
