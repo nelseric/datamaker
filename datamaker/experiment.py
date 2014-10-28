@@ -11,6 +11,7 @@ from datamaker.result import *
 import types
 import pandas as pd
 
+
 class Experiment(object):
   """
     Experiment class, will parse experiment data, and generate configured
@@ -55,7 +56,10 @@ class Experiment(object):
     for feature in self.features + self.classes:
       print("Calculating {}".format(feature.__class__.__name__))
       feature_data.append(feature.calculate(data))
-
+      
+      #necessary to change index of ta_lib indicators to timestamps
+      feature_data[0].index = data.index
+      
     return pd.concat(feature_data, axis=1)
 
 
