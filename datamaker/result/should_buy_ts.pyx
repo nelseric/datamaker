@@ -77,7 +77,7 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, d
       
       #if CP bid surpasses the maximum, move the target_low, if and only if
       #the spread has been surpassed
-      if (data[i+j][bid_high] > cur_bid_max && cur_bid_max >= entry_price):
+      if ((data[i+j][bid_high] > cur_bid_max) and (cur_bid_max >= entry_price)):
         cur_bid_max = data[i+j][bid_high]
         cur_target_low = (cur_bid_max - init_bid_max) + init_target_low
 
