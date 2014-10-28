@@ -43,6 +43,7 @@ class NormalizedEWMA(Feature):
 
   def _calculate(self, data):
     result = pd.ewma(data, span=self.span) - data
+    result = pd.DataFrame(result)
     result.columns = [self.colname(col) for col in result.columns]
 
     return result
