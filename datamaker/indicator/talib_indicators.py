@@ -296,7 +296,7 @@ class Stoch(TALibIndicator):
 
   def _calculate(self, data):
     stoch_data = pd.DataFrame()
-    slowk, slowd = ta.STOCH(data, self.timeperiod, 3, 0, 3, 0)
+    slowk, slowd = ta.STOCH(data, self.timeperiod, 3*1440, 0*1440, 3*1440, 0*1440)
     stoch_data[str(self.timeperiod) + 'Min SLOWK'] = slowk
     stoch_data[str(self.timeperiod) + 'Min SLOWD'] = slowd
     return stoch_data
@@ -311,7 +311,7 @@ class StochF(TALibIndicator):
   
   def _calculate(self, data):
     stochf_data = pd.DataFrame()
-    fastk, fastd = ta.STOCHF(data, self.timeperiod, 3, 0)
+    fastk, fastd = ta.STOCHF(data, self.timeperiod, 3*1440, 0*1440)
     stochf_data[str(self.timeperiod) + 'Min FASTK'] = fastk
     stochf_data[str(self.timeperiod) + 'Min FASTD'] = fastd
     return stochf_data
@@ -327,7 +327,7 @@ class StochRSI(TALibIndicator):
 
   def _calculate(self, data):
     stochrsi_data = pd.DataFrame()
-    fastk, fastd = ta.STOCHRSI(data, self.timeperiod, 5, 3, 0)
+    fastk, fastd = ta.STOCHRSI(data, self.timeperiod, 5*1440, 3*1440, 0*1440)
     stochrsi_data[str(self.timeperiod) + 'Min FASTK'] = fastk
     stochrsi_data[str(self.timeperiod) + 'Min FASTD'] = fastd
     return stochrsi_data
