@@ -24,20 +24,21 @@ class TALibIndicator(Feature):
     super(TALibIndicator, self).__init__(*args, **kwargs)
     self.timeperiod = timeperiod
     
-  def calculate(self, data):
-    #Is data from Oanda or Dukascopy? 
-    if 'volume' in data.columns.get_values():
-      talib_data = {'open':  data['Ask_open'],
-                    'high':  data['Ask_high'],
-                    'low':   data['Ask_low'],
-                    'close': data['Ask_close'],
-                    'volume':data['volume']}
-    elif 'Ask_volume' and 'Bid_volume' in data.columns.get_values():
-      talib_data = {'open':  data['Ask_open'],
-                    'high':  data['Ask_high'],
-                    'low':   data['Ask_low'],
-                    'close': data['Ask_close'],
-                    'volume':data['Bid_volume']+data['Ask_volume']}
+  def calculate(self, data_arg):
+    #Is data from Oanda or Dukascopy?
+    data_arg = pd.DataFrame(data = data_arg, dtype='double')
+    if 'volume' in data_arg.columns.get_values():
+      talib_data = {'open':  data_arg['Ask_open'],
+                    'high':  data_arg['Ask_high'],
+                    'low':   data_arg['Ask_low'],
+                    'close': data_arg['Ask_close'],
+                    'volume': data_arg['volume'] }
+    elif 'Ask_volume' and 'Bid_volume' in data_arg.columns.get_values():
+      talib_data = {'open':  data_arg['Ask_open'],
+                    'high':  data_arg['Ask_high'],
+                    'low':   data_arg['Ask_low'],
+                    'close': data_arg['Ask_close'],
+                    'volume':data_arg['Bid_volume']+data_arg['Ask_volume']}
     return super(TALibIndicator, self).calculate(talib_data)
 
 
@@ -122,7 +123,7 @@ class Bop(TALibIndicator):
   
   def _calculate(self, data):
     bop_data = pd.DataFrame()
-    bop_data['BOP'] = ta.BOP(data)
+    bop_data[str(self.timeperiod)+' BOP'] = ta.BOP(data)
     return bop_data
 
 class Cci(TALibIndicator):
@@ -297,8 +298,8 @@ class Stoch(TALibIndicator):
   def _calculate(self, data):
     stoch_data = pd.DataFrame()
     slowk, slowd = ta.STOCH(data, self.timeperiod, 3*1440, 0*1440, 3*1440, 0*1440)
-    stoch_data[str(self.timeperiod) + 'Min SLOWK'] = slowk
-    stoch_data[str(self.timeperiod) + 'Min SLOWD'] = slowd
+    stoch_data[str(self.timeperiod) + 'Stoch Min SLOWK'] = slowk
+    stoch_data[str(self.timeperiod) + 'Stoch Min SLOWD'] = slowd
     return stoch_data
 
 class StochF(TALibIndicator):
@@ -312,8 +313,8 @@ class StochF(TALibIndicator):
   def _calculate(self, data):
     stochf_data = pd.DataFrame()
     fastk, fastd = ta.STOCHF(data, self.timeperiod, 3*1440, 0*1440)
-    stochf_data[str(self.timeperiod) + 'Min FASTK'] = fastk
-    stochf_data[str(self.timeperiod) + 'Min FASTD'] = fastd
+    stochf_data[str(self.timeperiod) + 'StochF Min FASTK'] = fastk
+    stochf_data[str(self.timeperiod) + 'StochF Min FASTD'] = fastd
     return stochf_data
 
 class StochRSI(TALibIndicator):
@@ -328,8 +329,8 @@ class StochRSI(TALibIndicator):
   def _calculate(self, data):
     stochrsi_data = pd.DataFrame()
     fastk, fastd = ta.STOCHRSI(data, self.timeperiod, 5*1440, 3*1440, 0*1440)
-    stochrsi_data[str(self.timeperiod) + 'Min FASTK'] = fastk
-    stochrsi_data[str(self.timeperiod) + 'Min FASTD'] = fastd
+    stochrsi_data[str(self.timeperiod) + 'StochRSI Min FASTK'] = fastk
+    stochrsi_data[str(self.timeperiod) + 'StochRSI Min FASTD'] = fastd
     return stochrsi_data
 
 class UltOSC(TALibIndicator):
@@ -395,7 +396,7 @@ class Trange(TALibIndicator):
 
   def _calculate(self, data):
     trange_data = pd.DataFrame()
-    trange_data['TRANGE'] = ta.TRANGE(data)
+    trange_data[str(self.timeperiod)+' TRANGE'] = ta.TRANGE(data)
     return trange_data
 
 class Tsf(TALibIndicator):
@@ -430,7 +431,7 @@ class Ad(TALibIndicator):
 
   def _calculate(self, data):
     ad_data = pd.DataFrame()
-    ad_data['Chaikin A/D Line'] = ta.AD(data)
+    ad_data[str(self.timeperiod)+' Chaikin A/D Line'] = ta.AD(data)
     return ad_data
 
 class Adosc(TALibIndicator):
