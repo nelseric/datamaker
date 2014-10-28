@@ -58,7 +58,8 @@ class Experiment(object):
       feature_data.append(feature.calculate(data))
       
       #necessary to change index of ta_lib indicators to timestamps
-      feature_data[0].index = data.index
+      
+      feature_data[len(feature_data)-1].index = data.index
       
     return pd.concat(feature_data, axis=1)
 
