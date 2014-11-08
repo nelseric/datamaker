@@ -8,7 +8,7 @@ import argparse
 import dotenv
 import numpy as np
 import json
-
+import IPython
 from datamaker.experiment import Experiment
 
 def gen_training_data():
@@ -31,8 +31,7 @@ def gen_training_data():
   name_regex = r"\('(\w+)', '(\w+)'\)"# '(parent)', '(child)' -> parent_child
   data.columns = [re.sub(name_regex, "\\1_\\2", col) for col in data.columns]
 
-  validation_size = int(0.10 * len(data))
-
+  validation_size = int(0.20 * len(data))
   validation_idx = np.array(data.index[-validation_size:])
   training_idx = np.setdiff1d(data.index.values, validation_idx)
 
