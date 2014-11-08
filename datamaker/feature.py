@@ -21,12 +21,6 @@ class Feature(object):
     Calculate the feature given input data,
     then apply wrapped operations on that data
     """
-
-    #TODO: Delete this once we don't have Bid_volume/Ask_volume datasets anymore
-    if not hasattr(data, "volume"):
-      data["volume"] = data["Bid_volume"] + data["Ask_volume"]
-      data = data.drop(["Bid_volume", "Ask_volume"], axis=1)
-
     
     if self.input_columns is not None:
       if hasattr(self.input_columns, "__iter__"):
