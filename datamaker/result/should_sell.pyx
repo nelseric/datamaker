@@ -22,7 +22,7 @@ class ShouldSell(Feature):
     Without the search limit, this calculation is O(n^2) worst case, when it is used, this is calculated in O(n)
   """
   def __init__(self, limit_upper = 0.00055, limit_lower = 0.00015, search_limit = 1440, *args, **kwargs):
-    super(ShouldBuy, self).__init__(*args, **kwargs)
+    super(ShouldSell, self).__init__(*args, **kwargs)
     self.limit_upper = limit_upper
     self.limit_lower = limit_lower
     self.search_limit = search_limit
@@ -32,7 +32,7 @@ class ShouldSell(Feature):
       apply(data.values, self.limit_upper, self.limit_lower, self.search_limit),
       index=data.index
     )
-    result.columns = ["ShouldBuy"]
+    result.columns = ["ShouldSell"]
     return result
 
 
