@@ -6,7 +6,7 @@ import numpy as np
 from datamaker.feature import Feature
 import pandas as pd
 
-class ShouldBuy(Feature):
+class ShouldSell(Feature):
 
   """
     This calculates whether or not the pair price will hit the upper limit before
