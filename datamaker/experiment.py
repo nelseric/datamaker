@@ -38,6 +38,10 @@ class Experiment(object):
     self.limit_upper = kwargs.get('limit_upper')
     self.limit_lower = kwargs.get('limit_lower')
     self.stop_mode = kwargs.get('stop_mode')
+    #are you buying or selling?
+    self.order_side = kwargs.get('order_side')
+    #what is the threshold (confidence) needed to make an order?
+    self.threshold = kwargs.get('threshold')
 
     self.features = [parse_feature(f) for f in kwargs.get("features", [])]
     self.classes = [parse_feature(c) for c in kwargs.get("classes", [])]
@@ -54,7 +58,7 @@ class Experiment(object):
     """
     feature_data = []
     for feature in self.features + self.classes:
-      print("Calculating {}".format(feature.__class__.__name__))
+      #print("Calculating {}".format(feature.__class__.__name__))
       feature_data.append(feature.calculate(data))
       
       #necessary to change index of ta_lib indicators to timestamps
