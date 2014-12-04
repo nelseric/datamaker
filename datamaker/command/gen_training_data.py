@@ -8,7 +8,7 @@ import argparse
 import dotenv
 import numpy as np
 import json
-import IPython
+
 from datamaker.experiment import Experiment
 
 def gen_training_data():
