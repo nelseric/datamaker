@@ -9,10 +9,7 @@ import pandas as pd
 class ShouldBuy(Feature):
 
   """
-    This calculates whether or not the pair price will hit the upper limit before
-    it hits the lower limit, or the search limit.
-
-    This basically checks if a purchase limit order placed at a specific time will be successful.
+    This shows the value returned by each should_buy_ts order. This is necessary for later analysis on the trailing stop.
 
     :param data: OHLCV Currency pair data
     :param limit_upper: The high value offset for a limit order
