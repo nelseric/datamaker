@@ -54,23 +54,35 @@ class MarketManager(object):
     prediction = self.water.get_prediction(current)
 
     print(current.index[-1])
-    if prediction > (1E-3):
+    if prediction > (self.experiment.threshold):
       if (self.oanda.get_num_trades() < 4):
-        print("Buy")
+        print("Place Order")
         self._place_order(current, prediction)
       else:
-        print("Can't buy, too many orders")
+        print("Can't place order, too many orders")
     print(prediction)
     return True
 
   def _place_order(self, current, confidence):
     """
-      Place an order whee we are confident
+      Place an order when we are confident
     """
-    price = self.oanda.get_cur_bid(self.experiment.instrument)
+    if (self.experiment.order_side == 'buy'):
+      side = 'bid'
+    elif(self.experiment.order_side == 'sell'):
+      side = 'ask'
+    
+    price = self.oanda.get_cur_pos(self.experiment.instrument,side)      
     upper = price + self.experiment.limit_upper
     lower = price - self.experiment.limit_lower
-    self.oanda.place_order(self.experiment.instrument,
-                           lower, upper, int(10000))
+    
+    if (self.experiment.stop_mode == 'ts'):
+      self.oanda.place_order_ts(self.experiment.instrument,
+                             lower, upper, int(1000), self.experiment.order_side)      
+    else:
+      self.oanda.place_order(self.experiment.instrument,
+                             lower, upper, int(1000), self.experiment.order_side)
+    
+                             
 
 

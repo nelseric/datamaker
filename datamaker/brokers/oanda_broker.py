@@ -31,15 +31,31 @@ class OandaBroker(Broker):
 
     return sum(allocations)
 
-  def place_order(self, instrument, lower, upper, units=1):
+  def place_order(self, instrument, lower, upper, units=1, side_arg = 'buy'):
     """
     Requests an order to be placed on a currency pair
     """
+    if (side_arg == 'buy'):
+      return self.oanda.create_order(self.account_id, instrument=instrument,
+                                      units=units, side=side_arg,
+                                      stopLoss=lower, takeProfit=upper,
+                                      type='market')
+    elif (side_arg == 'sell'):
+      return self.oanda.create_order(self.account_id, instrument=instrument,
+                                      units=units, side=side_arg,
+                                      stopLoss=upper, takeProfit=lower,
+                                      type='market')
+                                    
 
-    return  self.oanda.create_order(self.account_id, instrument=instrument,
-                                    units=units, side='buy',
-                                    stopLoss=lower, takeProfit=upper,
-                                    type='market')
+  def place_order_ts(self, instrument, lower, upper, units=1, side_arg = 'buy'):
+    """
+    Requests a trailing stop order to be placed on a currency pair
+    """
+    return self.oanda.create_order(self.account_id, instrument=instrument,
+                                    units=units, side=side_arg,
+                                    trailingStop=lower, takeProfit=upper,
+                                    type='market')                  
+
 
   def close_orders(self):
     """
@@ -53,7 +69,7 @@ class OandaBroker(Broker):
     instrument_arg = kwargs.get('instrument', 'EUR_USD')
     granularity_arg = kwargs.get('granularity', 'M1')
     candle_format = kwargs.get('candleFormat', 'bidask')
-    start_time = kwargs.get('start', '2014-09-01T00:00:00.000000Z')
+    start_time = kwargs.get('start', '2014-10-01T00:00:00.000000Z')
     count_arg = kwargs.get('count',5000)
     out_data = []
     data_complete = False
@@ -100,12 +116,12 @@ class OandaBroker(Broker):
                        'time', 'volume']
     return outData
 
-  def get_cur_bid(self, instrument):
+  def get_cur_pos(self, instrument, side = 'bid'):
     """
     Gets current price
     """
     price_out = self.oanda.get_prices(instruments=instrument)
-    price_out = price_out.get('prices')[0].get('bid')
+    price_out = price_out.get('prices')[0].get(side)
     return price_out  
     
   def get_num_trades(self):

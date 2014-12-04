@@ -45,3 +45,7 @@ Timestamp,Bid price,Ask price,Bid volume,Ask volume
 5. Under Data Format:
 {Timestamp:yyyy-MM-ddTHH:mm:sszz},{BidPrice},{AskPrice},{BidVolume},{AskVolume}
 6. Select other parameters to your liking
+
+## Miscellaneous Notes: ##
+1. The stop_mode argument in the experiment expects "ts" for trailing stop
+2. If the user is using trailing stop they should use the should_buy_ts for result

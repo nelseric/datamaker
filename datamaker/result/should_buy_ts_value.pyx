@@ -9,10 +9,7 @@ import pandas as pd
 class ShouldBuy(Feature):
 
   """
-    This calculates whether or not the pair price will hit the upper limit before
-    it hits the lower limit, or the search limit.
-
-    This basically checks if a purchase limit order placed at a specific time will be successful.
+    This shows the value returned by each should_buy_ts order. This is necessary for later analysis on the trailing stop.
 
     :param data: OHLCV Currency pair data
     :param limit_upper: The high value offset for a limit order
@@ -65,15 +62,26 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, d
     else:
       cmp_limit = limit
 
+    entry_price = data[i][ask_close]
     target_high = data[i][ask_close] + margin_upper
-    target_low = data[i][ask_close] - margin_lower
-
+    init_target_low = data[i][ask_close] - margin_lower
+    cur_target_low = data[i][ask_close] - margin_lower
+    init_bid_max = data[i][bid_high]
+    cur_bid_max = data[i][bid_high]
+	
     res[i] = 0
     for j in range(cmp_limit):
+      
+      #if CP bid surpasses the maximum, move the target_low, if and only if
+      #the spread has been surpassed
+      if ((data[i+j][bid_high] > cur_bid_max) and (cur_bid_max >= entry_price)):
+        cur_bid_max = data[i+j][bid_high]
+        cur_target_low = (cur_bid_max - init_bid_max) + init_target_low
+
       if data[i+j][bid_high] >= target_high:
-        res[i] = 1
+        res[i] = data[i+j][bid_high]-entry_price
         break
-      elif data[i+j][bid_low] <= target_low:
-        res[i] = 0
+      elif data[i+j][bid_low] <= cur_target_low:
+        res[i] = data[i+j][bid_low]-entry_price
         break
   return res

@@ -6,7 +6,7 @@ import numpy as np
 from datamaker.feature import Feature
 import pandas as pd
 
-class ShouldBuy(Feature):
+class ShouldSell(Feature):
 
   """
     This calculates whether or not the pair price will hit the upper limit before
@@ -22,7 +22,7 @@ class ShouldBuy(Feature):
     Without the search limit, this calculation is O(n^2) worst case, when it is used, this is calculated in O(n)
   """
   def __init__(self, limit_upper = 0.00055, limit_lower = 0.00015, search_limit = 1440, *args, **kwargs):
-    super(ShouldBuy, self).__init__(*args, **kwargs)
+    super(ShouldSell, self).__init__(*args, **kwargs)
     self.limit_upper = limit_upper
     self.limit_lower = limit_lower
     self.search_limit = search_limit
@@ -32,7 +32,7 @@ class ShouldBuy(Feature):
       apply(data.values, self.limit_upper, self.limit_lower, self.search_limit),
       index=data.index
     )
-    result.columns = ["ShouldBuy"]
+    result.columns = ["ShouldSell"]
     return result
 
 
@@ -56,7 +56,10 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, d
   cdef double target_high, target_low
   
   cdef ask_close = 0
+  cdef bid_close = 1
+  cdef ask_high = 2
   cdef bid_high = 3
+  cdef ask_low = 4
   cdef bid_low = 5
   
   for i in range(n):
@@ -65,15 +68,15 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data, double margin_upper, d
     else:
       cmp_limit = limit
 
-    target_high = data[i][ask_close] + margin_upper
-    target_low = data[i][ask_close] - margin_lower
+    target_high = data[i][bid_close] + margin_upper
+    target_low = data[i][bid_close] - margin_lower
 
     res[i] = 0
     for j in range(cmp_limit):
-      if data[i+j][bid_high] >= target_high:
-        res[i] = 1
-        break
-      elif data[i+j][bid_low] <= target_low:
+      if data[i+j][ask_high] >= target_high:
         res[i] = 0
+        break
+      elif data[i+j][ask_low] <= target_low:
+        res[i] = 1
         break
   return res
