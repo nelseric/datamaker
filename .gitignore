@@ -52,9 +52,4 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-.ipynb_checkpoints
-
-tick_data/
-data/
-.vagrant
 .env
