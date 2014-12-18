@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 
-from database import *
-
-import oandapy
 import dotenv
 import os
 import datetime
+import dateutil.parser
 
-import ext.oandapy
+import datamaker.ext.oandapy as oandapy
 
 
 class HistoricalIterator(object):
@@ -37,9 +35,10 @@ class HistoricalIterator(object):
       raise StopIteration()
 
     cur = self.oanda.get_history(instrument=self.instrument,
-                            granularity=self.granularity,
-                            count=self.chunk_size,
-                            start=self.cur_date)
+                                 granularity=self.granularity,
+                                 count=self.chunk_size,
+                                 start=self.cur_date)
+    cur = _decode_dict(cur)
 
     if len(cur['candles']) < self.chunk_size:
       self.no_more_chunks = True
@@ -70,3 +69,30 @@ class Chunk(object):
       self.instrument, self.granularity,
       self.candles[0]["time"], self.candles[-1]["time"],
       len(self.candles))
+
+
+
+def _decode_list(data):
+  rv = []
+  for item in data:
+    if isinstance(item, unicode):
+      item = item.encode('utf-8')
+    elif isinstance(item, list):
+      item = _decode_list(item)
+    elif isinstance(item, dict):
+      item = _decode_dict(item)
+    rv.append(item)
+  return rv
+def _decode_dict(data):
+  rv = {}
+  for key, value in data.iteritems():
+    if isinstance(key, unicode):
+      key = key.encode('utf-8')
+    if isinstance(value, unicode):
+      value = value.encode('utf-8')
+    elif isinstance(value, list):
+      value = _decode_list(value)
+    elif isinstance(value, dict):
+      value = _decode_dict(value)
+    rv[key] = value
+  return rv

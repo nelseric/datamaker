@@ -1,6 +1,7 @@
+"""Strategy"""
+
 class Strategy(object):
   """"""
-  def __init__(self, arg):
+  def __init__(self, market):
     super(Strategy, self).__init__()
-    self.arg = arg
-    
+
