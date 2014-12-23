@@ -46,7 +46,8 @@ class CurrencyPair(Base):
 
     session = Session()
 
-    pairs = json.load((path / "defaults" / "currency_pairs.json").open())
+
+    pairs = json.load((path / "currency_pairs.json").open())
 
     for pair in pairs:
       existing = session.query(CurrencyPair).filter_by(instrument=pair["instrument"]).first()

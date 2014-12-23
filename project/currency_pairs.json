@@ -1,0 +1,10 @@
+[
+  {
+    "instrument": "EUR_USD",
+    "pip_value": 0.0001
+  },
+  {
+    "instrument": "GBP_USD",
+    "pip_value": 0.0001
+  }
+]

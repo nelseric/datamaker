@@ -41,6 +41,7 @@ setup(
   entry_points={
     'console_scripts': [
       'dm = datamaker.bin:dm_main',
+      'dm-backtest = datamaker.bin:run_backtest',
       'idle = idlelib.PyShell:main'
       ]
     }
