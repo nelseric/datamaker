@@ -3,8 +3,9 @@ from __future__ import print_function
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship, backref
 
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, PickleType, ForeignKey
 
 import json
 
@@ -26,6 +27,7 @@ class CurrencyPair(Base):
     id = Column(Integer, primary_key=True)
     instrument = Column(String, unique=True, index=True)
     pip_value = Column(Float)
+    data_sets = relationship("DataSet", backref="currency_pair")
 
     def __repr__(self):
         return "<CurrencyPair(instrument='{}', pip_value='{}')>".format(
@@ -58,3 +60,84 @@ class CurrencyPair(Base):
                 session.add(CurrencyPair(**pair))
         session.commit()
         return session.query(CurrencyPair).all()
+
+
+class DataSet(Base):
+    __tablename__ = "data_sets"
+
+    feature_set_id = Column(
+        Integer, ForeignKey('feature_sets.id'), primary_key=True)
+    currency_pair_id = Column(
+        Integer, ForeignKey('currency_pairs.id'), primary_key=True)
+
+    @staticmethod
+    def load(ds_dicts):
+        session = Session()
+        data_sets = []
+        for data_set in ds_dicts:
+            currency_pair = session.query(CurrencyPair).filter_by(
+                instrument=data_set["instrument"]).first()
+
+            feature_set = session.query(FeatureSet).filter_by(
+                name=data_set["feature_set"]).first()
+
+            existing = session.query(DataSet).filter_by(
+                currency_pair=currency_pair, feature_set=feature_set).first()
+
+            if existing != None:
+                data_sets.append(existing)
+            else:
+                data_set = DataSet(
+                    currency_pair=currency_pair, feature_set=feature_set)
+                session.add(data_set)
+        return data_sets
+
+    def __repr__(self):
+        return "<DataSet {}:{}>".format(self.currency_pair.instrument, self.feature_set.name)
+
+
+class FeatureSet(Base):
+    __tablename__ = "feature_sets"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+    features = relationship("Feature", backref="feature_set")
+    data_sets = relationship("DataSet", backref="feature_set")
+
+    @staticmethod
+    def load(fs_dict):
+
+        session = Session()
+        existing = session.query(FeatureSet).filter_by(
+            name=fs_dict["name"]).first()
+        if existing != None:
+            return existing
+
+        fs = FeatureSet(name=fs_dict["name"])
+
+        # session.add(fs)
+
+        for feature in fs_dict["features"]:
+            feature = Feature(feature_class=feature["class"],
+                              parameters=feature["parameters"],
+                              feature_set=fs)
+            session.add(fs)
+        session.commit()
+
+        return fs
+
+
+class Feature(Base):
+    __tablename__ = "features"
+    id = Column(Integer, primary_key=True)
+    feature_class = Column(String)
+    parameters = Column(PickleType)
+    feature_set_id = Column(Integer, ForeignKey('feature_sets.id'))
+
+    def __repr__(self):
+        params_list = ["{}={}".format(key, self.parameters[key]) for key in self.parameters]
+        params = reduce("{}, {}".format, params_list)
+        # params = params_list[0]
+        for param in params_list[1:]:
+            params = params + ", " + param
+        return "{}:{}({})".format(self.feature_set.name, self.feature_class, params)
