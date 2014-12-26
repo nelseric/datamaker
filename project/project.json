@@ -1,0 +1,19 @@
+{
+    "name": "DataTrader",
+    "strategies": [{
+        "instrument": "EUR_USD",
+        "strategy": "naive.NaiveBuy",
+        "heuristic:": "should_buy.ShouldBuy",
+        "parameters": {
+            "take_profit": 50,
+            "stop_losss": 50
+        },
+        "indicators": [{
+            "indicator_set": "primary",
+            "instrument": "EUR_USD"
+        }, {
+            "indicator_set": "secondary",
+            "instrument": "EUR_GBP"
+        }]
+    }]
+}

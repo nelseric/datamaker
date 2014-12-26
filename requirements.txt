@@ -19,3 +19,4 @@ tables>=3.1.1
 tornado>=4.0.1
 wsgiref>=0.1.2
 pathlib>=1.0.1
+scikit-learn>=0.15.2
