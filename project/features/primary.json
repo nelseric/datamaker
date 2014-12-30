@@ -1,1185 +1,1185 @@
 {
     "name": "primary",
     "features": [{
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 16,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 32,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 64,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 128,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 256,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 512,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 1024,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2048,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4096,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8192,
             "shift": 0,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 16,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 32,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 64,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 128,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 256,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 512,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 1024,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2048,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4096,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "ewma.NormalizedEWMA",
+        "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8192,
             "shift": 5,
             "columns": "Ask_close"
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroon",
+        "class": "datamaker.feature.talib_indicators.Aroon",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adx",
+        "class": "datamaker.feature.talib_indicators.Adx",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adxr",
+        "class": "datamaker.feature.talib_indicators.Adxr",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Aroonosc",
+        "class": "datamaker.feature.talib_indicators.Aroonosc",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Bop",
+        "class": "datamaker.feature.talib_indicators.Bop",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Bop",
+        "class": "datamaker.feature.talib_indicators.Bop",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Bop",
+        "class": "datamaker.feature.talib_indicators.Bop",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Bop",
+        "class": "datamaker.feature.talib_indicators.Bop",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cci",
+        "class": "datamaker.feature.talib_indicators.Cci",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cmo",
+        "class": "datamaker.feature.talib_indicators.Cmo",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cmo",
+        "class": "datamaker.feature.talib_indicators.Cmo",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cmo",
+        "class": "datamaker.feature.talib_indicators.Cmo",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Cmo",
+        "class": "datamaker.feature.talib_indicators.Cmo",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Macd",
+        "class": "datamaker.feature.talib_indicators.Macd",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Minus_DI",
+        "class": "datamaker.feature.talib_indicators.Minus_DI",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mom",
+        "class": "datamaker.feature.talib_indicators.Mom",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mom",
+        "class": "datamaker.feature.talib_indicators.Mom",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mom",
+        "class": "datamaker.feature.talib_indicators.Mom",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mom",
+        "class": "datamaker.feature.talib_indicators.Mom",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ppo",
+        "class": "datamaker.feature.talib_indicators.Ppo",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ppo",
+        "class": "datamaker.feature.talib_indicators.Ppo",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ppo",
+        "class": "datamaker.feature.talib_indicators.Ppo",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Roc",
+        "class": "datamaker.feature.talib_indicators.Roc",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Roc",
+        "class": "datamaker.feature.talib_indicators.Roc",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Roc",
+        "class": "datamaker.feature.talib_indicators.Roc",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Roc",
+        "class": "datamaker.feature.talib_indicators.Roc",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rocr",
+        "class": "datamaker.feature.talib_indicators.Rocr",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rocr",
+        "class": "datamaker.feature.talib_indicators.Rocr",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rocr",
+        "class": "datamaker.feature.talib_indicators.Rocr",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rocr",
+        "class": "datamaker.feature.talib_indicators.Rocr",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rsi",
+        "class": "datamaker.feature.talib_indicators.Rsi",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rsi",
+        "class": "datamaker.feature.talib_indicators.Rsi",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rsi",
+        "class": "datamaker.feature.talib_indicators.Rsi",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Rsi",
+        "class": "datamaker.feature.talib_indicators.Rsi",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Stoch",
+        "class": "datamaker.feature.talib_indicators.Stoch",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochF",
+        "class": "datamaker.feature.talib_indicators.StochF",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.StochRSI",
+        "class": "datamaker.feature.talib_indicators.StochRSI",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.UltOSC",
+        "class": "datamaker.feature.talib_indicators.UltOSC",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Willr",
+        "class": "datamaker.feature.talib_indicators.Willr",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Willr",
+        "class": "datamaker.feature.talib_indicators.Willr",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Willr",
+        "class": "datamaker.feature.talib_indicators.Willr",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Willr",
+        "class": "datamaker.feature.talib_indicators.Willr",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Atr",
+        "class": "datamaker.feature.talib_indicators.Atr",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Adosc",
+        "class": "datamaker.feature.talib_indicators.Adosc",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Trange",
+        "class": "datamaker.feature.talib_indicators.Trange",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Trange",
+        "class": "datamaker.feature.talib_indicators.Trange",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Trange",
+        "class": "datamaker.feature.talib_indicators.Trange",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Trange",
+        "class": "datamaker.feature.talib_indicators.Trange",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Tsf",
+        "class": "datamaker.feature.talib_indicators.Tsf",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Tsf",
+        "class": "datamaker.feature.talib_indicators.Tsf",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Tsf",
+        "class": "datamaker.feature.talib_indicators.Tsf",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Tsf",
+        "class": "datamaker.feature.talib_indicators.Tsf",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ad",
+        "class": "datamaker.feature.talib_indicators.Ad",
         "parameters": {
             "timeperiod": 144,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ad",
+        "class": "datamaker.feature.talib_indicators.Ad",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ad",
+        "class": "datamaker.feature.talib_indicators.Ad",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Ad",
+        "class": "datamaker.feature.talib_indicators.Ad",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 10,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 50,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 100,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 200,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 400,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 800,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 1440,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 2880,
             "shift": 0
         }
     }, {
-        "class": "talib_indicators.Mfi",
+        "class": "datamaker.feature.talib_indicators.Mfi",
         "parameters": {
             "timeperiod": 5760,
             "shift": 0

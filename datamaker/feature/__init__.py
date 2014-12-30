@@ -1,7 +1,10 @@
 """
 @author: Eric Nelson
-"""
 
+* can be used, but it probably shouldn't
+"""
+__all__ = ["macd", "ewma", "noop", "bollinger_band",
+           "talib_indicators", "stochastic_oscillator"]
 
 class Feature(object):
 
