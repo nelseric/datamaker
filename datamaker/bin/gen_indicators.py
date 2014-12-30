@@ -1,15 +1,9 @@
 """ Generating indicators """
 
-import pandas as pd
-import numpy as np
-
 from pathlib import Path
 import json
 
-import IPython
-
 import datamaker.db as db
-import sqlalchemy.exc
 
 def gen_indicators(path=Path(".")):
     """ 
@@ -23,14 +17,12 @@ def gen_indicators(path=Path(".")):
         feature_set = json.load(indicator_file.open())
         feature_sets.append(db.FeatureSet.load(feature_set))
 
-
     # load project info
     project = json.load((path / "project.json").open())
     for strategy in project["strategies"]:
-        indicators = db.DataSet.load(strategy["indicators"])
-        session = db.Session()
-        IPython.embed()
-
+        data_sets = db.DataSet.load(strategy["indicators"])
+        for data_set in data_sets:
+            data_set.generate()
 
 if __name__ == "__main__":
     gen_indicators()

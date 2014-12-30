@@ -23,14 +23,8 @@ def dm_main():
 
     pairs = db.CurrencyPair.load(path)
 
-    dbpath = path / 'data' / "pairs"
-
-    if not dbpath.exists():
-        dbpath.mkdir()
-
     for pair in pairs:
-
-        pair.get_historical(dbpath, args.range)
+        pair.download_historical_data(path, args.range)
 
 if __name__ == "__main__":
     dm_main()

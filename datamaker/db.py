@@ -34,9 +34,24 @@ class CurrencyPair(Base):
             self.instrument,
             self.pip_value)
 
-    def get_historical(self, dbpath, years):
+    def get_database(self, project_path):
+        db_path = project_path / "data" / "historical"
+        if not db_path.exists():
+            db_path.mkdir()
+
+        return pd.HDFStore(str(db_path / ("%s.h5" % self.instrument)))
+
+    def historical_data(self, project_path):
+        try:
+            return self._historical_data
+        except AttributeError:
+            self._historical_data = self.get_database(
+                project_path).get("ohlcv")
+            return self._historical_data
+
+    def download_historical_data(self, project_path, years):
         """ Get historical data and save it to a database """
-        database = pd.HDFStore(str(dbpath / ("%s.h5" % self.instrument)))
+        database = self.get_database(project_path)
 
         for chunk in HistoricalIterator(self.instrument, years):
             print(chunk)
@@ -46,12 +61,12 @@ class CurrencyPair(Base):
         database.close()
 
     @staticmethod
-    def load(path):
+    def load(project_path):
         """ Load default currency pairs if they do not exist in the database """
 
         session = Session()
 
-        pairs = json.load((path / "currency_pairs.json").open())
+        pairs = json.load((project_path / "currency_pairs.json").open())
 
         for pair in pairs:
             existing = session.query(CurrencyPair).filter_by(
@@ -69,6 +84,17 @@ class DataSet(Base):
         Integer, ForeignKey('feature_sets.id'), primary_key=True)
     currency_pair_id = Column(
         Integer, ForeignKey('currency_pairs.id'), primary_key=True)
+
+    def get_database(self, project_path):
+        db_path = project_path / "data" / "historical"
+        if not db_path.exists():
+            db_path.mkdir()
+
+        return pd.HDFStore(str(db_path / ("%s.h5" % self.__repr__())))
+
+
+    def generate(self, project_path):
+        data = self.currency_pair.historical_data()
 
     @staticmethod
     def load(ds_dicts):
@@ -93,7 +119,7 @@ class DataSet(Base):
         return data_sets
 
     def __repr__(self):
-        return "<DataSet {}:{}>".format(self.currency_pair.instrument, self.feature_set.name)
+        return "DataSet_{}_{}".format(self.currency_pair.instrument, self.feature_set.name)
 
 
 class FeatureSet(Base):
@@ -115,13 +141,12 @@ class FeatureSet(Base):
 
         fs = FeatureSet(name=fs_dict["name"])
 
-        # session.add(fs)
-
         for feature in fs_dict["features"]:
             feature = Feature(feature_class=feature["class"],
                               parameters=feature["parameters"],
                               feature_set=fs)
-            session.add(fs)
+        session.add(fs)
+
         session.commit()
 
         return fs
@@ -135,7 +160,8 @@ class Feature(Base):
     feature_set_id = Column(Integer, ForeignKey('feature_sets.id'))
 
     def __repr__(self):
-        params_list = ["{}={}".format(key, self.parameters[key]) for key in self.parameters]
+        params_list = [
+            "{}={}".format(key, self.parameters[key]) for key in self.parameters]
         params = reduce("{}, {}".format, params_list)
         # params = params_list[0]
         for param in params_list[1:]:
