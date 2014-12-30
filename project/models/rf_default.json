@@ -1,18 +1,15 @@
 {
-    "name": "secondary",
-    "features": [{
-        "class": "ewma.NormalizedEWMA",
-        "parameters": {
-            "span": 2,
-            "shift": 0,
-            "columns": "Ask_close"
+    "model_type": "ExtraTreesClassifier",
+    "params": {
+        "n_estimators": 1000,
+        "oob_score": "False",
+        "n_jobs": -1,
+        "verbose": 1,
+        "bagging": {
+            "state": "True",
+            "max_samples": ".01",
+            "max_features": 1
+            }
+          
         }
-    }, {
-        "class": "ewma.NormalizedEWMA",
-        "parameters": {
-            "span": 4,
-            "shift": 0,
-            "columns": "Ask_close"
-        }
-    }]
 }
