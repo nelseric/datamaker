@@ -8,7 +8,7 @@
             "take_profit": 50,
             "stop_losss": 50
         },
-        "indicators": [{
+        "data_sets": [{
             "feature_set": "primary",
             "instrument": "EUR_USD"
         }, {

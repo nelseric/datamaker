@@ -9,6 +9,8 @@ from datamaker.db import Session, CurrencyPair, FeatureSet
 
 import pandas as pd
 
+import IPython
+
 
 # pylint: disable=C0103,W0232,C0111,W0142
 
@@ -29,7 +31,25 @@ class DataSet(Base):
 
     def generate(self, project_path):
         db = self.get_database(project_path)
+
         historical = self.currency_pair.historical_data(project_path)
+        historical.drop(["complete", "time"], axis=1, inplace=True)
+
+        session = Session()
+        session.add(self)
+
+        group_data = None
+
+        for feature in self.feature_set.features:
+            print(feature)
+            feature_data = feature.load().calculate(historical)
+            print("calculated")
+            if group_data is None:
+                group_data = feature_data
+            else:
+                group_data = group_data.join(feature_data)
+            print("done")
+        IPython.embed()
 
     @staticmethod
     def load(ds_dicts):

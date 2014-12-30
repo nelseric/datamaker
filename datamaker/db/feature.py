@@ -47,6 +47,12 @@ class Feature(Base):
     parameters = Column(PickleType)
     feature_set_id = Column(Integer, ForeignKey('feature_sets.id'))
 
+    def load(self):
+        split_path = self.feature_class.split(".")
+        module = __import__('.'.join(split_path[:-1]), fromlist=[''])
+        klass = getattr(module, split_path[-1])
+        return klass(**self.parameters)
+
     def __repr__(self):
         params_list = [
             "{}={}".format(key, self.parameters[key]) for key in self.parameters]

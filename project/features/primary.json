@@ -5,182 +5,182 @@
         "parameters": {
             "span": 2,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 16,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 32,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 64,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 128,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 256,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 512,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 1024,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2048,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4096,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8192,
             "shift": 0,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 16,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 32,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 64,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 128,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 256,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 512,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 1024,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 2048,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 4096,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.ewma.NormalizedEWMA",
         "parameters": {
             "span": 8192,
             "shift": 5,
-            "columns": "Ask_close"
+            "columns": "closeAsk"
         }
     }, {
         "class": "datamaker.feature.talib_indicators.Aroon",

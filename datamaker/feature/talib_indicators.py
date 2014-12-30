@@ -25,21 +25,17 @@ class TALibIndicator(Feature):
         self.timeperiod = timeperiod
 
     def calculate(self, data_arg):
-        # Is data from Oanda or Dukascopy?
-        data_arg = pd.DataFrame(data=data_arg, dtype='double')
-        if 'volume' in data_arg.columns.get_values():
-            talib_data = {'open': data_arg['Ask_open'],
-                          'high': data_arg['Ask_high'],
-                          'low': data_arg['Ask_low'],
-                          'close': data_arg['Ask_close'],
-                          'volume': data_arg['volume']}
-        elif 'Ask_volume' and 'Bid_volume' in data_arg.columns.get_values():
-            talib_data = {'open': data_arg['Ask_open'],
-                          'high': data_arg['Ask_high'],
-                          'low': data_arg['Ask_low'],
-                          'close': data_arg['Ask_close'],
-                          'volume': data_arg['Bid_volume'] + data_arg['Ask_volume']}
-        return super(TALibIndicator, self).calculate(talib_data)
+
+        # data_arg = pd.DataFrame(data=data_arg, dtype='double')
+        talib_data = {'open': data_arg['openAsk'],
+                      'high': data_arg['highAsk'],
+                      'low': data_arg['lowAsk'],
+                      'close': data_arg['closeAsk'],
+                      'volume': data_arg['volume']}
+        result = super(TALibIndicator, self).calculate(talib_data)
+        result.index = data_arg.index
+
+        return result
 
 
 class Adx(TALibIndicator):
