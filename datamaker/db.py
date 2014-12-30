@@ -92,7 +92,6 @@ class DataSet(Base):
 
         return pd.HDFStore(str(db_path / ("%s.h5" % self.currency_pair.instrument)))
 
-
     def generate(self, project_path):
         db = self.get_database(project_path)
         historical = self.currency_pair.historical_data(project_path)
@@ -116,7 +115,10 @@ class DataSet(Base):
             else:
                 data_set = DataSet(
                     currency_pair=currency_pair, feature_set=feature_set)
+                data_sets.append(data_set)
                 session.add(data_set)
+
+        session.commit()
         return data_sets
 
     def __repr__(self):
