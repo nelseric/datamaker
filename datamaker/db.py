@@ -71,7 +71,7 @@ class CurrencyPair(Base):
         for pair in pairs:
             existing = session.query(CurrencyPair).filter_by(
                 instrument=pair["instrument"]).first()
-            if existing == None:
+            if existing is None:
                 session.add(CurrencyPair(**pair))
         session.commit()
         return session.query(CurrencyPair).all()
@@ -110,7 +110,7 @@ class DataSet(Base):
             existing = session.query(DataSet).filter_by(
                 currency_pair=currency_pair, feature_set=feature_set).first()
 
-            if existing != None:
+            if existing is not None:
                 data_sets.append(existing)
             else:
                 data_set = DataSet(
@@ -139,7 +139,7 @@ class FeatureSet(Base):
         session = Session()
         existing = session.query(FeatureSet).filter_by(
             name=fs_dict["name"]).first()
-        if existing != None:
+        if existing is not None:
             return existing
 
         fs = FeatureSet(name=fs_dict["name"])

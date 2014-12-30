@@ -28,15 +28,15 @@ class TALibIndicator(Feature):
         # Is data from Oanda or Dukascopy?
         data_arg = pd.DataFrame(data=data_arg, dtype='double')
         if 'volume' in data_arg.columns.get_values():
-            talib_data = {'open':  data_arg['Ask_open'],
-                          'high':  data_arg['Ask_high'],
-                          'low':   data_arg['Ask_low'],
+            talib_data = {'open': data_arg['Ask_open'],
+                          'high': data_arg['Ask_high'],
+                          'low': data_arg['Ask_low'],
                           'close': data_arg['Ask_close'],
                           'volume': data_arg['volume']}
         elif 'Ask_volume' and 'Bid_volume' in data_arg.columns.get_values():
-            talib_data = {'open':  data_arg['Ask_open'],
-                          'high':  data_arg['Ask_high'],
-                          'low':   data_arg['Ask_low'],
+            talib_data = {'open': data_arg['Ask_open'],
+                          'high': data_arg['Ask_high'],
+                          'low': data_arg['Ask_low'],
                           'close': data_arg['Ask_close'],
                           'volume': data_arg['Bid_volume'] + data_arg['Ask_volume']}
         return super(TALibIndicator, self).calculate(talib_data)

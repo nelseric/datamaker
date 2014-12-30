@@ -7,7 +7,7 @@ import datamaker.db as db
 
 
 def gen_indicators(path=Path(".")):
-    """ 
+    """
         Load the list of indicator sets, get the features and calculate them
         for training data
     """
