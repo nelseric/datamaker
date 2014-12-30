@@ -7,13 +7,13 @@ import datamaker.db as db
 import datamaker.model as mlmod
 
 
-def gen_models(path=Path(".")):
+def gen_models(path=Path("."), feature_data):
     """ 
         Train the models and then save them for later
     """
 
     
-    model_sets = []
+    
     for model_file in path.glob("models/*.json"):
         # Load data
         model_params = json.load(model_file.open())
@@ -22,7 +22,7 @@ def gen_models(path=Path(".")):
         model_inst = getattr(mlmod,model_params['model_type'])()
 
         # Train model on data
-        model_inst.train(model_params)
+        model_inst.train(model_params, feature_data)
 
         # Save model
 
