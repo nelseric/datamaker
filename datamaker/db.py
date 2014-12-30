@@ -86,15 +86,16 @@ class DataSet(Base):
         Integer, ForeignKey('currency_pairs.id'), primary_key=True)
 
     def get_database(self, project_path):
-        db_path = project_path / "data" / "historical"
+        db_path = project_path / "data" / "dataset"
         if not db_path.exists():
             db_path.mkdir()
 
-        return pd.HDFStore(str(db_path / ("%s.h5" % self.__repr__())))
+        return pd.HDFStore(str(db_path / ("%s.h5" % self.currency_pair.instrument)))
 
 
     def generate(self, project_path):
-        data = self.currency_pair.historical_data()
+        db = self.get_database(project_path)
+        historical = self.currency_pair.historical_data(project_path)
 
     @staticmethod
     def load(ds_dicts):
@@ -119,7 +120,7 @@ class DataSet(Base):
         return data_sets
 
     def __repr__(self):
-        return "DataSet_{}_{}".format(self.currency_pair.instrument, self.feature_set.name)
+        return "<DataSet {}:{}>".format(self.currency_pair.instrument, self.feature_set.name)
 
 
 class FeatureSet(Base):

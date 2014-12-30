@@ -22,7 +22,7 @@ def gen_indicators(path=Path(".")):
     for strategy in project["strategies"]:
         data_sets = db.DataSet.load(strategy["indicators"])
         for data_set in data_sets:
-            data_set.generate()
+            data_set.generate(path)
 
 if __name__ == "__main__":
     gen_indicators()
