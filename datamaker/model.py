@@ -71,8 +71,7 @@ class ETCModel(Model):
 
     def save_model(self, ml_mod, strategy_params):
         """Saves the model as a pickled file"""
-        import IPython
-        IPython.embed()
+        
         pkl_path = 'models/' + strategy_params['instrument'] + '_ETC/'
         os.mkdir(pkl_path)
         joblib.dump(ml_mod, pkl_path + 'model.pkl')
