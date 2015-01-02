@@ -7,6 +7,8 @@ import json
 import datamaker.db as db
 import datamaker.model as mlmod
 
+from sklearn.datasets import make_classification
+
 
 def gen_models(path=Path(".")):
     """ 
@@ -20,18 +22,17 @@ def gen_models(path=Path(".")):
             # Load data
             model_params = json.load(model_file.open())
 
-
             # Initialize model
-            model_inst = getattr(mlmod,model_params['model_type'])(path)
+            model_inst = getattr(mlmod, model_params['model_type'])(path)
 
             # Train model on data
-            feature_data = np.zeros([100,5])
-            model_inst.train(model_params, feature_data, strat_element)
+            x_data, y_data = make_classification(n_samples=300, n_features=4)
 
+            model_inst.train(
+                x_data[:200, :], y_data[:200], model_params, strat_element)
 
-        
-
-
+            # plot performance on test set
+            model_inst.visualize(x_data[200:, :], y_data[200:])
 
 
 if __name__ == "__main__":
