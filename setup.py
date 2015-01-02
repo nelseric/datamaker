@@ -44,7 +44,11 @@ setup(
     entry_points={
         'console_scripts': [
             'dm = datamaker.bin:dm_main',
-            'dm-backtest = datamaker.bin:run_backtest',
+            'dm-backtest = datamaker.bin.backtest:run_backtest',
+            'dm-gen = datamaker.bin.gen_indicators:gen_indicators',
+            'dm-hist = datamaker.bin.get_historical:get_historical',
+            'dm-join = datamaker.bin.join_ds:join_datasets',
+
             'idle = idlelib.PyShell:main'
         ]
     }

@@ -53,11 +53,11 @@ class Feature(Base):
         klass = getattr(module, split_path[-1])
         return klass(**self.parameters)
 
-    def __repr__(self):
+    def key(self):
         params_list = [
             "{}={}".format(key, self.parameters[key]) for key in self.parameters]
-        params = reduce("{}, {}".format, params_list)
-        # params = params_list[0]
-        for param in params_list[1:]:
-            params = params + ", " + param
-        return "{}:{}({})".format(self.feature_set.name, self.feature_class, params)
+        params = ",".join(params_list)
+        return "{}({})".format(self.feature_class, params)
+
+    def __repr__(self):
+        return "{}:{}".format(self.feature_set.name, self.key())

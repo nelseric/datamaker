@@ -4,6 +4,8 @@ import argparse
 from pathlib import Path
 
 import datamaker.db as db
+import datamaker.db.base
+
 
 
 def dm_main():
@@ -12,19 +14,14 @@ def dm_main():
         description="Datamaker CLI Tool",
         usage='''dm [args]'''
     )
-    # parser.add_argument("project_path", default=".", help="Project Directory")
-    parser.add_argument(
-        "range", type=float, help="Range (in years) of data to get")
 
-    args = parser.parse_args()
     path = Path(".")
 
-    db.Base.metadata.create_all(db.engine)
+    data_path = path / "data" 
+    if not data_path.exists():
+        data_path.mkdir()
 
-    pairs = db.CurrencyPair.load(path)
-
-    for pair in pairs:
-        pair.download_historical_data(path, args.range)
+    db.base.Base.metadata.create_all(db.engine)
 
 if __name__ == "__main__":
     dm_main()

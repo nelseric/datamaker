@@ -5,14 +5,19 @@ from __future__ import print_function
 from sqlalchemy import Column, Integer, ForeignKey
 
 from datamaker.db.base import Base
-from datamaker.db import Session, CurrencyPair, FeatureSet
+from datamaker.db import Session, CurrencyPair, FeatureSet, Feature
 
 import pandas as pd
+import numpy as np
 
 import IPython
 
+import tables
+import warnings
+warnings.filterwarnings('ignore', category=tables.NaturalNameWarning)
 
-# pylint: disable=C0103,W0232,C0111,W0142
+
+# pylint: disable=C0103,W0232,C0111,W0142,E1101
 
 class DataSet(Base):
     __tablename__ = "data_sets"
@@ -22,34 +27,41 @@ class DataSet(Base):
     currency_pair_id = Column(
         Integer, ForeignKey('currency_pairs.id'), primary_key=True)
 
-    def get_database(self, project_path):
-        db_path = project_path / "data" / "dataset"
+    def get_join_data_path(self, project_path):
+        db_path = project_path / "data" / "training"
         if not db_path.exists():
             db_path.mkdir()
 
-        return pd.HDFStore(str(db_path / ("%s.h5" % self.currency_pair.instrument)))
+        return db_path / ("%s.pdy" % self.__file_repr__())
 
     def generate(self, project_path):
-        db = self.get_database(project_path)
+        db = self.currency_pair.get_feature_database(project_path)
 
         historical = self.currency_pair.historical_data(project_path)
-        historical.drop(["complete", "time"], axis=1, inplace=True)
 
         session = Session()
-        session.add(self)
 
-        group_data = None
+        features = session.query(Feature).filter_by(
+            feature_set=self.feature_set)
 
-        for feature in self.feature_set.features:
+        for feature in features:
             print(feature)
-            feature_data = feature.load().calculate(historical)
-            print("calculated")
-            if group_data is None:
-                group_data = feature_data
+            if feature.key() not in db:
+                feature_data = feature.load().calculate(historical)
+                print("Calculated")
+                db.put(feature.key(), feature_data)
+                print("Stored")
             else:
-                group_data = group_data.join(feature_data)
-            print("done")
-        IPython.embed()
+                print("Cached")
+
+    def join(self, project_path):
+        db = self.currency_pair.get_feature_database(project_path)
+        base = db.get(self.feature_set.features[0].key())
+
+        for feature in self.feature_set.features[1:]:
+            print(feature)
+            base = base.join(db.get(feature.key()))
+        np.save(self.get_join_data_path(project_path).open("w"), base)
 
     @staticmethod
     def load(ds_dicts):
@@ -78,3 +90,6 @@ class DataSet(Base):
 
     def __repr__(self):
         return "<DataSet {}:{}>".format(self.currency_pair.instrument, self.feature_set.name)
+
+    def __file_repr__(self):
+        return "DS_{}_{}".format(self.currency_pair.instrument, self.feature_set.name)
