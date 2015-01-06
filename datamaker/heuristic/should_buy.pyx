@@ -27,6 +27,7 @@ class ShouldBuy(Feature):
     """
 
     def __init__(self, take_profit, stop_loss, search_limit=14400):
+        
         super(ShouldBuy, self).__init__()
         self.take_profit = take_profit
         self.stop_loss = stop_loss

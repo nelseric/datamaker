@@ -91,15 +91,21 @@ class Strategy(Base):
         split_path = self.heuristic_class.split(".")
         module = __import__('.'.join(split_path[:-1]), fromlist=[''])
         klass = getattr(module, split_path[-1])
-        return klass(**self.heuristic_parameters)
+        return klass(
+            take_profit=(
+                self.heuristic_parameters["take_profit"] * self.currency_pair.pip_value),
+            stop_loss=(
+                self.heuristic_parameters["stop_loss"] * self.currency_pair.pip_value),
+            search_limit=self.heuristic_parameters.get("search_limit", 14400))
 
     def calculate_heuristic(self, path):
         """ Calculates and saves the heuristic to a dataframe """
-        pass
+        data = self.heuristic().calculate(self.currency_pair.historical_data(path))
+        util.save_pandas(self.get_heuristic_path(path), data)
 
     def load_heuristic(self, path):
         """ Loads the heuristic dataframe """
-        pass
+        return util.load_pandas(self.get_heuristic_path(path))
 
     @staticmethod
     def load(strategy_dict):

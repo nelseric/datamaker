@@ -7,7 +7,7 @@
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "parameters": {
             "take_profit": 50,
-            "stop_losss": 50
+            "stop_loss": 50
         },
         "data_sets": [{
             "feature_set": "primary",
@@ -23,7 +23,7 @@
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "parameters": {
             "take_profit": 50,
-            "stop_losss": 50
+            "stop_loss": 50
         },
         "data_sets": [{
             "feature_set": "primary",
@@ -39,7 +39,7 @@
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "parameters": {
             "take_profit": 50,
-            "stop_losss": 50
+            "stop_loss": 50
         },
         "data_sets": [{
             "feature_set": "primary",
@@ -55,7 +55,7 @@
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "parameters": {
             "take_profit": 50,
-            "stop_losss": 50
+            "stop_loss": 50
         },
         "data_sets": [{
             "feature_set": "primary",
