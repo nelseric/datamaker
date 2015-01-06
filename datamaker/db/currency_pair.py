@@ -29,6 +29,7 @@ class CurrencyPair(Base):
     instrument = Column(String, unique=True, index=True)
     pip_value = Column(Float)
     data_sets = relationship("DataSet", backref="currency_pair")
+    strategies = relationship("Strategy", backref="currency_pair")
 
     def __repr__(self):
         return "<CurrencyPair(instrument='{}', pip_value='{}')>".format(

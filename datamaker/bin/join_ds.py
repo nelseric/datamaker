@@ -13,8 +13,9 @@ def join_datasets(path=Path(".")):
     """
 
     session = db.Session()
-    for data_set in session.query(db.DataSet).all():
-        data_set.join(path)
+    for strategy in session.query(db.Strategy).all():
+        strategy.join(path)
+        
     session.commit()
 
 if __name__ == "__main__":

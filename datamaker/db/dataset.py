@@ -27,13 +27,6 @@ class DataSet(Base):
     currency_pair_id = Column(
         Integer, ForeignKey('currency_pairs.id'), primary_key=True)
 
-    def get_join_data_path(self, project_path):
-        db_path = project_path / "data" / "training"
-        if not db_path.exists():
-            db_path.mkdir()
-
-        return db_path / ("%s.pdy" % self.__file_repr__())
-
     def generate(self, project_path):
         db = self.currency_pair.get_feature_database(project_path)
 
@@ -54,18 +47,8 @@ class DataSet(Base):
             else:
                 print("Cached")
 
-    def join(self, project_path):
-        db = self.currency_pair.get_feature_database(project_path)
-        base = db.get(self.feature_set.features[0].key())
-
-        for feature in self.feature_set.features[1:]:
-            print(feature)
-            base = base.join(db.get(feature.key()))
-        np.save(self.get_join_data_path(project_path).open("w"), base)
-
     @staticmethod
-    def load(ds_dicts):
-        session = Session()
+    def load(ds_dicts, session=Session()):
         data_sets = []
         for data_set in ds_dicts:
             currency_pair = session.query(CurrencyPair).filter_by(
@@ -90,6 +73,3 @@ class DataSet(Base):
 
     def __repr__(self):
         return "<DataSet {}:{}>".format(self.currency_pair.instrument, self.feature_set.name)
-
-    def __file_repr__(self):
-        return "DS_{}_{}".format(self.currency_pair.instrument, self.feature_set.name)

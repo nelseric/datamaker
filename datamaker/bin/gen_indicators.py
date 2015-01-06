@@ -22,7 +22,6 @@ def gen_indicators(path=Path(".")):
     project = json.load((path / "project.json").open())
     for strategy in project["strategies"]:
         db.Strategy.load(strategy)
-        # db.DataSet.load(strategy["data_sets"])
 
     session = db.Session()
     for data_set in session.query(db.DataSet).all():
