@@ -5,8 +5,9 @@ import json
 
 import datamaker.db as db
 
+
 def gen_indicators(path=Path(".")):
-    """ 
+    """
         Load the list of indicator sets, get the features and calculate them
         for training data
     """
@@ -20,12 +21,12 @@ def gen_indicators(path=Path(".")):
     # load project info
     project = json.load((path / "project.json").open())
     for strategy in project["strategies"]:
-        data_sets = db.DataSet.load(strategy["indicators"])
-        data_sets = db.Session().query(db.DataSet).all()
-        import IPython
-        IPython.embed()
-        for data_set in data_sets:
-            data_set.generate(path)
+        db.Strategy.load(strategy)
+
+    session = db.Session()
+    for data_set in session.query(db.DataSet).all():
+        data_set.generate(path)
+    session.commit()
 
 if __name__ == "__main__":
     gen_indicators()

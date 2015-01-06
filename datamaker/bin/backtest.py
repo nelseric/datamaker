@@ -6,6 +6,8 @@ import pandas as pd
 from datamaker.backtest import Market, Backtest
 from datamaker.strategy.naive import NaiveBuy
 
+import IPython
+
 
 def run_backtest(path=Path(".")):
     historical = pd.HDFStore(

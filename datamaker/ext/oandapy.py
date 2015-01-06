@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import requests
 
@@ -8,6 +9,8 @@ Parameters that need to be embedded in the API url just need to be passed as a k
 
 E.g. oandapy_instance.get_instruments(instruments="EUR_USD")
 """
+
+
 class EndpointsMixin(object):
 
     """Rates"""
@@ -17,21 +20,21 @@ class EndpointsMixin(object):
         Docs: http://developer.oanda.com/docs/v1/rates/#get-an-instrument-list
         """
         params['accountId'] = account_id
-        endpoint  = 'v1/instruments'
+        endpoint = 'v1/instruments'
         return self.request(endpoint, params=params)
 
     def get_prices(self, **params):
         """ Get current prices
         Docs: http://developer.oanda.com/docs/v1/rates/#get-current-prices
         """
-        endpoint  = 'v1/prices'
+        endpoint = 'v1/prices'
         return self.request(endpoint, params=params)
 
     def get_history(self, **params):
         """ Retrieve instrument history
         Docs: http://developer.oanda.com/docs/v1/rates/#retrieve-instrument-history
         """
-        endpoint  = 'v1/candles'
+        endpoint = 'v1/candles'
         return self.request(endpoint, params=params)
 
     """Accounts"""
@@ -160,12 +163,15 @@ class EndpointsMixin(object):
         """ Get information for a transaction
         Docs: http://developer.oanda.com/docs/v1/transactions/#get-information-for-a-transaction
         """
-        endpoint = 'v1/accounts/%s/transactions/%s' % (account_id, transaction_id)
+        endpoint = 'v1/accounts/%s/transactions/%s' % (
+            account_id, transaction_id)
         return self.request(endpoint)
 
 """ Provides functionality for access to core OANDA API calls """
 
+
 class API(EndpointsMixin, object):
+
     def __init__(self, environment="practice", access_token=None):
         """Instantiates an instance of OandaPy's API wrapper
         :param environment: (optional) Provide the environment for oanda's REST api, either 'sandbox', 'practice', or 'live'. Default: practice
@@ -182,9 +188,10 @@ class API(EndpointsMixin, object):
         self.access_token = access_token
         self.client = requests.Session()
 
-        #personal token authentication
+        # personal token authentication
         if self.access_token:
-            self.client.headers['Authorization'] = 'Bearer ' + self.access_token
+            self.client.headers[
+                'Authorization'] = 'Bearer ' + self.access_token
 
     def request(self, endpoint, method='GET', params=None):
         """Returns dict of response from OANDA's open API
@@ -197,7 +204,7 @@ class API(EndpointsMixin, object):
         :type params: dict or None
         """
 
-        url = '%s/%s' % ( self.api_url, endpoint)
+        url = '%s/%s' % (self.api_url, endpoint)
 
         method = method.lower()
         params = params or {}
@@ -213,7 +220,7 @@ class API(EndpointsMixin, object):
         try:
             response = func(url, **request_args)
         except requests.RequestException as e:
-            print (str(e))
+            print(str(e))
         content = response.content.decode('utf-8')
 
         content = json.loads(content)
@@ -226,7 +233,9 @@ class API(EndpointsMixin, object):
 
 """HTTPS Streaming"""
 
+
 class Streamer():
+
     """ Provides functionality for HTTPS Streaming
     Docs: http://developer.oanda.com/docs/v1/stream/#rates-streaming
     """
@@ -247,9 +256,10 @@ class Streamer():
         self.client.stream = True
         self.connected = False
 
-        #personal token authentication
+        # personal token authentication
         if self.access_token:
-            self.client.headers['Authorization'] = 'Bearer ' + self.access_token
+            self.client.headers[
+                'Authorization'] = 'Bearer ' + self.access_token
 
     def start(self, ignore_heartbeat=True, **params):
         """ Starts the stream with the given parameters
@@ -277,7 +287,6 @@ class Streamer():
                     if not (ignore_heartbeat and data.has_key("heartbeat")):
                         self.on_success(data)
 
-
     def on_success(self, data):
         """ Called when data is successfully retrieved from the stream
         Override this to handle your streaming data.
@@ -304,11 +313,15 @@ class Streamer():
 
 """ Contains OANDA exception
 """
+
+
 class OandaError(Exception):
+
     """ Generic error class, catches oanda response errors
     """
 
     def __init__(self, error_response):
-        msg = "OANDA API returned error code %s (%s) " % (error_response['code'], error_response['message'])
+        msg = "OANDA API returned error code %s (%s) " % (
+            error_response['code'], error_response['message'])
 
         super(OandaError, self).__init__(msg)

@@ -1,13 +1,16 @@
 """
 @author: Eric Nelson
-"""
 
+* can be used, but it probably shouldn't
+"""
+__all__ = ["macd", "ewma", "noop", "bollinger_band",
+           "talib_indicators", "stochastic_oscillator"]
 
 class Feature(object):
 
     """
     Abstract interface for NN feature implementation
-    :param shift: The number of records to shift the 
+    :param shift: The number of records to shift the
                   input foreward, cannot be negative.
     """
 
@@ -47,7 +50,7 @@ class Feature(object):
 
     def _calculate(self, data):
         """
-          The method calculate method must be overwritten 
+          The method calculate method must be overwritten
           and should return a dataframe, that does not
           include the base data
 
