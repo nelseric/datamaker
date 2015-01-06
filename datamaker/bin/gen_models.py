@@ -34,6 +34,10 @@ def gen_models(path=Path(".")):
             # plot performance on test set
             model_inst.visualize(x_data[200:, :], y_data[200:])
 
+            # determine the optimal threshold
+            opt_thresh = model_inst.get_threshold(
+                x_data[200:, :], y_data[200:])
+
 
 if __name__ == "__main__":
     gen_models()

@@ -37,12 +37,47 @@ class Model(object):
 
         fpr, tpr, _ = roc_curve(test_data_y[:], test_data_y_pred[:, 1])
 
-        precision, recall, _ = precision_recall_curve(
-            test_data_y[:], test_data_y_pred[:, 1])
-
         plt.figure()
         plt.plot(fpr, tpr)
-        plt.show()
+        plt.draw()
+        plt.show(block=False)
+
+    def get_threshold(self, test_data_x, test_data_y):
+        """
+        Finds the optimal threshold. 
+        opt_thesh = arg_max{thresh}{((1+SBF)^(.5+SBF)(1-SBF)^(.5-SBF))^(days_attempted)
+        to make this not such a large number we will optimize the log(opt_thresh)
+        this is just fine because the log(opt_thresh) monotonically increases
+        with opt_thresh
+        where SBF is the supplemental boosting factor
+        """
+        # period should be 1440 later
+        period = 13
+        # Requisite Boosting factor
+        rbf = .04
+        test_data_y_pred = self.ml_mod.predict_proba(test_data_x)
+
+        prec, _, thresholds = precision_recall_curve(
+            test_data_y[:], test_data_y_pred[:, 1])
+
+        pred_partition = np.array_split(test_data_y_pred[:, 1], period)
+        max_per_period = [np.max(x) for x in pred_partition]
+
+        # npa: num periods attempted
+        npa = np.zeros(np.shape(thresholds))
+
+        for pred in range(len(thresholds)):
+            count_preds = 0
+            for max_val in max_per_period:
+                count_preds = count_preds + (thresholds[pred] < max_val)
+            npa[pred] = count_preds
+
+        opt_vals = np.zeros(np.shape(thresholds))
+
+        for n in range(len(opt_vals)):
+            opt_vals[n] = npa[n] * np.log((1 + (prec[n] - rbf)) ** (.5 + (prec[n] - rbf)) * (
+                1 - (prec[n] - rbf)) ** (.5 - (prec[n] - rbf)))
+
         import IPython
         IPython.embed()
 
@@ -97,7 +132,7 @@ class ETCModel(Model):
     def save_model(self, strategy_params):
         """Saves the model as a pickled file"""
 
-        pkl_path = 'models/' + strategy_params['instrument'] + '_ETC/'
-        if (not(os.path.isdir(pkl_path))):
+        pkl_path = 'models/' + strategy_params['name'] + '_ETC/'
+        if not os.path.isdir(pkl_path):
             os.mkdir(pkl_path)
         joblib.dump(self.ml_mod, pkl_path + 'model.pkl')
