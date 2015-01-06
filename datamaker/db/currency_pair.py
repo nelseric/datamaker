@@ -19,10 +19,15 @@ import pandas as pd
 import numpy as np
 
 
-# pylint: disable=C0103,W0232,C0111,W0142
+# pylint: disable=C0103,W0232
 
 
 class CurrencyPair(Base):
+
+    """
+        Definition of a currency pair. Only has instrument,
+         and pip value (value of a pip in base currency)
+    """
     __tablename__ = 'currency_pairs'
 
     id = Column(Integer, primary_key=True)
@@ -37,6 +42,8 @@ class CurrencyPair(Base):
             self.pip_value)
 
     def get_historical_database(self, project_path):
+        """ HDF5 store that holds historical data """
+
         db_path = project_path / "data" / "historical"
         if not db_path.exists():
             db_path.mkdir()
@@ -44,6 +51,8 @@ class CurrencyPair(Base):
         return pd.HDFStore(str(db_path / ("%s.h5" % self.instrument)))
 
     def get_feature_database(self, project_path):
+        """ HDF5 store that holds calculated features """
+
         db_path = project_path / "data" / "feature"
         if not db_path.exists():
             db_path.mkdir()
@@ -51,6 +60,7 @@ class CurrencyPair(Base):
         return pd.HDFStore(str(db_path / ("%s.h5" % self.instrument)))
 
     def historical_data(self, project_path):
+        """ loads historical the historical DataFrame, and memoizes it """
         try:
             return self._historical_data
         except AttributeError:
@@ -65,8 +75,8 @@ class CurrencyPair(Base):
         for chunk in HistoricalIterator(self.instrument, years):
             print(chunk)
             index = [np.datetime64(x["time"]) for x in chunk.candles]
-            
-            chunk_frame = pd.DataFrame(chunk.candles, index=index)                
+
+            chunk_frame = pd.DataFrame(chunk.candles, index=index)
             chunk_frame.drop(["complete", "time"], axis=1, inplace=True)
 
             database.append("ohlcv", chunk_frame)
@@ -85,6 +95,8 @@ class CurrencyPair(Base):
             existing = session.query(CurrencyPair).filter_by(
                 instrument=pair["instrument"]).first()
             if existing is None:
-                session.add(CurrencyPair(**pair))
+                session.add(
+                    CurrencyPair(instrument=pair["instrument"],
+                                 pip_value=pair["pip_value"]))
         session.commit()
         return session.query(CurrencyPair).all()

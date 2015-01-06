@@ -17,7 +17,7 @@ import warnings
 warnings.filterwarnings('ignore', category=tables.NaturalNameWarning)
 
 
-# pylint: disable=C0103,W0232,C0111,W0142,E1101
+# pylint: disable=C0103,W0232
 
 class DataSet(Base):
     __tablename__ = "data_sets"
@@ -28,6 +28,12 @@ class DataSet(Base):
         Integer, ForeignKey('currency_pairs.id'), primary_key=True)
 
     def generate(self, project_path):
+        """
+            Calculate all features in this dataset with the currency pair's historical data
+        """
+
+        # pylint: disable=E1101
+
         db = self.currency_pair.get_feature_database(project_path)
 
         historical = self.currency_pair.historical_data(project_path)
@@ -40,7 +46,7 @@ class DataSet(Base):
         for feature in features:
             print(feature)
             if feature.key() not in db:
-                feature_data = feature.load().calculate(historical)
+                feature_data = feature.load_calculator().calculate(historical)
                 print("Calculated")
                 db.put(feature.key(), feature_data)
                 print("Stored")
@@ -49,6 +55,9 @@ class DataSet(Base):
 
     @staticmethod
     def load(ds_dicts, session=Session()):
+        """
+            Create a dataset from a dict, if the dataset specified doesn't exist
+        """
         data_sets = []
         for data_set in ds_dicts:
             currency_pair = session.query(CurrencyPair).filter_by(
