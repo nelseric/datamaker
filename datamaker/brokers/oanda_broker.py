@@ -1,7 +1,7 @@
 """
 @author: Nathan Ward, Eric Nelson
 """
-import ext.oandapy as oandapy
+import datamaker.ext.oandapy as oandapy
 from datamaker.broker import Broker
 import numpy as np
 import pandas as pd

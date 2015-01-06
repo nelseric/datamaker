@@ -26,7 +26,8 @@ class TALibIndicator(Feature):
 
     def calculate(self, data_arg):
 
-        # data_arg = pd.DataFrame(data=data_arg, dtype='double')
+        data_arg = pd.DataFrame(data=data_arg, dtype='double', index=data_arg.index)
+
         talib_data = {'open': data_arg['openAsk'],
                       'high': data_arg['highAsk'],
                       'low': data_arg['lowAsk'],
