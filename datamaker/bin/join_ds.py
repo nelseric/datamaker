@@ -14,7 +14,7 @@ def join_datasets(path=Path(".")):
 
     session = db.Session()
     for strategy in session.query(db.Strategy).all():
-        strategy.join(path)
+        strategy.join_features(path)
         
     session.commit()
 

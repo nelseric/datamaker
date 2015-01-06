@@ -3,8 +3,8 @@
     "strategies": [{
         "name": "EUR_USD_BUY",
         "instrument": "EUR_USD",
-        "strategy": "naive.NaiveBuy",
-        "heuristic": "should_buy.ShouldBuy",
+        "strategy_class": "naive.NaiveBuy",
+        "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "parameters": {
             "take_profit": 50,
             "stop_losss": 50
@@ -19,8 +19,8 @@
     }, {
         "name": "EUR_USD_SELL",
         "instrument": "EUR_USD",
-        "strategy": "naive.NaiveSell",
-        "heuristic": "should_buy.ShouldSell",
+        "strategy_class": "naive.NaiveSell",
+        "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "parameters": {
             "take_profit": 50,
             "stop_losss": 50
@@ -35,8 +35,8 @@
     }, {
         "name": "GBP_USD_BUY",
         "instrument": "GBP_USD",
-        "strategy": "naive.NaiveSell",
-        "heuristic": "should_buy.ShouldSell",
+        "strategy_class": "naive.NaiveSell",
+        "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "parameters": {
             "take_profit": 50,
             "stop_losss": 50
@@ -51,8 +51,8 @@
     }, {
         "name": "GBP_USD_SELL",
         "instrument": "GBP_USD",
-        "strategy": "naive.NaiveBuy",
-        "heuristic": "should_buy.ShouldBuy",
+        "strategy_class": "naive.NaiveBuy",
+        "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "parameters": {
             "take_profit": 50,
             "stop_losss": 50

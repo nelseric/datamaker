@@ -17,8 +17,8 @@ class ShouldSell(Feature):
          time will be successful.
 
         :param data: OHLCV Currency pair data
-        :param limit_upper: The high value offset for a limit order
-        :param limit_lower: The low value offset for a limit order
+        :param take_profit: The high value offset for a limit order
+        :param stop_loss: The low value offset for a limit order
         :param search_limit: Limits the search range of the limit orders,
                               to speed computation
 
@@ -26,19 +26,22 @@ class ShouldSell(Feature):
          when it is used, this is calculated in O(n)
     """
 
-    def __init__(self, limit_upper=0.00055, limit_lower=0.00015,
-                 search_limit=1440, *args, **kwargs):
-        super(ShouldSell, self).__init__(*args, **kwargs)
-        self.limit_upper = limit_upper
-        self.limit_lower = limit_lower
+    def __init__(self, take_profit, stop_loss, search_limit=14400):
+
+        super(ShouldSell, self).__init__()
+        self.take_profit = take_profit
+        self.stop_loss = stop_loss
         self.search_limit = search_limit
+
+    def __repr__(self):
+        return "ShouldSell({}/{},{})".format(self.take_profit, self.stop_loss, self.search_limit)
 
     def _calculate(self, data):
         result = pd.DataFrame(
             apply(
                 data.values,
-                self.limit_upper,
-                self.limit_lower,
+                self.take_profit,
+                self.stop_loss,
                 self.search_limit),
             index=data.index
         )
