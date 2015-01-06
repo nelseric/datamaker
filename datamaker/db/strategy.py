@@ -45,6 +45,8 @@ class Strategy(Base):
         "DataSet", secondary=StrategyDataSet.__table__, backref="strategies")
 
     def get_join_data_path(self, project_path):
+        """ Path of where to store training data """
+
         db_path = project_path / "data" / "training"
         if not db_path.exists():
             db_path.mkdir()
@@ -52,6 +54,8 @@ class Strategy(Base):
         return str(db_path / ("%s.npy" % self.__file_repr__()))
 
     def join(self, project_path):
+        """ Joins all data sets toegether, and saves them as one dataframe """
+
         data_set = self.data_sets[0]
         print(data_set)
         db = data_set.currency_pair.get_feature_database(project_path)
@@ -65,11 +69,12 @@ class Strategy(Base):
             db = data_set.currency_pair.get_feature_database(project_path)
             for feature in data_set.feature_set.features[1:]:
                 base = base.join(
-                    db.get(feature.key()), rsuffix=("_"+data_set.currency_pair.instrument))
+                    db.get(feature.key()), rsuffix=("_" + data_set.currency_pair.instrument))
         print("Saving")
         util.save_pandas(self.get_join_data_path(project_path), base)
 
     def load_features(self, path):
+        """ Loads the joined training dataset """
         return util.load_pandas(self.get_join_data_path(path))
 
     @staticmethod
@@ -93,7 +98,9 @@ class Strategy(Base):
 
     def __repr__(self):
         params_list = [
-            "{}={}".format(key, self.heuristic_parameters[key]) for key in self.heuristic_parameters]
+            "{}={}".format(key, self.heuristic_parameters[key])
+            for key in self.heuristic_parameters
+        ]
         params = ",".join(params_list)
 
         return "<{}:{}:{}({})>".format(
