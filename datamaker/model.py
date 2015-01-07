@@ -28,6 +28,10 @@ class Model(object):
 
     def load_model(self, model_name):
         """Loads the model from a pickled file"""
+        pass
+
+    def get_prediction(self, test_data_x):
+        return self.ml_mod.predict_proba(test_data_x)
 
     def visualize(self, test_data_x, test_data_y):
         """
