@@ -106,12 +106,11 @@ class Model(object):
     def save_model(self, strategy_params):
         """Saves the model as a pickled file"""
 
-        
-
-        pkl_path = 'models/' + strategy_params['name'] + self.__class__.__name__
+        pkl_path = 'models/' + \
+            strategy_params['name'] + self.__class__.__name__
         if not os.path.isdir(pkl_path):
             os.mkdir(pkl_path)
-        joblib.dump(self.ml_mod, pkl_path + 'model.pkl', compress = True)
+        joblib.dump(self.ml_mod, pkl_path + '.pkl', compress=True)
 
 
 class ETCModel(Model):
@@ -147,5 +146,3 @@ class ETCModel(Model):
 
         # Save the model
         self.save_model(strategy_params)
-
-    
