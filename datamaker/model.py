@@ -86,20 +86,25 @@ class Model(object):
         IPython.embed()
 
     @staticmethod
-    def _preprocess(x_data, y_data):
+    def _preprocess(data, y_name):
         """
         Makes the data ready for classification; specifically this will 
         normalize the data and 
         see: http://scikit-learn.org/stable/modules/preprocessing.html
         """
 
-        # Scale the data first (zero mean, unit variance)
-        x_data = preprocessing.scale(x_data)
+        # fill in data from backwards to forwards
+        data.fillna(method='pad')
 
-        # Remove rows with NaN values within
-        keep_ind = ~np.isnan(x_data).any(axis=1)
-        x_data = x_data[keep_ind]
-        y_data = y_data[keep_ind]
+        # get rid of any rows that have missing data still (the first rows)
+        data.dropna(axis=0)
+
+        #split into x_data and y_data
+        y_data = data[y_name].values
+        x_data = data.drop(y_name, axis=1).values
+
+        # Covert to np array and scale to have 0 mean and unit (1) variance
+        x_data = preprocessing.scale(x_data)
 
         return x_data, y_data
 
