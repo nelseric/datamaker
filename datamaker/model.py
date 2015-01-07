@@ -103,13 +103,12 @@ class Model(object):
 
         return x_data, y_data
 
-    def save_model(self, strategy_params):
+    def save_model(self, strategy_params, path = ''):
         """Saves the model as a pickled file"""
 
-        pkl_path = 'models/' + \
-            strategy_params['name'] + self.__class__.__name__
-        if not os.path.isdir(pkl_path):
-            os.mkdir(pkl_path)
+        pkl_path = path + 'data/models/' + \
+            strategy_params['name'] + '_' + self.__class__.__name__
+        
         joblib.dump(self.ml_mod, pkl_path + '.pkl', compress=True)
 
 
