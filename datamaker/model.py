@@ -105,7 +105,7 @@ class Model(object):
         data = data.fillna(method='pad')
 
         # get rid of any rows that have missing data still (the first rows)
-        data = data.dropna(axis=1)
+        data = data.dropna(axis=0)
 
         # split into x_data and y_data
         y_data = data[y_name].values
