@@ -26,6 +26,7 @@ class Model(object):
         self.path = path
         self.ml_mod = []
 
+    @staticmethod
     def load_model(self, model_name):
         """Loads the model from a pickled file"""
         pass
@@ -84,7 +85,7 @@ class Model(object):
 
         import IPython
         IPython.embed()
-
+    @staticmethod
     def _preprocess(self, x_data, y_data):
         """
         Makes the data ready for classification; specifically this will 
