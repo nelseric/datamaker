@@ -37,8 +37,8 @@ class Strategy(Base):
 
     name = Column(String)
     currency_pair_id = Column(Integer, ForeignKey('currency_pairs.id'))
-    strategy = Column(String)
-    heuristic = Column(String)
+    strategy_class = Column(String)
+    heuristic_class = Column(String)
     heuristic_parameters = Column(PickleType)
 
     data_sets = relationship(
@@ -53,7 +53,16 @@ class Strategy(Base):
 
         return str(db_path / ("%s.npy" % self.__file_repr__()))
 
-    def join(self, project_path):
+    def get_heuristic_path(self, project_path):
+        """ Path of where to store training data """
+
+        db_path = project_path / "data" / "heuristic"
+        if not db_path.exists():
+            db_path.mkdir()
+
+        return str(db_path / ("%s.npy" % self.__file_repr__()))
+
+    def join_features(self, project_path):
         """ Joins all data sets toegether, and saves them as one dataframe """
 
         data_set = self.data_sets[0]
@@ -77,6 +86,27 @@ class Strategy(Base):
         """ Loads the joined training dataset """
         return util.load_pandas(self.get_join_data_path(path))
 
+    def heuristic(self):
+        """ Loads and configures the heuristic calculator class """
+        split_path = self.heuristic_class.split(".")
+        module = __import__('.'.join(split_path[:-1]), fromlist=[''])
+        klass = getattr(module, split_path[-1])
+        return klass(
+            take_profit=(
+                self.heuristic_parameters["take_profit"] * self.currency_pair.pip_value),
+            stop_loss=(
+                self.heuristic_parameters["stop_loss"] * self.currency_pair.pip_value),
+            search_limit=self.heuristic_parameters.get("search_limit", 14400))
+
+    def calculate_heuristic(self, path):
+        """ Calculates and saves the heuristic to a dataframe """
+        data = self.heuristic().calculate(self.currency_pair.historical_data(path))
+        util.save_pandas(self.get_heuristic_path(path), data)
+
+    def load_heuristic(self, path):
+        """ Loads the heuristic dataframe """
+        return util.load_pandas(self.get_heuristic_path(path))
+
     @staticmethod
     def load(strategy_dict):
         session = Session()
@@ -88,8 +118,8 @@ class Strategy(Base):
             strategy = Strategy(
                 name=strategy_dict["name"],
                 currency_pair_id=currency_pair.id,
-                strategy=strategy_dict["strategy"],
-                heuristic=strategy_dict["heuristic"],
+                strategy_class=strategy_dict["strategy_class"],
+                heuristic_class=strategy_dict["heuristic_class"],
                 heuristic_parameters=strategy_dict["parameters"])
 
         session.add(strategy)
@@ -104,9 +134,9 @@ class Strategy(Base):
         params = ",".join(params_list)
 
         return "<{}:{}:{}({})>".format(
-            self.strategy,
+            self.strategy_class,
             self.currency_pair.instrument,
-            self.heuristic,
+            self.heuristic_class,
             params)
 
     def __file_repr__(self):

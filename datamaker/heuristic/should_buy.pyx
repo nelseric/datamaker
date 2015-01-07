@@ -7,42 +7,42 @@ from datamaker.feature import Feature
 import pandas as pd
 
 
-class ShouldSell(Feature):
+class ShouldBuy(Feature):
 
     """
-        This calculates whether or not the pair price will hit
-         the upper limit before it hits the lower limit, or the search limit.
+        This calculates whether or not the pair price will hit the upper limit
+        before it hits the lower limit, or the search limit.
 
-        This basically checks if a purchase limit order placed at a specific
-         time will be successful.
+        This basically checks if a purchase limit order placed at
+        a specific time will be successful.
 
         :param data: OHLCV Currency pair data
-        :param limit_upper: The high value offset for a limit order
-        :param limit_lower: The low value offset for a limit order
-        :param search_limit: Limits the search range of the limit orders,
-                              to speed computation
+        :param take_profit: The high value offset for a limit order
+        :param stop_loss: The low value offset for a limit order
+        :param search_limit: Limits the search range of the limit
+                             orders, to speed computation
 
-        Without the search limit, this calculation is O(n^2) worst case,
-         when it is used, this is calculated in O(n)
+        Without the search limit, this calculation is O(n^2) worst case, when
+        it is used, this is calculated in O(n)
     """
 
-    def __init__(self, limit_upper=0.00055, limit_lower=0.00015,
-                 search_limit=1440, *args, **kwargs):
-        super(ShouldSell, self).__init__(*args, **kwargs)
-        self.limit_upper = limit_upper
-        self.limit_lower = limit_lower
+    def __init__(self, take_profit, stop_loss, search_limit=14400):
+        
+        super(ShouldBuy, self).__init__()
+        self.take_profit = take_profit
+        self.stop_loss = stop_loss
         self.search_limit = search_limit
+
+    def __repr__(self):
+        return "ShouldBuy(tp={},sl={},sl={})".format(self.take_profit, self.stop_loss, self.search_limit)
 
     def _calculate(self, data):
         result = pd.DataFrame(
-            apply(
-                data.values,
-                self.limit_upper,
-                self.limit_lower,
-                self.search_limit),
+            apply(data.values, self.take_profit,
+                  self.stop_loss, self.search_limit),
             index=data.index
         )
-        result.columns = ["ShouldSell"]
+        result.columns = ["ShouldBuy"]
         return result
 
 
@@ -51,7 +51,7 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data,
                         int limit):
     # """
     #   This does the actual computation for ShouldBuy.
-    #    It expects the data at the following indexes:
+    #   It expects the data at the following indexes:
     #     0 Ask         open            1.084150 Ask_close
     #     1             high            1.084150 Bid_close
     #     2             low             1.083600 Ask_high
@@ -69,10 +69,7 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data,
     cdef double target_high, target_low
 
     cdef ask_close = 0
-    cdef bid_close = 1
-    cdef ask_high = 2
     cdef bid_high = 3
-    cdef ask_low = 4
     cdef bid_low = 5
 
     for i in range(n):
@@ -81,15 +78,15 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data,
         else:
             cmp_limit = limit
 
-        target_high = data[i][bid_close] + margin_upper
-        target_low = data[i][bid_close] - margin_lower
+        target_high = data[i][ask_close] + margin_upper
+        target_low = data[i][ask_close] - margin_lower
 
         res[i] = 0
         for j in range(cmp_limit):
-            if data[i + j][ask_high] >= target_high:
-                res[i] = 0
-                break
-            elif data[i + j][ask_low] <= target_low:
+            if data[i + j][bid_high] >= target_high:
                 res[i] = 1
+                break
+            elif data[i + j][bid_low] <= target_low:
+                res[i] = 0
                 break
     return res
