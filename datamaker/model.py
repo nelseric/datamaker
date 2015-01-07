@@ -21,13 +21,12 @@ class Model(object):
     Parent class for all machine learning classfiers and regressors
     """
 
-    def __init__(self, path):
+    def __init__(self):
         super(Model, self).__init__()
-        self.path = path
         self.ml_mod = []
 
     @staticmethod
-    def load_model(self, model_name):
+    def load_model(model_name):
         """Loads the model from a pickled file"""
         pass
 
@@ -85,8 +84,9 @@ class Model(object):
 
         import IPython
         IPython.embed()
+
     @staticmethod
-    def _preprocess(self, x_data, y_data):
+    def _preprocess(x_data, y_data):
         """
         Makes the data ready for classification; specifically this will 
         normalize the data and 
@@ -103,6 +103,16 @@ class Model(object):
 
         return x_data, y_data
 
+    def save_model(self, strategy_params):
+        """Saves the model as a pickled file"""
+
+        
+
+        pkl_path = 'models/' + strategy_params['name'] + self.__class__.__name__
+        if not os.path.isdir(pkl_path):
+            os.mkdir(pkl_path)
+        joblib.dump(self.ml_mod, pkl_path + 'model.pkl', compress = True)
+
 
 class ETCModel(Model):
 
@@ -110,12 +120,16 @@ class ETCModel(Model):
     The Extremely Random Forest Classifier (ExtraTreesClassifier)
     """
 
-    def __init__(self, path):
-        super(ETCModel, self).__init__(path)
+    def __init__(self):
+        super(ETCModel, self).__init__()
 
     def train(self, x_data, y_data, model_params, strategy_params):
         """
-        Trains the ETC Model
+        Trains the ETC Model.
+        x_data is the input features such as technical indicators
+        y_data is the calculated heuristic, or the output values in other words
+        model params are the model parameters taken from the json file
+        strategy params are the strategy parameters taken from the json file
         """
 
         # Instantiate the models
@@ -134,10 +148,4 @@ class ETCModel(Model):
         # Save the model
         self.save_model(strategy_params)
 
-    def save_model(self, strategy_params):
-        """Saves the model as a pickled file"""
-
-        pkl_path = 'models/' + strategy_params['name'] + '_ETC/'
-        if not os.path.isdir(pkl_path):
-            os.mkdir(pkl_path)
-        joblib.dump(self.ml_mod, pkl_path + 'model.pkl')
+    

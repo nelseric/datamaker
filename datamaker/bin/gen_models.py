@@ -23,7 +23,7 @@ def gen_models(path=Path(".")):
             model_params = json.load(model_file.open())
 
             # Initialize model
-            model_inst = getattr(mlmod, model_params['model_type'])(path)
+            model_inst = getattr(mlmod, model_params['model_type'])()
 
             # Train model on data
             x_data, y_data = make_classification(n_samples=300, n_features=4)
