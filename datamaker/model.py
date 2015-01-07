@@ -30,13 +30,18 @@ class Model(object):
         """Loads the model from a pickled file"""
         pass
 
-    def get_prediction(self, test_data_x):
+    def get_prediction(self, data):
+        "Get prediction from features, used in real-time prediction"
+        test_data_x, _ = self._preprocess(data)
         return self.ml_mod.predict_proba(test_data_x)
 
-    def visualize(self, test_data_x, test_data_y):
+    def visualize(self, data):
         """
         Plots the ROC curve of the ml model
         """
+
+        test_data_x, _ = self._preprocess(data)
+
         test_data_y_pred = self.ml_mod.predict_proba(test_data_x)
 
         fpr, tpr, _ = roc_curve(test_data_y[:], test_data_y_pred[:, 1])
@@ -46,7 +51,7 @@ class Model(object):
         plt.draw()
         plt.show(block=False)
 
-    def get_threshold(self, test_data_x, test_data_y):
+    def get_threshold(self, data):
         """
         Finds the optimal threshold. 
         opt_thesh = arg_max{thresh}{((1+SBF)^(.5+SBF)(1-SBF)^(.5-SBF))^(days_attempted)
@@ -59,6 +64,9 @@ class Model(object):
         period = 13
         # Requisite Boosting factor
         rbf = .04
+
+        test_data_x, test_data_y = self._preprocess(data)
+
         test_data_y_pred = self.ml_mod.predict_proba(test_data_x)
 
         prec, _, thresholds = precision_recall_curve(
@@ -86,7 +94,7 @@ class Model(object):
         IPython.embed()
 
     @staticmethod
-    def _preprocess(data, y_name):
+    def _preprocess(data, y_name = 'ShouldBuy'):
         """
         Makes the data ready for classification; specifically this will 
         normalize the data and 
@@ -94,26 +102,26 @@ class Model(object):
         """
 
         # fill in data from backwards to forwards
-        data.fillna(method='pad')
+        data = data.fillna(method='pad')
 
         # get rid of any rows that have missing data still (the first rows)
-        data.dropna(axis=0)
+        data = data.dropna(axis=1)
 
-        #split into x_data and y_data
+        # split into x_data and y_data
         y_data = data[y_name].values
-        x_data = data.drop(y_name, axis=1).values
+        x_data = data.drop(y_name, axis=0).values
 
         # Covert to np array and scale to have 0 mean and unit (1) variance
         x_data = preprocessing.scale(x_data)
 
         return x_data, y_data
 
-    def save_model(self, strategy_params, path = ''):
+    def save_model(self, strategy_params, path=''):
         """Saves the model as a pickled file"""
 
         pkl_path = path + 'data/models/' + \
             strategy_params['name'] + '_' + self.__class__.__name__
-        
+
         joblib.dump(self.ml_mod, pkl_path + '.pkl', compress=True)
 
 
@@ -126,7 +134,7 @@ class ETCModel(Model):
     def __init__(self):
         super(ETCModel, self).__init__()
 
-    def train(self, x_data, y_data, model_params, strategy_params):
+    def train(self, data, model_params, strategy_params):
         """
         Trains the ETC Model.
         x_data is the input features such as technical indicators
