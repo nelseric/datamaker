@@ -105,11 +105,11 @@ class Model(object):
         data = data.fillna(method='pad')
 
         # get rid of any rows that have missing data still (the first rows)
-        data = data.dropna(axis=1)
+        data = data.dropna(axis=0)
 
         # split into x_data and y_data
         y_data = data[y_name].values
-        x_data = data.drop(y_name, axis=0).values
+        x_data = data.drop(y_name, axis=1).values
 
         # Covert to np array and scale to have 0 mean and unit (1) variance
         x_data = preprocessing.scale(x_data)
