@@ -12,6 +12,8 @@ import numpy as np
 
 import IPython
 
+import datamaker.util as util
+
 # pylint: disable=C0103,W0232
 
 class DataSet(Base):
