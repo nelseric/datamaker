@@ -12,11 +12,6 @@ import numpy as np
 
 import IPython
 
-import tables
-import warnings
-warnings.filterwarnings('ignore', category=tables.NaturalNameWarning)
-
-
 # pylint: disable=C0103,W0232
 
 class DataSet(Base):

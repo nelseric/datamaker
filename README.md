@@ -11,9 +11,13 @@ Some of our pip dependencies are awful and won't install unless you install its 
 1. First install these apt packages for SciPY, and HDF5 support
 ```
 #!bash
-$ sudo apt-get install -y h5utils libhdf5-dev libblas-dev liblapack-dev gfortran
+$ sudo apt-get install -y h5utils libhdf5-dev libblas-dev liblapack-dev gfortran 
+
+# This is sometimes necesary if matplotlib won't install
+$ sudo apt-get build-dep python-matplotlib
 
 ```
+
 Next, install some pyhton packages
 ```
 #!bash
@@ -49,5 +53,6 @@ Timestamp,Bid price,Ask price,Bid volume,Ask volume
 ## Miscellaneous Notes: ##
 1. The stop_mode argument in the experiment expects "ts" for trailing stop
 2. If the user is using trailing stop they should use the should_buy_ts for result
+<<<<<<< Updated upstream
 
 How to Install TA-Lib: https://github.com/mrjbq7/ta-lib
