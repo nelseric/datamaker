@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, PickleType, ForeignKey
 
 from datamaker.db.base import Base
 from datamaker.db import Session
+import re
 
 # pylint: disable=C0103,W0232,E1101
 
@@ -76,7 +77,8 @@ class Feature(Base):
         params_list = [
             "{}={}".format(key, self.parameters[key]) for key in self.parameters]
         params = ",".join(params_list)
-        return "{}({})".format(self.feature_class, params)
+        raw_key = "{}({})".format(self.feature_class, params)
+        return re.sub(r'[:=.,()]', "_", raw_key)
 
     def __repr__(self):
         return "{}:{}".format(self.feature_set.name, self.key())

@@ -48,8 +48,9 @@ setup(
             'dm-gen = datamaker.bin.gen_indicators:gen_indicators',
             'dm-hist = datamaker.bin.get_historical:get_historical',
             'dm-join = datamaker.bin.join_ds:join_datasets',
+            'dm-gen-models = datamaker.bin.gen_models:gen_models',
             'dm-heuristic = datamaker.bin.calculate_heuristic:calculate_heuristic',
-
+            
             'idle = idlelib.PyShell:main'
         ]
     }
