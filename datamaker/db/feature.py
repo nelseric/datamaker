@@ -75,7 +75,7 @@ class Feature(Base):
              calculated feature in a  currency pair's feature store
         """
         params_list = [
-            "{}={}".format(key, self.parameters[key]) for key in self.parameters]
+            "{}{}".format(key, self.parameters[key]) for key in self.parameters]
         params = ",".join(params_list)
         raw_key = "{}({})".format(self.feature_class, params)
         return re.sub(r'[:=.,()]', "_", raw_key)

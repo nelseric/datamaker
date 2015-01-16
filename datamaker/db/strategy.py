@@ -67,18 +67,20 @@ class Strategy(Base):
 
         data_set = self.data_sets[0]
         print(data_set)
-        db = data_set.currency_pair.get_feature_database(project_path)
-        base = db.get(data_set.feature_set.features[0].key())
+
+        feature_path = data_set.currency_pair.feature_path(project_path) / (feature.key() + ".npy")
+
+        base = data_set.feature_set.features[0].key()
         for feature in data_set.feature_set.features[1:]:
             base = base.join(
                 db.get(feature.key()))
 
-        for data_set in self.data_sets[1:]:
-            print(data_set)
-            db = data_set.currency_pair.get_feature_database(project_path)
-            for feature in data_set.feature_set.features[1:]:
-                base = base.join(
-                    db.get(feature.key()), rsuffix=("_" + data_set.currency_pair.instrument))
+        # for data_set in self.data_sets[1:]:
+        #     print(data_set)
+        #     db = data_set.currency_pair.get_feature_database(project_path)
+        #     for feature in data_set.feature_set.features[1:]:
+        #         base = base.join(
+                    # db.get(feature.key()), rsuffix=("_" + data_set.currency_pair.instrument))
         print("Saving")
         util.save_pandas(self.get_join_data_path(project_path), base)
 

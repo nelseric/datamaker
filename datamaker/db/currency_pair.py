@@ -46,18 +46,16 @@ class CurrencyPair(Base):
 
         db_path = project_path / "data" / "historical"
         if not db_path.exists():
-            db_path.mkdir()
+            db_path.mkdir(parents=True)
 
         return pd.HDFStore(str(db_path / ("%s.h5" % self.instrument)))
 
-    def get_feature_database(self, project_path):
-        """ HDF5 store that holds calculated features """
-
-        db_path = project_path / "data" / "feature"
-        if not db_path.exists():
-            db_path.mkdir()
-
-        return pd.HDFStore(str(db_path / ("%s.h5" % self.instrument)))
+    def feature_path(self, project_path):
+        """ Path to store calculated features """
+        feature_path = project_path / "data" / "feature" / self.instrument
+        if not feature_path.exists():
+            feature_path.mkdir(parents=True)
+        return feature_path
 
     def historical_data(self, project_path):
         """ loads historical the historical DataFrame, and memoizes it """
