@@ -69,6 +69,10 @@ class Feature(Base):
         klass = getattr(module, split_path[-1])
         return klass(**self.parameters)
 
+    def calculate(self, historical):
+        """ convenience method for calculating the feature """
+        return self.load_calculator().calculate(historical)
+
     def key(self):
         """
             Unique identifer for this feeature, used to look up a

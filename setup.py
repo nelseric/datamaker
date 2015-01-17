@@ -29,7 +29,7 @@ class PyTest(TestCommand):
 
 setup(
     name='datamaker',
-    version='0.0.2',
+    version='0.0.3',
     packages=find_packages(),
     url='',
     license='',
@@ -44,12 +44,11 @@ setup(
     entry_points={
         'console_scripts': [
             'dm = datamaker.bin:dm_main',
-            'dm-backtest = datamaker.bin.backtest:run_backtest',
-            'dm-gen = datamaker.bin.gen_indicators:gen_indicators',
             'dm-hist = datamaker.bin.get_historical:get_historical',
-            'dm-join = datamaker.bin.join_ds:join_datasets',
-            'dm-gen-models = datamaker.bin.gen_models:gen_models',
-            'dm-heuristic = datamaker.bin.calculate_heuristic:calculate_heuristic',
+            'dm-gen-training = datamaker.bin.gen_indicators:gen_indicators',
+            'dm-gen-heuristic = datamaker.bin.calculate_heuristic:calculate_heuristic',
+            'dm-gen-models = datamaker.bin.gen_models:gen_models',  
+            'dm-backtest = datamaker.bin.backtest:run_backtest',
             
             'idle = idlelib.PyShell:main'
         ]

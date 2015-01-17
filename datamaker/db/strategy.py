@@ -44,7 +44,7 @@ class Strategy(Base):
     data_sets = relationship(
         "DataSet", secondary=StrategyDataSet.__table__, backref="strategies")
 
-    def get_join_data_path(self, project_path):
+    def get_training_data_path(self, project_path):
         """ Path of where to store training data """
 
         db_path = project_path / "data" / "training"
@@ -62,31 +62,27 @@ class Strategy(Base):
 
         return str(db_path / ("%s.npy" % self.__file_repr__()))
 
-    def join_features(self, project_path):
+    def calculate_training_data(self, project_path):
         """ Joins all data sets toegether, and saves them as one dataframe """
 
-        data_set = self.data_sets[0]
-        print(data_set)
+        base = None
 
-        feature_path = data_set.currency_pair.feature_path(project_path) / (feature.key() + ".npy")
+        for data_set in self.data_sets:
+            print(data_set)
+            historical = data_set.currency_pair.historical_data(project_path)
+            for feature in data_set.feature_set.features:
+                print(feature)
+                if base is not None:
+                    base = base.join(feature.calculate(historical), rsuffix=data_set.currency_pair.instrument)
+                else:
+                    base = feature.calculate(historical)
 
-        base = data_set.feature_set.features[0].key()
-        for feature in data_set.feature_set.features[1:]:
-            base = base.join(
-                db.get(feature.key()))
-
-        # for data_set in self.data_sets[1:]:
-        #     print(data_set)
-        #     db = data_set.currency_pair.get_feature_database(project_path)
-        #     for feature in data_set.feature_set.features[1:]:
-        #         base = base.join(
-                    # db.get(feature.key()), rsuffix=("_" + data_set.currency_pair.instrument))
         print("Saving")
-        util.save_pandas(self.get_join_data_path(project_path), base)
+        util.save_pandas(self.get_training_data_path(project_path), base)
 
     def load_features(self, path):
         """ Loads the joined training dataset """
-        return util.load_pandas(self.get_join_data_path(path))
+        return util.load_pandas(self.get_training_data_path(path))
 
     def heuristic(self):
         """ Loads and configures the heuristic calculator class """
