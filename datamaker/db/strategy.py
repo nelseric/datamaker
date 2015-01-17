@@ -73,7 +73,9 @@ class Strategy(Base):
             for feature in data_set.feature_set.features:
                 print(feature)
                 if base is not None:
-                    base = base.join(feature.calculate(historical), rsuffix=data_set.currency_pair.instrument)
+		    newCols = feature.calculate(historical)
+		    for col in newCols.keys():
+                        base[feature.key()] = newCols[col]
                 else:
                     base = feature.calculate(historical)
 
