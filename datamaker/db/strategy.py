@@ -68,16 +68,19 @@ class Strategy(Base):
         base = None
 
         for data_set in self.data_sets:
+            ds_features = []
             print(data_set)
             historical = data_set.currency_pair.historical_data(project_path)
             for feature in data_set.feature_set.features:
                 print(feature)
-                if base is not None:
-		    newCols = feature.calculate(historical)
-		    for col in newCols.keys():
-                        base[feature.key()] = newCols[col]
-                else:
-                    base = feature.calculate(historical)
+                ds_features.append(feature.calculate(historical))
+
+            if base is not None:
+                base = base.join(
+                    pd.concat(ds_features, axis=1, copy=False),
+                    rsuffix=data_set.currency_pair.instrument)
+            else:
+                base = pd.concat(ds_features, axis=1, copy=False)
 
         print("Saving")
         util.save_pandas(self.get_training_data_path(project_path), base)
@@ -100,7 +103,8 @@ class Strategy(Base):
 
     def calculate_heuristic(self, path):
         """ Calculates and saves the heuristic to a dataframe """
-        data = self.heuristic().calculate(self.currency_pair.historical_data(path))
+        data = self.heuristic().calculate(
+            self.currency_pair.historical_data(path))
         util.save_pandas(self.get_heuristic_path(path), data)
 
     def load_heuristic(self, path):
