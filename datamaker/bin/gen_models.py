@@ -26,17 +26,27 @@ def gen_models(path=Path(".")):
             model_inst = getattr(mlmod, model_params['model_type'])()
 
             # Train model on data
-            x_data, y_data = make_classification(n_samples=300, n_features=4)
+            n_samples = 300
+            x_data, y_data = make_classification(
+                n_samples=n_samples, n_features=4)
+            
+            import IPython
+            IPython.embed()
+
+            data_arg = np.hstack((x_data, np.reshape(y_data, [n_samples, 1])))
+
+            data_arg_train = pd.DataFrame(data_arg[:200, :])
+            data_arg_test = pd.DataFrame(data_arg[200:, :])
 
             model_inst.train(
-                x_data[:200, :], y_data[:200], model_params, strat_element)
+                data_arg_train, model_params, strat_element)
 
             # plot performance on test set
-            model_inst.visualize(x_data[200:, :], y_data[200:])
+            model_inst.visualize(data_arg_test)
 
             # determine the optimal threshold
             opt_thresh = model_inst.get_threshold(
-                x_data[200:, :], y_data[200:])
+                data_arg_test)
 
 
 if __name__ == "__main__":
