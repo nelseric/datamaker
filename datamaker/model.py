@@ -124,7 +124,7 @@ class Model(object):
 
         return x_data, y_data
 
-    def model_name(strategy_params):
+    def model_name(self, strategy_params):
         return "{}_{}.pkl".format(strategy_params['name'], self.__class__.__name__ )
 
     def save_model(self, strategy_params, path=Path('.')):
