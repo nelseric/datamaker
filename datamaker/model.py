@@ -25,10 +25,16 @@ class Model(object):
         super(Model, self).__init__()
         self.ml_mod = []
 
-    @staticmethod
-    def load_model(model_name):
+    
+    def load_model(self, strategy_params, path=''):
         """Loads the model from a pickled file"""
-        pass
+        import IPython
+        IPython.embed()
+        pkl_path = path + 'data/models/' + \
+            strategy_params['name'] + '_' + self.__class__.__name__
+        
+        return joblib.load(pkl_path + '.pkl')
+        
 
     def get_prediction(self, data):
         "Get prediction from features, used in real-time prediction"
@@ -40,7 +46,7 @@ class Model(object):
         Plots the ROC curve of the ml model
         """
 
-        test_data_x, _ = self._preprocess(data)
+        test_data_x, test_data_y = self._preprocess(data)
 
         test_data_y_pred = self.ml_mod.predict_proba(test_data_x)
 
@@ -108,8 +114,8 @@ class Model(object):
         data = data.dropna(axis=0)
 
         # split into x_data and y_data
-        y_data = data[y_name].values
-        x_data = data.drop(y_name, axis=1).values
+        y_data = data.iloc[:,-1]
+        x_data = data.iloc[:,:-1]
 
         # Covert to np array and scale to have 0 mean and unit (1) variance
         x_data = preprocessing.scale(x_data)
@@ -142,7 +148,8 @@ class ETCModel(Model):
         model params are the model parameters taken from the json file
         strategy params are the strategy parameters taken from the json file
         """
-
+        
+        
         # Instantiate the models
         mod_inst = ExtraTreesClassifier()
         mod_inst.set_params(**model_params['all_params']['model_params'])
@@ -150,7 +157,7 @@ class ETCModel(Model):
         meta_est.set_params(**model_params['all_params']['bagging_params'])
 
         # Preprocess the data
-        x_data, y_data = self._preprocess(x_data, y_data)
+        x_data, y_data = self._preprocess(data)
 
         # Train the model
         meta_est.fit(x_data, y_data)
