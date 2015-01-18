@@ -44,7 +44,7 @@ class Strategy(Base):
     data_sets = relationship(
         "DataSet", secondary=StrategyDataSet.__table__, backref="strategies")
 
-    def get_join_data_path(self, project_path):
+    def get_training_data_path(self, project_path):
         """ Path of where to store training data """
 
         db_path = project_path / "data" / "training"
@@ -62,29 +62,32 @@ class Strategy(Base):
 
         return str(db_path / ("%s.npy" % self.__file_repr__()))
 
-    def join_features(self, project_path):
+    def calculate_training_data(self, project_path):
         """ Joins all data sets toegether, and saves them as one dataframe """
 
-        data_set = self.data_sets[0]
-        print(data_set)
-        db = data_set.currency_pair.get_feature_database(project_path)
-        base = db.get(data_set.feature_set.features[0].key())
-        for feature in data_set.feature_set.features[1:]:
-            base = base.join(
-                db.get(feature.key()))
+        base = None
 
-        for data_set in self.data_sets[1:]:
+        for data_set in self.data_sets:
+            ds_features = []
             print(data_set)
-            db = data_set.currency_pair.get_feature_database(project_path)
-            for feature in data_set.feature_set.features[1:]:
+            historical = data_set.currency_pair.historical_data(project_path)
+            for feature in data_set.feature_set.features:
+                print(feature)
+                ds_features.append(feature.calculate(historical))
+
+            if base is not None:
                 base = base.join(
-                    db.get(feature.key()), rsuffix=("_" + data_set.currency_pair.instrument))
+                    pd.concat(ds_features, axis=1, copy=False),
+                    rsuffix=data_set.currency_pair.instrument)
+            else:
+                base = pd.concat(ds_features, axis=1, copy=False)
+
         print("Saving")
-        util.save_pandas(self.get_join_data_path(project_path), base)
+        util.save_pandas(self.get_training_data_path(project_path), base)
 
     def load_features(self, path):
         """ Loads the joined training dataset """
-        return util.load_pandas(self.get_join_data_path(path))
+        return util.load_pandas(self.get_training_data_path(path))
 
     def heuristic(self):
         """ Loads and configures the heuristic calculator class """
@@ -100,7 +103,8 @@ class Strategy(Base):
 
     def calculate_heuristic(self, path):
         """ Calculates and saves the heuristic to a dataframe """
-        data = self.heuristic().calculate(self.currency_pair.historical_data(path))
+        data = self.heuristic().calculate(
+            self.currency_pair.historical_data(path))
         util.save_pandas(self.get_heuristic_path(path), data)
 
     def load_heuristic(self, path):

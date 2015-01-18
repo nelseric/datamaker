@@ -24,8 +24,8 @@ def gen_indicators(path=Path(".")):
         db.Strategy.load(strategy)
 
     session = db.Session()
-    for data_set in session.query(db.DataSet).all():
-        data_set.generate(path)
+    for strategy in session.query(db.Strategy).all():
+        strategy.calculate_training_data(path)
     session.commit()
 
 if __name__ == "__main__":

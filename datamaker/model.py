@@ -14,6 +14,8 @@ from sklearn.metrics import precision_recall_curve
 import matplotlib.pyplot as plt
 import os
 
+from pathlib import Path
+
 
 class Model(object):
 
@@ -108,10 +110,10 @@ class Model(object):
         """
 
         # fill in data from backwards to forwards
-        data = data.fillna(method='pad')
+        data.fillna(method='pad', inplace=True)
 
         # get rid of any rows that have missing data still (the first rows)
-        data = data.dropna(axis=0)
+        data.dropna(axis=0, inplace=True)
 
         # split into x_data and y_data
         y_data = data.iloc[:,-1]
@@ -122,13 +124,18 @@ class Model(object):
 
         return x_data, y_data
 
-    def save_model(self, strategy_params, path=''):
+    def model_name(strategy_params):
+        return "{}_{}.pkl".format(strategy_params['name'], self.__class__.__name__ )
+
+    def save_model(self, strategy_params, path=Path('.')):
         """Saves the model as a pickled file"""
 
-        pkl_path = path + 'data/models/' + \
-            strategy_params['name'] + '_' + self.__class__.__name__
+        pkl_path = path / 'data' / 'models/' 
 
-        joblib.dump(self.ml_mod, pkl_path + '.pkl', compress=True)
+        if not pkl_path.exists():
+            pkl_path.mkdir(parents=True)
+
+        joblib.dump(self.ml_mod, str(pkl_path / self.model_name(strategy_params)), compress=True)
 
 
 class ETCModel(Model):
@@ -140,11 +147,11 @@ class ETCModel(Model):
     def __init__(self):
         super(ETCModel, self).__init__()
 
-    def train(self, data, model_params, strategy_params):
+    def train(self, data, y_name, model_params, strategy_params):
         """
         Trains the ETC Model.
         x_data is the input features such as technical indicators
-        y_data is the calculated heuristic, or the output values in other words
+        y_name is the calculated heuristic, or the output values in other words
         model params are the model parameters taken from the json file
         strategy params are the strategy parameters taken from the json file
         """

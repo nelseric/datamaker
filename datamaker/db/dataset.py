@@ -12,6 +12,8 @@ import numpy as np
 
 import IPython
 
+import datamaker.util as util
+
 # pylint: disable=C0103,W0232
 
 class DataSet(Base):
@@ -29,8 +31,6 @@ class DataSet(Base):
 
         # pylint: disable=E1101
 
-        db = self.currency_pair.get_feature_database(project_path)
-
         historical = self.currency_pair.historical_data(project_path)
 
         session = Session()
@@ -39,11 +39,12 @@ class DataSet(Base):
             feature_set=self.feature_set)
 
         for feature in features:
-            print(feature)
-            if feature.key() not in db:
+            feature_path = self.currency_pair.feature_path(project_path) / (feature.key() + ".npy")
+            print(feature_path)
+            if not feature_path.exists():
                 feature_data = feature.load_calculator().calculate(historical)
                 print("Calculated")
-                db.put(feature.key(), feature_data)
+                util.save_pandas(str(feature_path), feature_data)
                 print("Stored")
             else:
                 print("Cached")
