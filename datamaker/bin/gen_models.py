@@ -15,9 +15,9 @@ def gen_models(path=Path(".")):
         Train the models and then save them for later
     """
 
-    strategy_params = json.load((path / 'project.json').open())
+    session = db.Session()
 
-    for strat_element in strategy_params['strategies']:
+    for strategy in session.query(db.Strategy).all():
         for model_file in path.glob("models/*.json"):
             # Load data
             model_params = json.load(model_file.open())
@@ -25,28 +25,29 @@ def gen_models(path=Path(".")):
             # Initialize model
             model_inst = getattr(mlmod, model_params['model_type'])()
 
-            # Train model on data
-            n_samples = 300
-            x_data, y_data = make_classification(
-                n_samples=n_samples, n_features=4)
-            
             import IPython
             IPython.embed()
 
-            data_arg = np.hstack((x_data, np.reshape(y_data, [n_samples, 1])))
+            data_tot = load_features(path)
+            train_bound = np.floor(
+                model_params['training_size'] * len(data_tot))
+            val_bound = train_bound + np.floor(
+                model_params['validation_size'] * len(data_tot))
+            test_bound = val_bound + np.floor(
+                model_params['test_size'] * len(data_tot))
 
-            data_arg_train = pd.DataFrame(data_arg[:200, :])
-            data_arg_test = pd.DataFrame(data_arg[200:, :])
+            data_train = data_tot.iloc[:train_bound, :]
+            data_valid = data_tot.iloc[train_bound:valid_bound, :]
+            data_train = data_tot.iloc[valid_bound:test_bound, :]
 
             model_inst.train(
-                data_arg_train, model_params, strat_element)
+                data_train, model_params, strat_element)
 
-            # plot performance on test set
-            model_inst.visualize(data_arg_test)
-
-            # determine the optimal threshold
+            model_inst.visualize(data_valid)
             opt_thresh = model_inst.get_threshold(
-                data_arg_test)
+                data_valid)
+
+            
 
 
 if __name__ == "__main__":
