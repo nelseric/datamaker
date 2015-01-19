@@ -25,10 +25,12 @@ def gen_models(path=Path(".")):
             # Initialize model
             model_inst = getattr(mlmod, model_params['model_type'])()
 
-            import IPython
-            IPython.embed()
+            s_name = strategy.name
 
-            data_tot = load_features(path)
+            data_tot = strategy.load_features(path).copy()
+            h_tot = strategy.load_heuristic(path).copy()
+            data_tot =pd.concat((data_tot, h_tot), axis = 1, copy = False)
+
             train_bound = np.floor(
                 model_params['training_size'] * len(data_tot))
             val_bound = train_bound + np.floor(
@@ -36,12 +38,12 @@ def gen_models(path=Path(".")):
             test_bound = val_bound + np.floor(
                 model_params['test_size'] * len(data_tot))
 
-            data_train = data_tot.iloc[:train_bound, :]
-            data_valid = data_tot.iloc[train_bound:valid_bound, :]
-            data_train = data_tot.iloc[valid_bound:test_bound, :]
+            data_train = data_tot.iloc[:train_bound, :].copy()
+            data_valid = data_tot.iloc[train_bound:val_bound, :].copy()
+            data_test = data_tot.iloc[val_bound:test_bound, :].copy()
 
             model_inst.train(
-                data_train, model_params, strat_element)
+                data_train, model_params, s_name)
 
             model_inst.visualize(data_valid)
             opt_thresh = model_inst.get_threshold(

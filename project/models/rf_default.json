@@ -11,7 +11,7 @@
           "verbose": 1
         },
       "bagging_params": {
-            "max_samples": 0.01,
+            "max_samples": 0.05,
             "max_features": 1
             }
       }
