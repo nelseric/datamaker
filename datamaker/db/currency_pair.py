@@ -36,6 +36,9 @@ class CurrencyPair(Base):
     data_sets = relationship("DataSet", backref="currency_pair")
     strategies = relationship("Strategy", backref="currency_pair")
 
+    # Memoization 
+    _historical_data = None
+
     def __repr__(self):
         return "<CurrencyPair(instrument='{}', pip_value='{}')>".format(
             self.instrument,
@@ -50,21 +53,12 @@ class CurrencyPair(Base):
 
         return pd.HDFStore(str(db_path / ("%s.h5" % self.instrument)))
 
-    def feature_path(self, project_path):
-        """ Path to store calculated features """
-        feature_path = project_path / "data" / "feature" / self.instrument
-        if not feature_path.exists():
-            feature_path.mkdir(parents=True)
-        return feature_path
-
     def historical_data(self, project_path):
         """ loads historical the historical DataFrame, and memoizes it """
-        try:
-            return self._historical_data
-        except AttributeError:
-            self._historical_data = self.get_historical_database(  # pylint: disable=W0201
+        if self._historical_data is None:
+            self._historical_data = self.get_historical_database( 
                 project_path).get("ohlcv")
-            return self._historical_data
+        return self._historical_data
 
     def download_historical_data(self, project_path, years):
         """ Get historical data and save it to a database """

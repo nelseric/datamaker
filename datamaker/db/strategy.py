@@ -37,9 +37,9 @@ class Strategy(Base):
 
     name = Column(String)
     currency_pair_id = Column(Integer, ForeignKey('currency_pairs.id'))
-    strategy_class = Column(String)
+    evaluator_class = Column(String)
     heuristic_class = Column(String)
-    heuristic_parameters = Column(PickleType)
+    parameters = Column(PickleType)
 
     data_sets = relationship(
         "DataSet", secondary=StrategyDataSet.__table__, backref="strategies")
@@ -96,10 +96,23 @@ class Strategy(Base):
         klass = getattr(module, split_path[-1])
         return klass(
             take_profit=(
-                self.heuristic_parameters["take_profit"] * self.currency_pair.pip_value),
+                self.parameters["take_profit"] * self.currency_pair.pip_value),
             stop_loss=(
-                self.heuristic_parameters["stop_loss"] * self.currency_pair.pip_value),
-            search_limit=self.heuristic_parameters.get("search_limit", 14400))
+                self.parameters["stop_loss"] * self.currency_pair.pip_value),
+            search_limit=self.parameters.get("search_limit", 14400))
+
+    def evaluator(self):
+        """ Loads and configures the heuristic calculator class """
+        split_path = self.evaluator_class.split(".")
+        module = __import__('.'.join(split_path[:-1]), fromlist=[''])
+        klass = getattr(module, split_path[-1])
+
+        return klass(
+            take_profit=(
+                self.parameters["take_profit"] * self.currency_pair.pip_value),
+            stop_loss=(
+                self.parameters["stop_loss"] * self.currency_pair.pip_value),
+            side=self.parameters["side"])
 
     def calculate_heuristic(self, path):
         """ Calculates and saves the heuristic to a dataframe """
@@ -122,9 +135,9 @@ class Strategy(Base):
             strategy = Strategy(
                 name=strategy_dict["name"],
                 currency_pair_id=currency_pair.id,
-                strategy_class=strategy_dict["strategy_class"],
+                evaluator_class=strategy_dict["evaluator_class"],
                 heuristic_class=strategy_dict["heuristic_class"],
-                heuristic_parameters=strategy_dict["parameters"])
+                parameters=strategy_dict["parameters"])
 
         session.add(strategy)
         strategy.data_sets = DataSet.load(strategy_dict["data_sets"], session)
@@ -132,13 +145,13 @@ class Strategy(Base):
 
     def __repr__(self):
         params_list = [
-            "{}={}".format(key, self.heuristic_parameters[key])
-            for key in self.heuristic_parameters
+            "{}={}".format(key, self.parameters[key])
+            for key in self.parameters
         ]
         params = ",".join(params_list)
 
         return "<{}:{}:{}({})>".format(
-            self.strategy_class,
+            self.evaluator_class,
             self.currency_pair.instrument,
             self.heuristic_class,
             params)

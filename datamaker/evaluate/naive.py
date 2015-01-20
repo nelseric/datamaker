@@ -1,12 +1,12 @@
-"Naive Strategies"
+"Naive Evaluators"
 
-from datamaker.strategy import Strategy
+from datamaker.evaluate import Evaluator
 
 from datamaker.backtest import MarketOrder
 import random
 
 
-class NaiveRandom(Strategy):
+class NaiveRandom(Evaluator):
 
     def evaluate_market(self, market, time):
         if len([order for order in market.orders if order.open]) == 0:
@@ -19,7 +19,7 @@ class NaiveRandom(Strategy):
             market.place_order(new_order)
 
 
-class NaiveBuy(Strategy):
+class NaiveBuy(Evaluator):
 
     def evaluate_market(self, market, time):
         if len([order for order in market.orders if order.open]) == 0:
@@ -32,7 +32,7 @@ class NaiveBuy(Strategy):
             market.place_order(new_order)
 
 
-class NaiveSell(Strategy):
+class NaiveSell(Evaluator):
 
     def evaluate_market(self, market, time):
         if len([order for order in market.orders if order.open]) == 0:
