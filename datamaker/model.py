@@ -146,7 +146,7 @@ class ETCModel(Model):
     def __init__(self):
         super(ETCModel, self).__init__()
 
-    def train(self, data, model_params, s_name):
+    def train(self, data, model_params, strategy_name):
         """
         Trains the ETC Model.
         x_data is the input features such as technical indicators
@@ -169,4 +169,5 @@ class ETCModel(Model):
         self.ml_mod = meta_est
 
         # Save the model
-        self.save_model(s_name)
+        self.save_model(strategy_name)
+
