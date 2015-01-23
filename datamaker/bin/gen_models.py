@@ -27,9 +27,10 @@ def gen_models(path=Path(".")):
 
             s_name = strategy.name
 
+            #load the indicators and the heuristics separately; then concat
             data_tot = strategy.load_features(path).copy()
-            h_tot = strategy.load_heuristic(path).copy()
-            data_tot =pd.concat((data_tot, h_tot), axis = 1, copy = False)
+            heuristic_tot = strategy.load_heuristic(path).copy()
+            data_tot =pd.concat((data_tot, heuristic_tot), axis = 1, copy = False)
 
             train_bound = np.floor(
                 model_params['training_size'] * len(data_tot))
@@ -38,9 +39,9 @@ def gen_models(path=Path(".")):
             test_bound = val_bound + np.floor(
                 model_params['test_size'] * len(data_tot))
 
-            data_train = data_tot.iloc[:train_bound, :].copy()
-            data_valid = data_tot.iloc[train_bound:val_bound, :].copy()
-            data_test = data_tot.iloc[val_bound:test_bound, :].copy()
+            data_train = data_tot.iloc[:train_bound, :]
+            data_valid = data_tot.iloc[train_bound:val_bound, :]
+            data_test = data_tot.iloc[val_bound:test_bound, :]
 
             model_inst.train(
                 data_train, model_params, s_name)

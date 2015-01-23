@@ -28,12 +28,12 @@ class Model(object):
         self.ml_mod = []
 
     
-    def load_model(self, s_name, path=''):
+    def load_model(self, strategy_name, path=''):
         """Loads the model from a pickled file"""
         import IPython
         IPython.embed()
         pkl_path = path + 'data/models/' + \
-            s_name + '_' + self.__class__.__name__
+            strategy_name + '_' + self.__class__.__name__
         
         return joblib.load(pkl_path + '.pkl')
         
@@ -123,10 +123,10 @@ class Model(object):
 
         return x_data, y_data
 
-    def model_name(self, s_name):
-        return "{}_{}.pkl".format(s_name, self.__class__.__name__ )
+    def model_name(self, strategy_name):
+        return "{}_{}.pkl".format(strategy_name, self.__class__.__name__ )
 
-    def save_model(self, s_name, path=Path('.')):
+    def save_model(self, strategy_name, path=Path('.')):
         """Saves the model as a pickled file"""
 
         pkl_path = path / 'data' / 'models/' 
@@ -134,7 +134,7 @@ class Model(object):
         if not pkl_path.exists():
             pkl_path.mkdir(parents=True)
 
-        joblib.dump(self.ml_mod, str(pkl_path / self.model_name(s_name)), compress=True)
+        joblib.dump(self.ml_mod, str(pkl_path / self.model_name(strategy_name)), compress=True)
 
 
 class ETCModel(Model):
