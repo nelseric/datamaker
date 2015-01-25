@@ -16,6 +16,8 @@ import numpy as np
 
 import IPython
 
+import gzip
+
 # pylint: disable=C0103,W0232,C0111,W0142,E1101
 
 
@@ -84,6 +86,10 @@ class Strategy(Base):
 
         print("Saving")
         util.save_pandas(self.get_training_data_path(project_path), base)
+        with gzip.GzipFile(self.get_training_data_path(project_path) + '.csv.gz', 
+            mode='w', compresslevel=9) as gzfile:
+            base.to_csv(gzfile)
+
 
     def load_features(self, path):
         """ Loads the joined training dataset """
@@ -106,6 +112,9 @@ class Strategy(Base):
         data = self.heuristic().calculate(
             self.currency_pair.historical_data(path))
         util.save_pandas(self.get_heuristic_path(path), data)
+        with gzip.GzipFile(self.get_heuristic_path(path) + '.csv.gz', 
+            mode='w', compresslevel=9) as gzfile:
+            data.to_csv(gzfile)
 
     def load_heuristic(self, path):
         """ Loads the heuristic dataframe """
