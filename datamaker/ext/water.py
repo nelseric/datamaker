@@ -19,6 +19,50 @@ class EndpointsMixin(object):
         endpoint = "Cloud.json"
         return self.request(endpoint, params=params)
 
+    def get_prediction(self, realtime_dataframe):
+        """
+        Uploads dataframe, generates prediction, reads prediction, 
+        removes uploaded data
+        """
+        pass
+    
+
+    def import_files(self, **params):
+        """
+        Uploads data to h2o
+        """
+        endpoint = "2/ImportFiles2.json"
+
+        return self.request(endpoint, params=params)
+
+    def parse(self, **params):
+        """
+        Converts raw uploaded data to processed H2o data set
+        """
+        endpoint = '2/Parse2.json'
+
+        return self.request(endpoint, params=params)
+              
+
+
+    def predict(self):
+        """
+        Runs pre-trained model on uploaded data in h2o
+        """
+        pass
+
+    def download_dataset(self):
+        """
+        Downloads prediction output
+        """
+        pass
+
+
+    def remove(self):
+        """
+        Removes input data from h2o
+        """
+        pass
 
 class API(EndpointsMixin, object):
 
@@ -84,3 +128,4 @@ class WaterError(Exception):
             error_response['code'], error_response['message'])
 
         super(WaterError, self).__init__(msg)
+
