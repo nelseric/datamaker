@@ -62,13 +62,20 @@ class Model(object):
     def get_threshold(self, data):
         """
         Finds the optimal threshold. 
+
+        Essentially, this finds the threshold that makes the most daily predictions and is 
+        sufficiently precise. If a threshold is very precise but doesn't make a lot of predictions
+        on a daily basis, it won't be very profitable. If the threshold makes lots of predictions
+        but isn't very precise, that's not good either. This function finds the threshold that 
+        best balances these two factors.
+
         opt_thesh = arg_max{thresh}{((1+SBF)^(.5+SBF)(1-SBF)^(.5-SBF))^(days_attempted)
         to make this not such a large number we will optimize the log(opt_thresh)
         this is just fine because the log(opt_thresh) monotonically increases
         with opt_thresh
         where SBF is the supplemental boosting factor
         """
-        # period should be 1440 later
+        # Period is 1440, the number of data points in one day
         period = 1440
         # Requisite Boosting factor
         rbf = .01
