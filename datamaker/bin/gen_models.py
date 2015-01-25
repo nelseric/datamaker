@@ -25,7 +25,7 @@ def gen_models(path=Path(".")):
             # Initialize model
             model_inst = getattr(mlmod, model_params['model_type'])()
 
-            s_name = strategy.name
+            strategy_name = strategy.name
 
             #load the indicators and the heuristics separately; then concat
             data_tot = strategy.load_features(path).copy()
@@ -44,7 +44,7 @@ def gen_models(path=Path(".")):
             data_test = data_tot.iloc[val_bound:test_bound, :]
 
             model_inst.train(
-                data_train, model_params, s_name)
+                data_train, model_params, strategy_name)
 
             model_inst.visualize(data_valid)
             opt_thresh = model_inst.get_threshold(
