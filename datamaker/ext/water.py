@@ -7,6 +7,8 @@ import requests
 
 class EndpointsMixin(object):
 
+    """ Administration Methods """
+
     def get_jobs(self, **params):
         """ Get the list of running H2O jobs """
 
@@ -17,6 +19,18 @@ class EndpointsMixin(object):
         """ Get the cluster status """
 
         endpoint = "Cloud.json"
+        return self.request(endpoint, params=params)
+
+    def network_test(self, **params):
+        """ Get the cluster speed """
+
+        endpoint = "2/NetworkTest.json"
+        return self.request(endpoint, params=params)
+
+    def shutdown(self, **params):
+        """ Shut down the cluster """
+
+        endpoint = "Shutdown.json"
         return self.request(endpoint, params=params)
 
 
