@@ -3,6 +3,8 @@
 from __future__ import print_function
 import json
 import requests
+import time
+import datetime
 
 
 class EndpointsMixin(object):
@@ -33,19 +35,7 @@ class EndpointsMixin(object):
         endpoint = "Cloud.json"
         return self.request(endpoint, params=params)
 
-    def get_jobs(self, **params):
-        """ Get the list of running H2O jobs """
-
-        endpoint = "Jobs.json"
-        return self.request(endpoint, params=params)
-
-    def cluster_status(self, **params):
-        """ Get the cluster status """
-
-        endpoint = "Cloud.json"
-        return self.request(endpoint, params=params)
-
-    """Training and Testing Methods"""
+    """ Training and Testing Methods """
 
     def import_files(self, path, **params):
         """
@@ -54,7 +44,7 @@ class EndpointsMixin(object):
         path = path of a data file on the hard disk
         """
         endpoint = "2/ImportFiles2.json"
-        params['path'] = 
+        params['path'] = path
 
         return self.request(endpoint, params=params)
 
@@ -66,7 +56,7 @@ class EndpointsMixin(object):
         eg: nfs://path_name/data_file.csv
         """
         endpoint = '2/Parse2.json'
-        params['source_key'] 
+        params['source_key'] = source_key
 
         return self.request(endpoint, params=params)
 
@@ -79,35 +69,34 @@ class EndpointsMixin(object):
         validation = name of the validation set
         strategy_name = name of the strategy
         """
-        #timestamp
-        ts = time.time()
-        #formated timestamp
-        fts = datetime.datetime.fromtimestamp(ts).strftime('%Y_%m_%d_%H_%M_%S')
-        default_params = {
-        'classification' : 1, 
-        'keep_cross_validation_splits' : 0, 
-        'ntrees' : 2000,
-        'max_depth' : 80,
-        'min_rows' : 1,
-        'nbins' : 10000,
-        'sample_rate' : .05,
-        'build_tree_one_node' : 0
-        } 
-
-        params = {
-        'destination_key' : 'rf_' + strategy_name + '_' + fts, 
-        'source' : source, 
-        'response' : response,
-        'validation' : validation
-        }
-
-        default_params.update(params)
 
         endpoint = '2/DRF.json'
 
+        # timestamp
+        ts = time.time()
+        # formated timestamp
+        fts = datetime.datetime.fromtimestamp(ts).strftime('%Y_%m_%d_%H_%M_%S')
+        default_params = {
+            'classification': 1,
+            'keep_cross_validation_splits': 0,
+            'ntrees': 2000,
+            'max_depth': 80,
+            'min_rows': 1,
+            'nbins': 10000,
+            'sample_rate': .05,
+            'build_tree_one_node': 0
+        }
+
+        params['destination_key'] = 'rf_' + strategy_name + '_' + fts
+        params['source'] = source
+        params['response'] = response
+        params['validation'] = validation
+
+        default_params.update(params)
+
         return self.request(endpoint, params=default_params)
 
-    def save_model(self, **params):
+    def save_model(self, model, path, **params):
         """
         Saves the trained model somewhere on the hard disk
         required params:
@@ -116,9 +105,18 @@ class EndpointsMixin(object):
         """
         endpoint = '2/SaveModel.json'
 
-        return self.request(endpoint, params=params)
+        default_params = {}
+        default_params['force'] = 1
+        default_params['save_cv'] = 1
 
-    def load_model(self, **params):
+        params['model'] = model
+        params['path'] = path
+
+        default_params.update(params)
+
+        return self.request(endpoint, params=default_params)
+
+    def load_model(self, path, **params):
         """
         Loads saved model from the hard disk
         required params:
@@ -126,9 +124,11 @@ class EndpointsMixin(object):
         """
         endpoint = '2/LoadModel.json'
 
+        params['path'] = path
+
         return self.request(endpoint, params=params)
 
-    def predict(self, **params):
+    def predict(self, model, data, prediction, **params):
         """
         Runs pre-trained model on uploaded data in h2o
         required params:
@@ -137,9 +137,13 @@ class EndpointsMixin(object):
         """
         endpoint = '2/Predict.json'
 
+        params['model'] = model
+        params['data'] = data
+        params['prediction'] = prediction
+
         return self.request(endpoint, params=params)
 
-    def export_files(self, **params):
+    def export_files(self, src_key, path, **params):
         """
         Saves the predictions as a csv
         src_key = name of the data in h2o being outputted
@@ -147,17 +151,26 @@ class EndpointsMixin(object):
         """
         endpoint = '2/ExportFiles.json'
 
-        return self.request(endpoint, params=params)
+        default_params = {}
+        default_params['force'] = 1
 
-    def remove(self):
+        params['src_key'] = src_key
+        params['path'] = path
+
+        default_params.update(params)
+
+        return self.request(endpoint, params=default_params)
+
+    def remove(self, key, **params):
         """
         Removes input data from h2o
         key = name of the data in h2o session being outputted 
         """
         endpoint = 'Remove.json'
 
-        return self.request(endpoint, params=params)
+        params['key'] = key
 
+        return self.request(endpoint, params=params)
 
 
 class API(EndpointsMixin, object):
@@ -224,4 +237,3 @@ class WaterError(Exception):
             error_response['code'], error_response['message'])
 
         super(WaterError, self).__init__(msg)
-
