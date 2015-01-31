@@ -28,12 +28,12 @@ class Model(object):
         self.ml_mod = []
 
     
-    def load_model(self, strategy_params, path=''):
+    def load_model(self, strategy_name, path=''):
         """Loads the model from a pickled file"""
         import IPython
         IPython.embed()
         pkl_path = path + 'data/models/' + \
-            strategy_params['name'] + '_' + self.__class__.__name__
+            strategy_name + '_' + self.__class__.__name__
         
         return joblib.load(pkl_path + '.pkl')
         
@@ -62,16 +62,23 @@ class Model(object):
     def get_threshold(self, data):
         """
         Finds the optimal threshold. 
+
+        Essentially, this finds the threshold that makes the most daily predictions and is 
+        sufficiently precise. If a threshold is very precise but doesn't make a lot of predictions
+        on a daily basis, it won't be very profitable. If the threshold makes lots of predictions
+        but isn't very precise, that's not good either. This function finds the threshold that 
+        best balances these two factors.
+
         opt_thesh = arg_max{thresh}{((1+SBF)^(.5+SBF)(1-SBF)^(.5-SBF))^(days_attempted)
         to make this not such a large number we will optimize the log(opt_thresh)
         this is just fine because the log(opt_thresh) monotonically increases
         with opt_thresh
         where SBF is the supplemental boosting factor
         """
-        # period should be 1440 later
-        period = 13
+        # Period is 1440, the number of data points in one day
+        period = 1440
         # Requisite Boosting factor
-        rbf = .04
+        rbf = .01
 
         test_data_x, test_data_y = self._preprocess(data)
 
@@ -102,13 +109,12 @@ class Model(object):
         IPython.embed()
 
     @staticmethod
-    def _preprocess(data, y_name = 'ShouldBuy'):
+    def _preprocess(data):
         """
         Makes the data ready for classification; specifically this will 
         normalize the data and 
         see: http://scikit-learn.org/stable/modules/preprocessing.html
         """
-
         # fill in data from backwards to forwards
         data.fillna(method='pad', inplace=True)
 
@@ -124,10 +130,10 @@ class Model(object):
 
         return x_data, y_data
 
-    def model_name(self, strategy_params):
-        return "{}_{}.pkl".format(strategy_params['name'], self.__class__.__name__ )
+    def model_name(self, strategy_name):
+        return "{}_{}.pkl".format(strategy_name, self.__class__.__name__ )
 
-    def save_model(self, strategy_params, path=Path('.')):
+    def save_model(self, strategy_name, path=Path('.')):
         """Saves the model as a pickled file"""
 
         pkl_path = path / 'data' / 'models/' 
@@ -135,7 +141,7 @@ class Model(object):
         if not pkl_path.exists():
             pkl_path.mkdir(parents=True)
 
-        joblib.dump(self.ml_mod, str(pkl_path / self.model_name(strategy_params)), compress=True)
+        joblib.dump(self.ml_mod, str(pkl_path / self.model_name(strategy_name)), compress=True)
 
 
 class ETCModel(Model):
@@ -147,11 +153,10 @@ class ETCModel(Model):
     def __init__(self):
         super(ETCModel, self).__init__()
 
-    def train(self, data, y_name, model_params, strategy_params):
+    def train(self, data, model_params, strategy_name):
         """
         Trains the ETC Model.
         x_data is the input features such as technical indicators
-        y_name is the calculated heuristic, or the output values in other words
         model params are the model parameters taken from the json file
         strategy params are the strategy parameters taken from the json file
         """
@@ -171,4 +176,5 @@ class ETCModel(Model):
         self.ml_mod = meta_est
 
         # Save the model
-        self.save_model(strategy_params)
+        self.save_model(strategy_name)
+
