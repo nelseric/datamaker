@@ -74,15 +74,15 @@ class API(EndpointsMixin, object):
             response = func(url, **request_args)
         except requests.RequestException as error:
             print(str(error))
-        content = response.content.decode('utf-8')
-
-        content = json.loads(content)
 
         # error message
         if response.status_code >= 400:
-            raise WaterError(content)
+            raise WaterError(response.content)
+            
+        if response.json()["error"]:
+            raise WaterError(response.json()["error"])
 
-        return content
+        return response.json()
 
     def __repr__(self):
         return "water.API({.api_url})".format(self)
