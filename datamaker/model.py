@@ -10,6 +10,7 @@ import os
 
 from pathlib import Path
 
+import datamaker.ext.water as water
 
 class Model(object):
 
@@ -21,16 +22,13 @@ class Model(object):
         super(Model, self).__init__()
         self.ml_mod = []
 
-    
     def load_model(self, strategy_params, path=''):
         """Loads the model from a pickled file"""
         pass
-        
 
     def get_prediction(self, data):
         "Get prediction from features, used in real-time prediction"
         pass
-
 
     def get_threshold(self, data):
         """
@@ -44,7 +42,7 @@ class Model(object):
         pass
 
     def model_name(self, strategy_params):
-        return "{}_{}.pkl".format(strategy_params['name'], self.__class__.__name__ )
+        return "{}_{}.pkl".format(strategy_params['name'], self.__class__.__name__)
 
     def save_model(self, strategy_params, path=Path('.')):
         """Saves the Model"""
@@ -61,9 +59,11 @@ class RFModel(Model):
     def __init__(self):
         super(ETCModel, self).__init__()
 
-    def train(self, data, y_name, model_params, strategy_params):
+    def train(self, strategy_params):
         """
-        
+        Trains the h2o model performing all necessary steps in h2o
         """
+        import IPython
+        IPython.embed()
 
         pass

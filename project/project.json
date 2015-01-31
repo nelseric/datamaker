@@ -5,6 +5,7 @@
         "instrument": "EUR_USD",
         "evaluator_class": "datamaker.evaluate.naive.NaiveBuy",
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
+        "model_name": "RFModel",
         "parameters": {
             "take_profit": 50,
             "stop_loss": 50,
@@ -19,6 +20,7 @@
         "instrument": "EUR_USD",
         "evaluator_class": "datamaker.evaluate.naive.NaiveSell",
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
+        "model_name": "RFModel",
         "parameters": {
             "take_profit": 50,
             "stop_loss": 50,
@@ -33,6 +35,7 @@
         "instrument": "GBP_USD",
         "evaluator_class": "datamaker.evaluate.naive.NaiveSell",
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
+        "model_name": "RFModel",
         "parameters": {
             "take_profit": 50,
             "stop_loss": 50,
@@ -47,6 +50,7 @@
         "instrument": "GBP_USD",
         "evaluator_class": "datamaker.evaluate.naive.NaiveBuy",
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
+        "model_name": "RFModel",
         "parameters": {
             "take_profit": 50,
             "stop_loss": 50,
