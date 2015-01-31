@@ -86,10 +86,7 @@ class Strategy(Base):
 
         print("Saving")
         util.save_pandas(self.get_training_data_path(project_path), base)
-        with gzip.GzipFile(self.get_training_data_path(project_path) + '.csv.gz', 
-            mode='w', compresslevel=9) as gzfile:
-            base.to_csv(gzfile)
-
+        
 
     def load_features(self, path):
         """ Loads the joined training dataset """
@@ -125,9 +122,15 @@ class Strategy(Base):
         data = self.heuristic().calculate(
             self.currency_pair.historical_data(path))
         util.save_pandas(self.get_heuristic_path(path), data)
-        with gzip.GzipFile(self.get_heuristic_path(path) + '.csv.gz', 
-            mode='w', compresslevel=9) as gzfile:
-            data.to_csv(gzfile)
+
+        
+        input_data = self.load_features(path)
+
+        total_data = input_data.join(data)
+
+        with gzip.GzipFile(self.get_heuristic_path(path) + '.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            total_data.to_csv(gzfile)
 
     def load_heuristic(self, path):
         """ Loads the heuristic dataframe """
