@@ -124,18 +124,39 @@ class Strategy(Base):
             self.currency_pair.historical_data(path))
         util.save_pandas(self.get_heuristic_path(path), data)
 
-        
+        #Now save the training, test, and validation as a csv.gz        
         input_data = self.load_features(path)
-
         total_data = input_data.join(data)
-
-        with gzip.GzipFile(self.get_heuristic_path(path) + '.csv.gz',
-                           mode='w', compresslevel=9) as gzfile:
-            total_data.to_csv(gzfile)
+        
+        self.save_as_text(path, total_data)
 
     def load_heuristic(self, path):
         """ Loads the heuristic dataframe """
         return util.load_pandas(self.get_heuristic_path(path))
+
+    def save_as_text(self, path, data):
+        default_params = {}
+        default_params['train_proportion'] = .7
+        default_params['val_proportion'] = .1
+        default_params.update(self.parameters)
+
+        train_bound = np.floor(default_params['train_proportion']*len(data))
+        val_bound = train_bound + np.floor(default_params['val_proportion']*len(data))
+
+        train_data = data.iloc[:train_bound,:]
+        val_data = data.iloc[train_bound:val_bound,:]
+        test_data = data.iloc[val_bound:,:]
+
+        with gzip.GzipFile(self.get_heuristic_path(path).split('.')[0] + '_train.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            train_data.to_csv(gzfile)    
+        with gzip.GzipFile(self.get_heuristic_path(path).split('.')[0] + '_val.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            val_data.to_csv(gzfile)   
+        with gzip.GzipFile(self.get_heuristic_path(path).split('.')[0] + '_test.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            test_data.to_csv(gzfile)       
+
 
     @staticmethod
     def load(strategy_dict):
