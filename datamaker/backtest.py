@@ -2,6 +2,8 @@ import numpy as np
 
 import pandas as pd
 
+import IPython
+
 
 class Backtest(object):
 
@@ -11,11 +13,13 @@ class Backtest(object):
         super(Backtest, self).__init__()
         self.historical_data = historical_data
         self.strategy = strategy
+        self.evaluator = strategy.evaluator()
         self.market = market
 
     def run(self):
-        for time in self.market:
-            self.strategy.evaluate_market(self.market, time)
+        for time, candle in self.market:
+            # IPython.embed()
+            self.evaluator.evaluate_market(self.market, time)
 
 
 class Market(object):
@@ -31,70 +35,89 @@ class Market(object):
         self.leverage = leverage
         self.balance_data = None
 
-        self.orders = []
+        self.pending_orders = []
+        self.open_orders = []
+        self.closed_orders = []
 
     def place_order(self, order):
-        self.orders.append(order)
+        self.pending_orders.append(order)
 
-    def place_orders(self, time):
-        for order in self.orders:
-            if not order.placed:
-                order.placed = True
-                order.open = True
-                if order.side == "buy":
-                    order.price = self.historical.ix[time].closeAsk
-                elif order.side == "sell":
-                    order.price = self.historical.ix[time].closeBid
+    def place_orders(self, candle):
+        for order in list(self.pending_orders):
+            order.placed = True
+            order.open = True
+            if order.side == "buy":
+                order.price = candle.closeAsk
+            elif order.side == "sell":
+                order.price = candle.closeBid
+            self.pending_orders.remove(order)
+            self.open_orders.append(order)
 
-    def process_orders(self, time):
-        for order in self.orders:
-            if order.open:
-                candle = self.historical.ix[time]
-                if order.side == "buy":
-                    if order.price + order.take_profit < candle.highBid:
-                        order.open = False
-                        order.exit_price = order.price + order.take_profit
+    def process_orders(self, candle):
+        for order in list(self.open_orders):
+            if order.side == "buy":
+                if order.price + order.take_profit < candle.highBid:
+                    order.open = False
+                    self.open_orders.remove(order)
+                    self.closed_orders.append(order)
+                    order.exit_price = order.price + order.take_profit
 
-                        self.balance = self.balance + \
-                            order.take_profit * order.size
+                    self.balance = self.balance + \
+                        order.take_profit * order.size
 
-                    elif order.price - order.stop_loss > candle.lowBid:
-                        order.open = False
-                        order.exit_price = order.price - order.stop_loss
+                elif order.price - order.stop_loss > candle.lowBid:
+                    order.open = False
+                    self.open_orders.remove(order)
+                    self.closed_orders.append(order)
+                    order.exit_price = order.price - order.stop_loss
 
-                        self.balance = self.balance - \
-                            order.stop_loss * order.size
+                    self.balance = self.balance - \
+                        order.stop_loss * order.size
 
-                elif order.side == "sell":
+            elif order.side == "sell":
 
-                    if order.price - order.take_profit > candle.lowAsk:
-                        order.open = False
-                        order.exit_price = order.price - order.take_profit
+                if order.price - order.take_profit > candle.lowAsk:
+                    order.open = False
+                    self.open_orders.remove(order)
+                    self.closed_orders.append(order)
+                    order.exit_price = order.price - order.take_profit
 
-                        self.balance = self.balance + \
-                            order.take_profit * order.size
+                    self.balance = self.balance + \
+                        order.take_profit * order.size
 
-                    elif order.price + order.stop_loss < candle.highAsk:
-                        order.open = False
-                        order.exit_price = order.price + order.stop_loss
+                elif order.price + order.stop_loss < candle.highAsk:
+                    order.open = False
+                    self.open_orders.remove(order)
+                    self.closed_orders.append(order)
+                    order.exit_price = order.price + order.stop_loss
 
-                        self.balance = self.balance - \
-                            order.stop_loss * order.size
+                    self.balance = self.balance - \
+                        order.stop_loss * order.sizes
 
     def __iter__(self):
-        self.orders = []
+        self.pending_orders = []
+        self.open_orders = []
+        self.closed_orders = []
         self.balance = self.account_size
         self.balance_data = pd.Series(index=self.historical.index)
 
         for _, chunk in self.historical.groupby(
                 np.arange(len(self.historical)) // 5000):
-            for time in chunk.index:
-                self.process_orders(time)
-                yield self.historical.ix[:time]
-                self.place_orders(time)
+            for time, candle in chunk.iterrows():
+                # IPython.embed()
+                self.process_orders(candle)
+                yield time, candle
+                self.place_orders(candle)
                 self.balance_data[time] = self.balance
-            print("%s: %2f - %d" %
-                  (chunk.index[-1], self.balance, len(self.orders)))
+
+            print("%s: %s" % (chunk.index[-1], self))
+
+    def __repr__(self):
+        return ("<Market({0.instrument}):{0.balance:0.2f} {1}/{2}/{3}>")\
+            .format(self,
+                    len(self.pending_orders),
+                    len(self.open_orders),
+                    len(self.closed_orders))
 
 
 class MarketOrder(object):
