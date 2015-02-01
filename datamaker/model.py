@@ -12,6 +12,7 @@ from pathlib import Path
 
 import datamaker.ext.water as water
 
+
 class Model(object):
 
     """
@@ -57,13 +58,33 @@ class RFModel(Model):
     """
 
     def __init__(self):
-        super(ETCModel, self).__init__()
+        super(RFModel, self).__init__()
 
-    def train(self, strategy_params):
+    def train(self, strategy, path):
         """
         Trains the h2o model performing all necessary steps in h2o
         """
         import IPython
         IPython.embed()
 
-        pass
+        water_obj = water.API()
+
+        # h2o-import
+        #training
+        input_file = path.absolute() / \
+            (strategy.get_heuristic_path(path) + '.csv.gz')
+        import_output = water_obj.import_files(input_file)
+
+        #validation
+
+        # h2o-parse
+        parse_output = water_obj.parse(import_output['prefix'])
+
+        #wait for parse to finish
+        import IPython
+        IPython.embed()
+
+        # h2o-train
+
+
+        # h2o-save on exit

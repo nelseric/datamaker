@@ -41,6 +41,7 @@ class Strategy(Base):
     currency_pair_id = Column(Integer, ForeignKey('currency_pairs.id'))
     evaluator_class = Column(String)
     heuristic_class = Column(String)
+    model_class = Column(String)
     parameters = Column(PickleType)
 
     data_sets = relationship(
@@ -149,6 +150,7 @@ class Strategy(Base):
                 currency_pair_id=currency_pair.id,
                 evaluator_class=strategy_dict["evaluator_class"],
                 heuristic_class=strategy_dict["heuristic_class"],
+                model_class=strategy_dict["model_class"],
                 parameters=strategy_dict["parameters"])
 
         session.add(strategy)

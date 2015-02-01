@@ -36,7 +36,7 @@ class EndpointsMixin(object):
         return self.request(endpoint, params=params)
 
     """ Training and Testing Methods """
-
+    
     def import_files(self, path, **params):
         """
         Uploads data to h2o

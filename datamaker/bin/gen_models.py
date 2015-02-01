@@ -19,14 +19,11 @@ def gen_models(path=Path(".")):
     session = db.Session()
 
     for strategy in session.query(db.Strategy).all():
-        import IPython
-        IPython.embed()
+
         # Initialize model
-        model_inst = getattr(mlmod, strategy['model_name'])()
+        model_inst = getattr(mlmod, strategy.model_class.split('.')[-1])()
 
-        strategy_name = strategy.name
-
-        model_inst.train(strategy)
+        model_inst.train(strategy, path)
 
 
             
