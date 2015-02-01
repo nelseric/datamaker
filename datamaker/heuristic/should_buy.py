@@ -3,6 +3,8 @@ import numpy as np
 from datamaker.feature import Feature
 import pandas as pd
 
+import IPython
+
 
 class ShouldBuy(Feature):
 
@@ -57,8 +59,8 @@ def apply(df, margin_upper, margin_lower, limit):
 
     bid_high = 0
     bid_low = 1
-    target_high = 2
-    target_low = 3  
+    target_high_i = 2
+    target_low_i = 3  
 
     for i in range(n):
         if i % 1440 == 0:
@@ -69,8 +71,8 @@ def apply(df, margin_upper, margin_lower, limit):
         else:
             cmp_limit = limit
 
-        target_high = data[i][target_high]
-        target_low = data[i][target_low]
+        target_high = data[i][target_high_i]
+        target_low = data[i][target_low_i]
 
         res[i] = 0
         for j in range(cmp_limit):
