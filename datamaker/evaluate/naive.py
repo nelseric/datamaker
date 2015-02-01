@@ -6,40 +6,14 @@ from datamaker.backtest import MarketOrder
 import random
 
 
-class NaiveRandom(Evaluator):
+class NaiveEvaluator(Evaluator):
 
     def evaluate_market(self, market, time):
-        if len([order for order in market.orders if order.open]) == 0:
+        if len(market.open_orders) == 0:
             new_order = MarketOrder(
-                side=random.choice(["buy", "sell"]),
-                take_profit=100 * 0.0001,
-                stop_loss=100 * 0.0001,
-                size=random.randrange(100, 10000)
-            )
-            market.place_order(new_order)
-
-
-class NaiveBuy(Evaluator):
-
-    def evaluate_market(self, market, time):
-        if len([order for order in market.orders if order.open]) == 0:
-            new_order = MarketOrder(
-                side="buy",
-                take_profit=100 * 0.0001,
-                stop_loss=100 * 0.0001,
-                size=1000
-            )
-            market.place_order(new_order)
-
-
-class NaiveSell(Evaluator):
-
-    def evaluate_market(self, market, time):
-        if len([order for order in market.orders if order.open]) == 0:
-            new_order = MarketOrder(
-                side=random.choice("sell"),
-                take_profit=100 * 0.0001,
-                stop_loss=100 * 0.0001,
+                side=self.side,
+                take_profit=self.take_profit,
+                stop_loss=self.stop_loss,
                 size=1000
             )
             market.place_order(new_order)

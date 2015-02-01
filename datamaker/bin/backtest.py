@@ -1,22 +1,21 @@
 """ Run a backtest """
 from pathlib import Path
 
-import pandas as pd
+import datamaker.db as db
 
 from datamaker.backtest import Market, Backtest
-from datamaker.strategy.naive import NaiveBuy
 
 import IPython
 
 
 def run_backtest(path=Path(".")):
-    historical = pd.HDFStore(
-        str(path / "data" / "pairs" / "EUR_USD.h5")).get("ohlcv")
+
+    session = db.Session()
+    strategy = session.query(db.Strategy).first()
+    historical = strategy.currency_pair.historical_data(path)
 
     market = Market(
         historical, instrument="EUR_USD", account_size=100000, leverage=1)
-
-    strategy = NaiveBuy(market=market, take_profit=100, stop_loss=100)
 
     backtest = Backtest(historical, strategy=strategy, market=market)
 

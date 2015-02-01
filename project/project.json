@@ -3,7 +3,7 @@
     "strategies": [{
         "name": "EUR_USD_BUY",
         "instrument": "EUR_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveBuy",
+        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
@@ -18,7 +18,7 @@
     }, {
         "name": "EUR_USD_SELL",
         "instrument": "EUR_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveSell",
+        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
@@ -33,7 +33,7 @@
     }, {
         "name": "GBP_USD_SELL",
         "instrument": "GBP_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveSell",
+        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
@@ -48,7 +48,7 @@
     }, {
         "name": "GBP_USD_BUY",
         "instrument": "GBP_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveBuy",
+        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
