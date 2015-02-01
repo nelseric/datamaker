@@ -172,6 +172,36 @@ class EndpointsMixin(object):
 
         return self.request(endpoint, params=params)
 
+    def import_and_parse(self, path, **params):
+        """
+        Combines importing and parsing capabilities
+        path = path and file name of the input file on hard disk
+        """
+        import_output = self.import_files(path)
+
+        
+        #TODO: double check this functionality with a large file that 
+        #takes a really long time to import
+        while (import_output['response_info']['redirect_url'] != None):
+            #wait for a bit
+            time.sleep(1)
+
+            #check if process is done
+            import_output = self.request(import_output['response_info']['redirect_url'])
+
+        #continue
+        parse_output = self.parse(import_output['prefix'])
+
+        #TODO: check if skipping this loop will cause parse_output to be significantly different
+        while (parse_output['response_info']['redirect_url'][3:11] != 'Inspect2'):
+            #wait for a bit
+            time.sleep(1)
+
+            #check if process is done
+            parse_output = self.request(parse_output['response_info']['redirect_url'][1:])
+
+        return parse_output
+
 
 class API(EndpointsMixin, object):
 
@@ -217,8 +247,8 @@ class API(EndpointsMixin, object):
         # error message
         if response.status_code >= 400:
             raise WaterError(response.content)
-            
-        if response.json()["error"]:
+
+        if 'error' in response.json().keys():
             raise WaterError(response.json()["error"])
 
         return response.json()

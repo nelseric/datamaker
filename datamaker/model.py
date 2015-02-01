@@ -64,25 +64,20 @@ class RFModel(Model):
         """
         Trains the h2o model performing all necessary steps in h2o
         """
-        import IPython
-        IPython.embed()
-
+        
         water_obj = water.API()
 
         # h2o-import
         #training
         input_file = path.absolute() / \
-            (strategy.get_heuristic_path(path) + '.csv.gz')
-        import_output = water_obj.import_files(input_file)
+            (strategy.get_heuristic_path(path).split('.')[0] + '_train.csv.gz')
+        
+        val_file = path.absolute() / \
+            (strategy.get_heuristic_path(path).split('.')[0] + '_val.csv.gz')
 
-        #validation
+        import_and_parse_out = water_obj.import_and_parse(str(input_file))
 
-        # h2o-parse
-        parse_output = water_obj.parse(import_output['prefix'])
 
-        #wait for parse to finish
-        import IPython
-        IPython.embed()
 
         # h2o-train
 
