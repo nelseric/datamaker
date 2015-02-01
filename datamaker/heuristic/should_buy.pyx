@@ -1,13 +1,7 @@
-cimport cython
-cimport numpy as npc
-
 import numpy as np
 
 from datamaker.feature import Feature
 import pandas as pd
-
-
-# cython: profile=True
 
 
 class ShouldBuy(Feature):
@@ -41,7 +35,7 @@ class ShouldBuy(Feature):
 
     def _calculate(self, data):
         result = pd.DataFrame(
-            apply(data.values, self.take_profit,
+            apply(data, self.take_profit,
                   self.stop_loss, self.search_limit),
             index=data.index
         )
@@ -49,18 +43,22 @@ class ShouldBuy(Feature):
         return result
 
 
-cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data,
-                        double margin_upper, double margin_lower,
-                        int limit):
-    print("in apply")
-    cdef Py_ssize_t i, cmp_limit, n = len(data)
-    cdef npc.ndarray res = np.empty(n)
+def apply(df, margin_upper, margin_lower, limit):
 
-    cdef double target_high, target_low
+    target_high = df["closeAsk"] + margin_upper
+    target_low = df["closeAsk"] - margin_lower
 
-    cdef ask_close = 0
-    cdef bid_high = 3
-    cdef bid_low = 5
+    df2 = pd.concat([df["highBid"], df["lowBid"], target_high, target_low], axis=1)
+
+    data = df2.values
+
+    n = len(data)
+    res = np.empty(n)
+
+    bid_high = 0
+    bid_low = 1
+    target_high = 2
+    target_low = 3  
 
     for i in range(n):
         if i % 1440 == 0:
@@ -71,8 +69,8 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data,
         else:
             cmp_limit = limit
 
-        target_high = data[i][ask_close] + margin_upper
-        target_low = data[i][ask_close] - margin_lower
+        target_high = data[i][target_high]
+        target_low = data[i][target_low]
 
         res[i] = 0
         for j in range(cmp_limit):

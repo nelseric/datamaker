@@ -6,7 +6,7 @@ import pstats, cProfile
 
 import pandas as pd
 
-import datamaker.heuristic.sb7 as sb
+import datamaker.heuristic.should_buy as sb
 
 
 
