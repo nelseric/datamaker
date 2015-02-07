@@ -3,3 +3,4 @@
 *.npy
 *.pkl
 .ipynb_checkpoints/
+*.csv.gz

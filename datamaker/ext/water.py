@@ -1,7 +1,6 @@
 """ Wrapper for H2O's REST Interface """
 
 from __future__ import print_function
-import json
 import requests
 import time
 import datetime
@@ -225,7 +224,7 @@ class API(EndpointsMixin, object):
 
     """
     H2O API Client
-    :param api_url: 
+    :param api_url: URL to H2O
     """
 
     def __init__(self, api_url="http://localhost:54321"):
@@ -273,6 +272,17 @@ class API(EndpointsMixin, object):
 
     def __repr__(self):
         return "water.API({.api_url})".format(self)
+
+class Response(object):
+    """H2O Response Object"""
+
+    def __init__(self, data):
+        super(Response, self).__init__()
+        self.data = data
+
+    def is_redirect(self):
+        pass
+        
 
 
 class WaterError(Exception):
