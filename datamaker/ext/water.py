@@ -108,6 +108,8 @@ class EndpointsMixin(object):
             time.sleep(1)
 
         save_out = self.save_model(train_status['destination_key'], path)
+        import IPython
+        IPython.embed()
 
         return save_out
 
@@ -149,6 +151,7 @@ class EndpointsMixin(object):
         required params:
         model = name of the model in H2O session
         data = name of the data file in H2O session
+        prediction = the path to save the prediction
         """
         endpoint = '2/Predict.json'
 
@@ -156,7 +159,12 @@ class EndpointsMixin(object):
         params['data'] = data
         params['prediction'] = prediction
 
-        return self.request(endpoint, params=params)
+        pred_out = self.request(endpoint, params=params)
+
+        if pred_out['response_info']['redirect_url'][3:11] != 'Inspect2':
+            pred_out = self.request(pred_out['response_info']['redirect_url'][1:])
+
+        return pred_out
 
     def export_files(self, src_key, path, **params):
         """

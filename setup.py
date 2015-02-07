@@ -47,7 +47,8 @@ setup(
             'dm-hist = datamaker.bin.get_historical:get_historical',
             'dm-gen-training = datamaker.bin.gen_indicators:gen_indicators',
             'dm-gen-heuristic = datamaker.bin.calculate_heuristic:calculate_heuristic',
-            'dm-gen-models = datamaker.bin.gen_models:gen_models',  
+            'dm-gen-models = datamaker.bin.gen_models:gen_models',
+            'dm-gen-prediction = datamaker.bin.gen_prediction:gen_prediction',  
             'dm-backtest = datamaker.bin.backtest:run_backtest',
             
             'idle = idlelib.PyShell:main'

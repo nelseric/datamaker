@@ -83,6 +83,32 @@ class RFModel(Model):
         strategy_name = strategy.name
 
         rf_out = water_obj.rf_train(
-            source, response, validation, strategy_name, str(path.absolute()) + '/' + strategy.get_model_path(path))
+            source, response, validation, strategy_name, str(path.absolute()) + '/' + strategy.get_model_path(path) + '/' + strategy.name)
 
+    def predict(self, strategy, path, file_name=''):
+        water_obj = water.API()
 
+        if file_name == '':
+            file_name = str(path.absolute()) + '/' + \
+                strategy.get_heuristic_path(
+                    path).split('.')[0] + '_test.csv.gz'
+
+        model_path = str(path.absolute()) + '/' + \
+            strategy.get_model_path(path) + '/' + strategy.name
+
+        # Load the prediction file
+        pred_import_out = water_obj.import_and_parse(str(file_name))
+
+        # load the model
+        load_model_out = water_obj.load_model(model_path)
+
+        import IPython
+        IPython.embed()
+
+        pred_out = water_obj.predict(
+            load_model_out['model']['_key'], load_model_out['model']['_dataKey'], strategy.name)
+
+        export_out = water_obj.export_files(strategy.name, str(
+            path.absolute()) + '/' + strategy.get_model_path(path) + '/' + strategy.name + '.csv')
+
+        #
