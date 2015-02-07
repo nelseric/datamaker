@@ -9,11 +9,14 @@ class Backtest(object):
 
     """Backtest runner"""
 
-    def __init__(self, historical_data, strategy, market):
+    def __init__(self, historical_data, strategy, market, evaluator=None):
         super(Backtest, self).__init__()
         self.historical_data = historical_data
         self.strategy = strategy
-        self.evaluator = strategy.evaluator()
+        if evaluator is None:
+            self.evaluator = strategy.evaluator()
+        else:
+            self.evaluator = evaluator
         self.market = market
 
     def run(self):
@@ -92,7 +95,7 @@ class Market(object):
                     order.exit_price = order.price + order.stop_loss
 
                     self.balance = self.balance - \
-                        order.stop_loss * order.sizes
+                        order.stop_loss * order.size
 
     def __iter__(self):
         self.pending_orders = []
