@@ -23,6 +23,9 @@ def get_historical():
 
     for pair in pairs:
         pair.download_historical_data(path, args.range)
+        print(len(pair.get_historical_database(path).ohlcv))
+        pair.deduplicate_historical(path)
+        print(len(pair.get_historical_database(path).ohlcv))
 
 if __name__ == "__main__":
     get_historical()
