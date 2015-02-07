@@ -24,7 +24,7 @@ def gen_prediction(path=Path("."), file_name=''):
         # Initialize model
         model_inst = getattr(mlmod, strategy.model_class.split('.')[-1])()
 
-        model_inst.predict(strategy, path)
+        model_inst.predict(strategy, path, file_name)
 
 
 
