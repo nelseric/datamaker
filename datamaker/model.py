@@ -64,22 +64,25 @@ class RFModel(Model):
         """
         Trains the h2o model performing all necessary steps in h2o
         """
-        
+
         water_obj = water.API()
 
-        # h2o-import
-        #training
-        input_file = path.absolute() / \
+        train_file = path.absolute() / \
             (strategy.get_heuristic_path(path).split('.')[0] + '_train.csv.gz')
-        
+
         val_file = path.absolute() / \
             (strategy.get_heuristic_path(path).split('.')[0] + '_val.csv.gz')
 
-        import_and_parse_out = water_obj.import_and_parse(str(input_file))
+        train_out = water_obj.import_and_parse(str(train_file))
+
+        val_out = water_obj.import_and_parse(str(val_file))
+
+        source = train_out['destination_key']
+        response = strategy.heuristic_class.split('.')[-1]
+        validation = val_out['destination_key']
+        strategy_name = strategy.name
+
+        rf_out = water_obj.rf_train(
+            source, response, validation, strategy_name, str(path.absolute()) + '/' + strategy.get_model_path(path))
 
 
-
-        # h2o-train
-
-
-        # h2o-save on exit

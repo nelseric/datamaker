@@ -65,6 +65,15 @@ class Strategy(Base):
 
         return str(db_path / ("%s.npy" % self.__file_repr__()))
 
+    def get_model_path(self, project_path):
+        """ Path of where to store training data """
+
+        db_path = project_path / "data" / "model"
+        if not db_path.exists():
+            db_path.mkdir()
+
+        return str(db_path)
+
     def calculate_training_data(self, project_path):
         """ Joins all data sets toegether, and saves them as one dataframe """
 
