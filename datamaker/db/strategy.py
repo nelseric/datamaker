@@ -41,6 +41,7 @@ class Strategy(Base):
     currency_pair_id = Column(Integer, ForeignKey('currency_pairs.id'))
     evaluator_class = Column(String)
     heuristic_class = Column(String)
+    model_class = Column(String)
     parameters = Column(PickleType)
 
     data_sets = relationship(
@@ -64,6 +65,15 @@ class Strategy(Base):
 
         return str(db_path / ("%s.npy" % self.__file_repr__()))
 
+    def get_model_path(self, project_path):
+        """ Path of where to store training data """
+
+        db_path = project_path / "data" / "model"
+        if not db_path.exists():
+            db_path.mkdir()
+
+        return str(db_path)
+
     def calculate_training_data(self, project_path):
         """ Joins all data sets toegether, and saves them as one dataframe """
 
@@ -86,10 +96,7 @@ class Strategy(Base):
 
         print("Saving")
         util.save_pandas(self.get_training_data_path(project_path), base)
-        with gzip.GzipFile(self.get_training_data_path(project_path) + '.csv.gz', 
-            mode='w', compresslevel=9) as gzfile:
-            base.to_csv(gzfile)
-
+        
 
     def load_features(self, path):
         """ Loads the joined training dataset """
@@ -125,13 +132,40 @@ class Strategy(Base):
         data = self.heuristic().calculate(
             self.currency_pair.historical_data(path))
         util.save_pandas(self.get_heuristic_path(path), data)
-        with gzip.GzipFile(self.get_heuristic_path(path) + '.csv.gz', 
-            mode='w', compresslevel=9) as gzfile:
-            data.to_csv(gzfile)
+
+        #Now save the training, test, and validation as a csv.gz        
+        input_data = self.load_features(path)
+        total_data = input_data.join(data)
+        
+        self.save_as_text(path, total_data)
 
     def load_heuristic(self, path):
         """ Loads the heuristic dataframe """
         return util.load_pandas(self.get_heuristic_path(path))
+
+    def save_as_text(self, path, data):
+        default_params = {}
+        default_params['train_proportion'] = .7
+        default_params['val_proportion'] = .1
+        default_params.update(self.parameters)
+
+        train_bound = np.floor(default_params['train_proportion']*len(data))
+        val_bound = train_bound + np.floor(default_params['val_proportion']*len(data))
+
+        train_data = data.iloc[:train_bound,:]
+        val_data = data.iloc[train_bound:val_bound,:]
+        test_data = data.iloc[val_bound:,:]
+
+        with gzip.GzipFile(self.get_heuristic_path(path).split('.')[0] + '_train.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            train_data.to_csv(gzfile)    
+        with gzip.GzipFile(self.get_heuristic_path(path).split('.')[0] + '_val.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            val_data.to_csv(gzfile)   
+        with gzip.GzipFile(self.get_heuristic_path(path).split('.')[0] + '_test.csv.gz',
+                           mode='w', compresslevel=9) as gzfile:
+            test_data.to_csv(gzfile)       
+
 
     @staticmethod
     def load(strategy_dict):
@@ -146,6 +180,7 @@ class Strategy(Base):
                 currency_pair_id=currency_pair.id,
                 evaluator_class=strategy_dict["evaluator_class"],
                 heuristic_class=strategy_dict["heuristic_class"],
+                model_class=strategy_dict["model_class"],
                 parameters=strategy_dict["parameters"])
 
         session.add(strategy)
