@@ -5,21 +5,31 @@ from pathlib import Path
 
 import datamaker.db as db
 
+from multiprocessing import Pool
 
-def get_historical():
+def _get_hist(pair_id, path, range):
+    session = db.Session()
+    pair = session.query(db.CurrencyPair).get(pair_id)
+    return pair.download_historical_data(path, range)
+
+
+def get_historical(path=Path(".")):
     """ Get historical"""
     parser = argparse.ArgumentParser(
         description="Datamaker CLI Tool",
         usage='''dm-hist [args]'''
     )
-    # parser.add_argument("project_path", default=".", help="Project Directory")
     parser.add_argument(
         "range", type=float, help="Range (in years) of data to get")
-
     args = parser.parse_args()
-    path = Path(".")
 
-    pairs = db.CurrencyPair.load(path)
+    session = db.Session()
+    pairs = session.query(db.CurrencyPair).all()
+    pool = Pool()
+    for pair in pairs:
+        pool.apply_async(_get_hist, args=(pair.id, path, args.range))
+    pool.close()
+    pool.join()
 
     for pair in pairs:
         pair.download_historical_data(path, args.range)

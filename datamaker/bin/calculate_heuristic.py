@@ -10,8 +10,7 @@ from multiprocessing import Pool
 
 def calculate(strategy_id, path):
     session = db.Session()
-    strategy = session.query(db.Strategy).filter(
-        db.Strategy.id == strategy_id).first()
+    strategy = session.query(db.Strategy).get(strategy_id)
 
     print("{}:{} Starting".format(strategy.currency_pair.instrument,
                                   strategy.heuristic()))
