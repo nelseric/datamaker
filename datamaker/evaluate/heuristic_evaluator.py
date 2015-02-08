@@ -13,8 +13,8 @@ class HeuristicEvaluator(Evaluator):
         self.prediction_data = prediction_data
 
     def evaluate_market(self, market, time):
-        if len(market.open_orders) == 0:
-            if self.prediction_data.ix[time]["1"] > 0.72:
+        if len(market.open_orders) < 2:
+            if self.prediction_data.ix[time]["1"] > 0.4:
                 new_order = MarketOrder(
                     side=self.side,
                     take_profit=self.take_profit,

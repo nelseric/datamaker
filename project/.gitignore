@@ -4,3 +4,4 @@
 *.pkl
 .ipynb_checkpoints/
 *.csv.gz
+*.csv
