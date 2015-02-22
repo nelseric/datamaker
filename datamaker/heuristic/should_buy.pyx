@@ -73,6 +73,10 @@ cpdef npc.ndarray apply(npc.ndarray[double, ndim=2] data,
     cdef bid_low = 5
 
     for i in range(n):
+
+        if i % 1440 == 0:
+            print "sb {0:0.4f}".format((float(i)/n) * 100.0)
+
         if i + limit > n:
             cmp_limit = n - i
         else:
