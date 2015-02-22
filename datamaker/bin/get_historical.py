@@ -32,7 +32,6 @@ def get_historical(path=Path(".")):
     pool.join()
 
     for pair in pairs:
-        pair.download_historical_data(path, args.range)
         print(len(pair.get_historical_database(path).ohlcv))
         pair.deduplicate_historical(path)
         print(len(pair.get_historical_database(path).ohlcv))
