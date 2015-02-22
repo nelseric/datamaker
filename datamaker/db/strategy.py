@@ -114,7 +114,7 @@ class Strategy(Base):
                 self.parameters["stop_loss"] * self.currency_pair.pip_value),
             search_limit=self.parameters.get("search_limit", 14400))
 
-    def evaluator(self):
+    def evaluator(self, **kwargs):
         """ Loads and configures the heuristic calculator class """
         split_path = self.evaluator_class.split(".")
         module = __import__('.'.join(split_path[:-1]), fromlist=[''])
@@ -125,7 +125,8 @@ class Strategy(Base):
                 self.parameters["take_profit"] * self.currency_pair.pip_value),
             stop_loss=(
                 self.parameters["stop_loss"] * self.currency_pair.pip_value),
-            side=self.parameters["side"])
+            side=self.parameters["side"],
+            **kwargs )
 
     def calculate_heuristic(self, path):
         """ Calculates and saves the heuristic to a dataframe """

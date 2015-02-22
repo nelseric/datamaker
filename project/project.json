@@ -3,7 +3,7 @@
     "strategies": [{
         "name": "EUR_USD_BUY",
         "instrument": "EUR_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
+        "evaluator_class": "datamaker.evaluate.heuristic_evaluator.HeuristicEvaluator",
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
@@ -18,7 +18,7 @@
     }, {
         "name": "EUR_USD_SELL",
         "instrument": "EUR_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
+        "evaluator_class": "datamaker.evaluate.heuristic_evaluator.HeuristicEvaluator",
         "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
@@ -31,30 +31,30 @@
             "instrument": "EUR_USD"
         }]
     }, {
-        "name": "GBP_USD_SELL",
-        "instrument": "GBP_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
-        "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
-        "model_class": "datamaker.model.RFModel",
-        "parameters": {
-            "take_profit": 50,
-            "stop_loss": 50,
-            "side": "sell"
-        },
-        "data_sets": [{
-            "feature_set": "primary",
-            "instrument": "GBP_USD"
-        }]
-    }, {
         "name": "GBP_USD_BUY",
         "instrument": "GBP_USD",
-        "evaluator_class": "datamaker.evaluate.naive.NaiveEvaluator",
+        "evaluator_class": "datamaker.evaluate.heuristic_evaluator.HeuristicEvaluator",
         "heuristic_class": "datamaker.heuristic.should_buy.ShouldBuy",
         "model_class": "datamaker.model.RFModel",
         "parameters": {
             "take_profit": 50,
             "stop_loss": 50,
             "side": "buy"
+        },
+        "data_sets": [{
+            "feature_set": "primary",
+            "instrument": "GBP_USD"
+        }]
+    }, {
+        "name": "GBP_USD_SELL",
+        "instrument": "GBP_USD",
+        "evaluator_class": "datamaker.evaluate.heuristic_evaluator.HeuristicEvaluator",
+        "heuristic_class": "datamaker.heuristic.should_sell.ShouldSell",
+        "model_class": "datamaker.model.RFModel",
+        "parameters": {
+            "take_profit": 50,
+            "stop_loss": 50,
+            "side": "sell"
         },
         "data_sets": [{
             "feature_set": "primary",

@@ -75,6 +75,13 @@ class CurrencyPair(Base):
 
         database.close()
 
+    def deduplicate_historical(self, project_path):
+        hist_db = self.get_historical_database(project_path)
+
+        hist_db.put("ohlcv", hist_db.ohlcv.drop_duplicates(), format="t")
+
+        hist_db.close()
+
     @staticmethod
     def load(project_path):
         """ Load default currency pairs if they do not exist in the database """
